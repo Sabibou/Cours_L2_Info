@@ -1,0 +1,17 @@
+
+- Unity
+  - Tower defense ?
+  - Un peu comme rover ?
+  - 2d/3d ?
+  - Voiture ?
+  - Plateforme ?
+  - IA ?
+  - ⚠️ Apprendre C#
+  - ⚠️ Les assets
+- Ogres et châteaux
+  - IA basé sur ogre et chateau
+  - ⚠️ Apprendre `Pytorch` / `Tensorflow`
+    - Ou le faire soi-même (aled)
+  - `cuda`
+- Mouvement brownien
+  - `Processing`
