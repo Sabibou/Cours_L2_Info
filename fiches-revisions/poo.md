@@ -262,3 +262,93 @@ Cet outil s'appelle **JIT** (Just In Time).
 
 C'est une optimisation qui est faite au moment de l'exécution du programme (et non au moment de la compilation comme `gcc`).
 
+# Les objets en JAVA
+
+## Définition
+
+
+### Une classe
+
+Une classe est un ensemble de variables et de fonctions qui permettent de définir un objet.
+
+```java
+public class Animal {
+    private String nom;
+    private int age;
+
+    public Animal(String nom, int age) {
+        this.nom = nom;
+        this.age = age;
+    }
+
+    public void manger() {
+        System.out.println("Je mange");
+    }
+
+    public void dormir() {
+        System.out.println("Je dors");
+    }
+}
+```
+
+Ici, on définit une classe `Animal` qui a deux variables : `nom` et `age`. On a aussi deux fonctions : `manger` et `dormir`.
+
+### Une interface
+
+Une interface est une classe abstraite qui permet de dire ce qu'on a le droit de faire avec un objet.
+
+```java
+public interface IAnimal {
+    public void manger();
+    public void dormir();
+}
+```
+
+Ici, on définit une interface `IAnimal` qui permet de dire que tout objet qui implémente cette interface doit avoir les méthodes `manger` et `dormir`.
+
+### Implémentations
+
+Une classe peut implémenter une interface.
+
+```java
+public class Animal implements IAnimal {
+    private String nom;
+    private int age;
+
+    public Animal(String nom, int age) {
+        this.nom = nom;
+        this.age = age;
+    }
+
+    public void manger() {
+        System.out.println("Je mange");
+    }
+
+    public void dormir() {
+        System.out.println("Je dors");
+    }
+}
+```
+
+Ici, on définit une classe `Animal` qui implémente l'interface `IAnimal`. On a donc les mêmes méthodes que dans l'interface.
+
+### Instanciation
+
+On peut instancier une classe avec le mot clé `new`. Autrement dit, on peut créer un objet à partir d'une classe.
+
+```java
+Animal animal = new Animal("Toto", 10);
+```
+
+Ici, on crée un objet `animal` de type `Animal` avec le nom `Toto` et l'âge `10`.
+
+### Utilisation
+
+On peut utiliser les méthodes d'un objet avec le point.
+
+```java
+animal.manger();
+animal.dormir();
+```
+
+Ici, on appelle les méthodes `manger` et `dormir` de l'objet `animal`.
