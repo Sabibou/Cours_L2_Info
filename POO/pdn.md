@@ -46,3 +46,13 @@ lang: fr
   - L'UML
     - Protection des attributs
   - **Arrêt page 88**
+- 30 janvier 2023 :
+  - Les associations
+  - Les accesseurs
+  - Les destructeurs
+  - Quelques conventions
+  - Les méthodes statiques
+  - Polymorphisme
+  - Transtypage
+  - Surcharge
+  - **Arrêt page 104**
