@@ -1,3 +1,27 @@
+**Cours 1.**
+
+**Les '==' dans le PDF sont à ignorer pour l'instant, ils permettent du surlignage en markdown.**
+
+<!-- PRESET POUR LE GRAPHVIZ
+
+Toutes les listes et piles seront représentées comme suit :
+
+```dot
+digraph foo {
+        rankdir=LR;
+        node [shape=record];
+        a [label="{ <data> 12 | <ref>  }", width=1.2]
+        b [label="{ <data> 99 | <ref>  }"];
+        c [label="{ <data> 37 | <ref>  }"];
+        d [shape=box];
+        a:ref:c -> b:data [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false, arrowsize=1.2];
+        b:ref:c -> c:data [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];
+        c:ref:c -> d      [arrowhead=vee, arrowtail=dot, dir=both, tailclip=false];
+}
+```
+
+ -->
+
 # Introduction
 
 **Objectif principal :** Comment définir des structures de données et des algorithmes pour les manipuler efficacement ?
@@ -73,3 +97,214 @@ Est-ce que c'est une bonne implémentation ?
   - Chaque opération est définie par un nom et une description
     - Ces **données** on les classifie par rapport aux opérations possibles : c'est ce que l'on appelle le typage
     - L'encodage des données produit un ensemble de **valeurs**
+
+
+**Cours 2.**
+
+On va classifier les types : chaque type est identifié par un ensemble de valeurs, et l'ensemble des opérations possibles sur les valeurs. Une classe sera un type.
+
+- Une constante est une valeur particulière pour ce type.
+- Une variable va représenter des valeurs possibles pour ce type.
+  - Faire la distinction entre la variable et le contenu (la variable est l'ensemble des valeurs possibles pour ce type, le contenu est une valeur de ce type)
+
+## Les types
+
+Il y a deux types de types :
+
+- Les ==types primitifs==
+- Les ==types composés==
+
+### Types primitifs
+
+Ils sont non décomposables et fournis par défaut.
+Dans ce cas les type primitifs sont entiers, réels, carctères, booléens, chaînes de caractères.
+
+### Types composés
+
+Ils sont construits à partir d'autres types : 3 constructeurs de types :
+
+- *Produit* : $T_1,T_2,...,T_m$ sont des types, alors $T_1\times T_2\times...\times T_m$ est un type avec comme valeurs les couples $(v_1,v_2,...,v_m)$ où $v_i$ est une valeur de $T_i$.
+- *Somme* : $T_1,T_2,...,T_m$ sont des types, alors $T_1\oplus T_2\oplus...\oplus T_m$ est un type avec comme valeurs les couples $(v_1,v_2,...,v_m)$ où $v_i$ est une valeur de $T_i$.
+  - **Exemple** : les constructeurs `union` en C
+- *Enregistrements* : chaque valeur d'un enregistrement est composé de plusieurs entités, appelées **champs**, chacun ayant un identifiant, un type et une valeur.
+  - **Exemple** : les constructeurs `struct` en `C`, ou encore `class` en `Java`
+- *Constructeur de tableau* : Un tableau est un ensemble contigu de valeurs où on a accès en temps constant à chaque valeur. Dans la plupart des implémentations de tableau toute les valeurs ont le même type.
+  - Pour réserver de la place mémoire pour un tableau de taille $n$, et la taille d'une valeur c'est $p$, on réserve $n\times p$ octets bits. Si adresse de début c'est $adr_0$, alors pour accéder à l'indice $0\leq i \leq n-1$ :
+
+$$i\times p +adr_0 \text{ (opération constante)}$$
+
+
+# Chapitre 2 : Types de données abstrait
+
+## Définition 2.1 : Types de données abstrait
+
+Un ==type de données abstrait (TDA)== est un type de données composé, dont on définit :
+
+- Une **signature** : un identifiant, et type de retour / paramètres de chaque opération et d'un ensemble de types prédéfinis à utiliser.
+- Une **liste d'axiomes** qui vont définir le comportement des opérations sur des valeurs du TDA.
+
+### Exemple
+
+On choisit les entiers. 
+- Opérations, addition, soustraction prend deux entiers en paramètres et renvoie un entier.
+
+
+Pour avoir des ==types de données concrètes (TDC)==, on propose une façon de représenter dans la machine une TDA, en proposant la façon de manipuler cette représentation à travers les opérations du TDA. C'est ce qu'on appelle une ==implémentation d'un TDA==.
+
+### Exemple
+
+- Un TDC : on choisit de représenter les entiers par des nombres binaires en représentation complément à deux. On va donc implémenter les opérations de base sur les entiers.
+- La définition d'un `String` en `C` : on choisit de représenter les chaînes de caractères par des tableaux de caractères. On va donc implémenter les opérations de base sur les chaînes de caractères. C'est un TDA.
+
+
+## 2.1 : TDA Pile
+
+Le ==TDA Pile== est apparu lorsque l'on a eu besoin de structures, les programmes en blocs que l'on peut référencer (bloc pouvant se référencer).
+
+**Principale question** : comment fournir des données aux blocs référencés et ensuite retourner au bloc appelant ? C'est représenter les références aux blocs dans un SDD (Structure de Données Dynamique) ayant le *même comportement qu'une pile d'assiette*.
+
+### Définition 2.2 : Pile
+
+
+Les ==différentes opérations== sur une pile sont :
+
+- `creerPile`: $() \rightarrow$ `Pile_T`  : Créer une pile vide
+- `estVidePile`: `Pile_T` $\rightarrow$ `Booléen` : Vérifie si la pile est vide
+- `empiler`: `Pile_T` $\times$ `T` $\rightarrow$ `Pile_T` : Empile un élément sur la pile
+- `depiler`: `Pile_T` $\rightarrow$ `Pile_T` : Dépile un élément de la pile
+- `sommetPile`: `Pile_T` $\rightarrow$ `T` : Renvoie le sommet de la pile
+
+==Axiomes== : 
+
+- `estVidePile(creerPile()) = True`
+- `estVidePile(empiler(p, x)) = False`
+- `sommetPile(empiler(p, x)) = x`
+- `depiler(empiler(p, x)) = p`
+
+Le TDA `T` est utilisé pour dire que la pile on l'utilise pour stocker que des objets du même type. On ne fait aucune supposition sur `T`, à part les valeurs de T existent.
+
+#### Implémentation possible
+
+On utilise un tableau pour stocker les valeurs et un entier qui va pointer sur l'indice du sommet de pile.
+
+En `C` :
+
+```c
+struct pile {
+    int T[MAX];
+    int sommetPile;
+};
+```
+
+Ici, `sommetPile` permet de savoir où l'on doit poser le sommet de la pile. On peut donc empiler et dépiler en temps constant (au lieu de chercher l'élément le plus en bas de la pile).
+
+### Le TDA File
+
+Le besoin : gestion des accès à des ressources limitées ou pour éviter les accès concurrents.
+
+**==Paradigme==** : Premier arrivé, premier servi.
+
+#### Description du TDA
+
+Le TDA `File_T` est un TDA composé de :
+
+- `creerFile`: $() \rightarrow$ `File_T` : Créer une file vide
+- `estVideFile`: `File_T` $\rightarrow$ `Booléen` : Vérifie si la file est vide
+- `enfiler`: `File_T` $\times$ `T` $\rightarrow$ `File_T` : Enfile un élément dans la file
+- `defiler`: `File_T` $\rightarrow$ `File_T` : Défile un élément de la file
+- `teteFile`: `File_T` $\rightarrow$ `T` : Renvoie le premier élément de la file
+
+==Axiomes== :
+
+- `estVideFile(creerFile()) = True`
+- `estVideFile(enfiler(f, x)) = False`
+- `teteFile(enfiler(f, x)) = x`
+- `defiler(enfiler(f, x)) = f`
+- `defiler(enfiler(enfiler(f, x), y)) = enfiler(f, y)`
+
+#### Implémentation possible
+
+On peut représenter une file par un tableau et deux entiers : 
+
+- Tête qui point sur l'indice de la tête de file
+- Queue qui pointe sur l'indice de la queue de la file
+
+En `C` :
+
+```c
+struct file {
+    int T[MAX];
+    int tete;
+    int queue;
+};
+```
+
+Pour un fil, comme c'est un ensemble ordonné : on doit toujours connaître l'ordre de la file, ce qui va permettre de défiler et d'enfiler en temps constant.
+
+
+##### Exemple de File
+
+<!-- Suivre les presets vu au dessus pour les piles et files -->
+```dot 
+digraph G {
+	rankdir=LR;
+	node [shape=record];
+    a [label="{ <data> 1 : Tête | <ref>  }", width=1.2]
+	b [label="{ <data> 2 | <ref>  }", width=1.2]
+	c [label="{ <data> 3 | <ref>  }", width=1.2]
+	d [label="{ <data> 4 : Queue | <ref>  }", width=1.2]
+
+	a:ref -> b
+	b:ref -> c
+	c:ref -> d
+
+}
+```
+
+On défile la tête de la file, on décale la tête de la file vers la droite.
+
+
+<!-- On met en rouge la tête -->
+```dot
+digraph G {
+	rankdir=LR;
+	node [shape=record];
+	a [label="{ <data> 1 : Tête | <ref>  }", width=1.2, color="red", fontcolor="red"]
+	b [label="{ <data> 2 | <ref>  }", width=1.2]
+	c [label="{ <data> 3 | <ref>  }", width=1.2]
+	d [label="{ <data> 4 : Queue | <ref>  }", width=1.2]
+
+	a:ref -> b
+	b:ref -> c
+	c:ref -> d
+
+}
+```
+
+On obtient donc :
+
+<!-- On défile, et on met en vert foncé la nouvelle tête -->
+```dot
+digraph G {
+	rankdir=LR;
+	node [shape=record];
+	b [label="{ <data> 2 : Nouvelle tête | <ref>  }", width=1.2, color="darkgreen", fontcolor="darkgreen"]
+	c [label="{ <data> 3 | <ref>  }", width=1.2]
+	d [label="{ <data> 4 : Queue | <ref>  }", width=1.2]
+
+	b:ref -> c
+	c:ref -> d
+
+}
+```
+
+La file est stockée dans un intervalle de tableau, on peut donc décaler la tête de la file en temps constant.
+
+Par contre on n'arrive pas à distinguer File vide de tableau Plein.
+
+$\rightarrow$ Ce n'est pas insurmontable :
+
+- Compter le nombre d'éléments
+- Garde une case vide entre queue et tête
+- ...
+
