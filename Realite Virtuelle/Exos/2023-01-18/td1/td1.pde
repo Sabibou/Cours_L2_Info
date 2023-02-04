@@ -82,11 +82,15 @@ void draw() {
     //Mise a jour des fluides
     fluidSolver.update();
     
-    //Creation de l'image du fluide
+    // Creation de l'image du fluide
+    // On ajoute le coefficient de conversion en couleur
+    // Il permet de varier la couleur du fluide
+    // On utilise le module 255 pour eviter les valeurs trop grandes
     for (i = 0; i < fluidSolver.getNumCells(); i++) {
-        imgFluid.pixels[i] = color(fluidSolver.r[i] * facteurCouleur, 
-            fluidSolver.g[i] * facteurCouleur,
-            fluidSolver.b[i] * facteurCouleur);              
+        imgFluid.pixels[i] = color(
+            (fluidSolver.r[i] * colorFactor) % 255,
+            (fluidSolver.g[i] * colorFactor) % 255,
+            (fluidSolver.b[i] * colorFactor) % 255);
     }  
     imgFluid.updatePixels();
     
@@ -99,6 +103,19 @@ void draw() {
     //Prise en compte possible du redimensionnement "Full Screen"
     invWidth = 1.0f / width; // Recalcul des ratios pour la souris
     invHeight = 1.0f / height;
+    
+    text("Color Factor : " + colorFactor, 10, 20);
+}
+
+// intégrer le clic droit : flag de gestion du tracé couleur
+void mousePressed() {
+    
+    if (mouseButton == RIGHT) {
+        
+        addForce(mouseX * invWidth, mouseY * invHeight, 0, 0);
+        
+    }
+    
 }
 
 // Gestion du clavier
@@ -106,8 +123,8 @@ void keyPressed() {
     switch(key) { // Lors d'un appui sur la barre espace
         case' ' : println(frameRate); // Affichage de la vitesse (Nb images / seconde)
         break;
-        }
     }
+}
 
 // Gestion de la souris
 void mouseMoved() {
@@ -117,15 +134,19 @@ void mouseMoved() {
     float mouseVelY = (mouseY - pmouseY) * invHeight;
     
     addForce(mouseNormX, mouseNormY, mouseVelX, mouseVelY);
-    }
+}
 
 
 
-void mouseWheel(MouseEvent event) {
+void mouseWheel(MouseEvent event) { // La valeur de la molette doit modifier le facteurCouleur
+    
+    // On récupère la valeur de la molette et on l'ajoute au facteurCouleur ([-1, 1])
     colorFactor += event.getCount();
     
-    colorFactor = (colorFactor < 1) ? 1 : colorFactor;
-    }
+    // On s'assure que le facteurCouleur reste dans l'intervalle [1, 255] (pour éviter les divisions par 0)
+    colorFactor = (colorFactor < 1) ? 1 : (colorFactor > 255) ? 255 : colorFactor;
+    
+}
 
 
 // add force and dyeto fluid, and create particles
@@ -146,8 +167,6 @@ void addForce(float x, float y, float dx, float dy) {
         float hue = ((x + y) * 180 + frameCount) % 360;
         drawColor = color(hue, 1, 1);
         colorMode(RGB, 1);  
-
-		println("colorFactor = " + colorFactor);
         
         fluidSolver.rOld[index]  += red(drawColor) * colorFactor;
         fluidSolver.gOld[index]  += green(drawColor) * colorFactor;
@@ -156,5 +175,5 @@ void addForce(float x, float y, float dx, float dy) {
         particleSystem.addParticles(x * width, y * height, 10);
         fluidSolver.uOld[index] += dx * colorFactor;
         fluidSolver.vOld[index] += dy * colorFactor;
-        }
     }
+}
