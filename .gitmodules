@@ -1,6 +1,6 @@
-[submodule "Related Personal Projects/projectmanager"]
-	path = Related Personal Projects/projectmanager-PYTHON
-	url = https://gitlab.isima.fr/rovandemer/projectmanager
+[submodule "Related Personal Projects/project-manager-PYTHON"]
+	path = Related Personal Projects/project-manager-PYTHON
+	url = https://gitlab.isima.fr/rovandemer/project-manager
 [submodule "Related Personal Projects/project-manager"]
 	path = Related Personal Projects/project-manager
-	url = https://gitlab.isima.fr/rovandemer/project-manager-extension
+	url = https://gitlab.isima.fr/rovandemer/project-manager
