@@ -74,3 +74,13 @@ Controle continu intégral :
   - La structure générale
   - Sémantique
   - **Arrêt page 139**
+- 6 février 2023
+  - Les medias (video, audio, ...)
+  - Les tableaux
+  - Hypermedia
+    - `<a>`
+    - `<link>`
+    - `<iframe>`
+  - Les formulaires
+    - GET et POST
+  - **Arrêt page 153**
