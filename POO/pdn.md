@@ -27,6 +27,8 @@ lang: fr
 
 ## Historique des cours
 
+*Note : pour les pages d'arrêt, c'est le nombre marqué en bas à droite de la page, non le numéro de la page*
+
 - 16 janvier 2023 :
   - Introduction
   - Présentation de la POO
@@ -56,3 +58,14 @@ lang: fr
   - Transtypage
   - Surcharge
   - **Arrêt page 104**
+- 6 février 2023 :
+  - Polymorphisme générique
+  - Polymorphisme d'inclusion
+  - Sous-types
+    - Inclusions
+    - Substitution de Liskov
+    - Héritage
+    - Super-Class
+    - Redéfinition
+  - Des exemples de définitions dans plusieurs langages
+  - **Arrêt page 125**
