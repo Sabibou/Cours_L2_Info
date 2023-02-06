@@ -65,3 +65,12 @@ Controle continu intégral :
   - Pourquoi le `HTTP` est partout
   - Le `HTML` : introduction
   - **Arrêt page 102**
+- 30 janvier 2023
+  - La grammaire du `HTML`
+    - SGML
+  - Comment marche une balise
+  - Des exemples de balises
+  - Document "bien formé" et "valide"
+  - La structure générale
+  - Sémantique
+  - **Arrêt page 139**
