@@ -1,5 +1,10 @@
+# Marked project files
 **/Projects/
+
+# Useless files / folders
 **/.DS_Store
-**/code/
 **/.vscode
-Tips/test*
+**/test*
+
+# Processing libs
+Realite\ Virtuelle/**/code/
