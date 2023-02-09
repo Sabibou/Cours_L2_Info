@@ -255,7 +255,7 @@ class Instant3 {
 
 </details>
 
-## Exercice 2
+## 1.3
 
 On implémente la fonction `minus` qui permet de soustraire deux instants. On peut utiliser soit :
 
@@ -322,3 +322,60 @@ Les deux méthodes :
 
 La version avec `this` est préférable car on peut l'utiliser avec un `Instant` déjà existant.
 
+## 1.4
+
+On va créer la méthode `compareTo` :
+
+```java
+public int compareTo(Instant instant) {
+
+    int secondes1 = this.getHeures() * 3600 + this.getMinutes() * 60 + this.getSecondes();
+    int secondes2 = instant.getHeures() * 3600 + instant.getMinutes() * 60 + instant.getSecondes();
+
+    return Integer.compare(secondes1, secondes2); // Fonction déjà définie qui compare deux entiers
+
+}
+```
+
+Elle permet de dire si un `Instant` est plus grand, plus petit ou égal à un autre `Instant`. On peut l'appeler avec `instant1.compareTo(instant2)`.
+
+On peut s'amuser à définir aussi `equals` et `hashCode` :
+
+<details>
+
+<summary>Méthodes `equals` et `hashCode`</summary>
+
+```java
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Instant)) {
+            return false;
+        }
+
+        Instant instant = (Instant) obj;
+
+        return this.compareTo(instant) == 0;
+
+    }
+    
+    
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(this.getHeures() * 3600 + this.getMinutes() * 60 + this.getSecondes());
+    }
+```
+
+</details>
+
+- Attention pour equals, si on a deux classes `A` et `A'`, si `A` et `A'` redéfinissent séparément leurs méthodes `equals` et `hashCode`, alors `A.equals(A')` peut retourner `true` mais `A.hashCode() != A'.hashCode()`. Une solution est d'ajouter `final` à la méthode `equals` pour empêcher la redéfinition dans les classes filles.
+
+## 1.5

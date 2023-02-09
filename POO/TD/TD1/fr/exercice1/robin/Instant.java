@@ -69,6 +69,7 @@ class Instant {
                 this.getSecondes());
     }
     
+    @Override
     public String toString() {
         return this.stringify();
     }
@@ -108,7 +109,6 @@ class Instant {
 
     }
     
-
     public int compareTo(Instant instant) {
 
         int secondes1 = this.getHeures() * 3600 + this.getMinutes() * 60 + this.getSecondes();
@@ -118,6 +118,7 @@ class Instant {
 
     }
 
+    @Override
     public boolean equals(Object obj) {
 
         if (obj == null) {
@@ -138,8 +139,10 @@ class Instant {
 
     }
     
+    
+    @Override
     public int hashCode() {
-        return this.stringify().hashCode();
+        return Integer.hashCode(this.getHeures() * 3600 + this.getMinutes() * 60 + this.getSecondes());
     }
 
 

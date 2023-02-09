@@ -60,8 +60,50 @@ class Instant2 {
                 this.getSecondes());
     }
 
+    @Override
     public String toString() {
         return this.stringify();
     }
+
+    public int compareTo(Instant2 instant) {
+
+        if (this.secondes < instant.secondes) {
+            return -1;
+        } else if (this.secondes > instant.secondes) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Instant2)) {
+            return false;
+        }
+
+        Instant2 instant = (Instant2) obj;
+
+        return this.compareTo(instant) == 0;
+
+    }
+
+    @Override
+    public int hashCode() { // On utilise le hashcode de la classe Integer
+        return Integer.hashCode(this.secondes);
+    }
+
+    
 
 }
