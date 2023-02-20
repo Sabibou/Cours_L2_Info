@@ -75,10 +75,10 @@ Est-ce que c'est une bonne implémentation ?
   - Complexité en mémoire (espace en mémoire auxiliaire utilisée)
 
 
-| Temps d'execution | Mémoire utilisée |
-|:-----------------:|:----------------:|
-| 🛑 `ajouter` / `supprimer` (on va devoir décaler les caractères suivants) | Mémoire ? Comment on gère ?  Si on utilise la structure de données avec tableau dynamique, c'est un peux mieux |
-| 🛑 La `recherche` est lente : on ne peut pas utiliser d'algorithme complexe (le texte n'est pas forcément trié) | |
+|                                                Temps d'execution                                                |                                                Mémoire utilisée                                                |
+|:---------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------:|
+|                    🛑 `ajouter` / `supprimer` (on va devoir décaler les caractères suivants)                    | Mémoire ? Comment on gère ?  Si on utilise la structure de données avec tableau dynamique, c'est un peux mieux |
+| 🛑 La `recherche` est lente : on ne peut pas utiliser d'algorithme complexe (le texte n'est pas forcément trié) |                                                                                                                |
 
 ## Langage de description
 
@@ -269,7 +269,7 @@ On défile la tête de la file, on décale la tête de la file vers la droite.
 digraph G {
 	rankdir=LR;
 	node [shape=record];
-	a [label="{ <data> 1 : Tête | <ref>  }", width=1.2, color="red", fontcolor="red"]
+	a [label="{ <data> 1 : Tête | <ref>  }", width=1.2, style=filled, fillcolor=red]
 	b [label="{ <data> 2 | <ref>  }", width=1.2]
 	c [label="{ <data> 3 | <ref>  }", width=1.2]
 	d [label="{ <data> 4 : Queue | <ref>  }", width=1.2]
@@ -288,7 +288,7 @@ On obtient donc :
 digraph G {
 	rankdir=LR;
 	node [shape=record];
-	b [label="{ <data> 2 : Nouvelle tête | <ref>  }", width=1.2, color="darkgreen", fontcolor="darkgreen"]
+	b [label="{ <data> 2 : Nouvelle tête | <ref>  }", width=1.2, style=filled, fillcolor=green]
 	c [label="{ <data> 3 | <ref>  }", width=1.2]
 	d [label="{ <data> 4 : Queue | <ref>  }", width=1.2]
 
@@ -308,3 +308,229 @@ $\rightarrow$ Ce n'est pas insurmontable :
 - Garde une case vide entre queue et tête
 - ...
 
+
+
+
+
+
+
+<!-- Les notes du cours précédent arriveront bientôt, j'étais absent -->
+
+
+# Cours du 20 février
+
+
+
+# Chapitre 4 : TDA Listes
+
+**Idée** : On ne veut pas stocker les éléments dans un espace contigu (on n'a ==pas souvent assez de place==).
+
+## Définition
+
+Une *liste* est un ==ensemble ordonné==, et on a accès qu'au premier élément. À partir du premier élément, on peut accéder au deuxième, puis depuis le deuxième, on peut accéder au troisième, etc.
+
+C'est un ensemble ordonné avec la ==fonction `successeur`==.
+
+## Implémentation classique
+
+L'implémentation classique se fait avec des listes chaînées : 
+
+- Chaque élément de la liste est un maillon
+- Chaque maillon contient une valeur et un pointeur vers le maillon suivant
+
+En C :
+
+```C
+struct maillon {
+    T data;
+    struct maillon *suivant;
+};
+```
+
+
+### Description du TDA `Cellule_T`
+
+
+Le TDA `Liste_T` va utiliser le TDA de `cellule_T` :
+
+- `creerCellule`: $() \rightarrow$ `cellule_T` : Créer une cellule vide
+- `valeurCellule`: `cellule_T` $\rightarrow$ `T` : Renvoie la valeur de la cellule
+- `suivantCellule`: `cellule_T` $\rightarrow$ `cellule_T` : Renvoie le maillon suivant (une référence)
+
+
+Les cellules sont utilisées pour représenter les éléments d'une liste.
+
+Dans une cellule on a deux informations : 
+
+- Une valeur à stocker
+- Une référence à une autre cellule (qui peut être vide indiquant la fin de la liste)
+
+```dot
+digraph G {
+  rankdir=LR;
+  node [shape=record];
+  a [label="{ <data> 1 | *2 | <ref>  }", width=1.2]
+  b [label="{ <data> 2 | *3 | <ref>  }", width=1.2]
+  c [label="{ <data> 3 | *4  |<ref>  }", width=1.2]
+  d [label="{ <data> 4 | NULL | <ref>  }", width=1.2]
+
+  a:ref -> b
+  b:ref -> c
+  c:ref -> d
+
+}
+```
+
+Ici, `*2` est une référence à la cellule `2`.
+
+Pour faciliter la manipulation des cellules, on peut ajouter des fonctions de modifications :
+
+- ==Modifier la valeur== de la cellule
+- ==Modifier la référence== de la cellule
+
+### Exemple d'implémentation
+
+```ruby
+Enregistrement cellule1 {
+    T valeur;
+    int pC;
+}
+
+Enregistrement cellule2 {
+	T valeur;
+	cellule2 pC;
+}
+```
+
+*Note : `Enregistrement` est l'équivalent de `struct` en `C`*
+
+### Opérations sur les listes
+
+- `creerListe`: $() \rightarrow$ `Liste_T` : Créer une liste vide
+- `estVide`: `Liste_T` $\rightarrow$ `bool` : Vérifie si la liste est vide
+- `teteListe`: `Liste_T` $\rightarrow$ `T` : Renvoie la tête de la liste
+- `taille`: `Liste_T` $\rightarrow$ `int` : Renvoie la taille de la liste
+
+Les fonctions d'insertion à des rangs fixes :
+
+- `insererTete`: `Liste_T`, `T` $\rightarrow$ `Liste_T` : Insère un élément en tête de liste
+- `insererQueue`: `Liste_T`, `T` $\rightarrow$ `Liste_T` : Insère un élément en queue de liste
+
+Fonction d'insertion à un rang donné :
+
+- `insererPosition`: `Liste_T`, `T`, `int` $\rightarrow$ `Liste_T` : Insère un élément à une position donnée
+
+Pour $(l,x,i)$ on veut que l'élément $x$ soit inséré à la position $i$.
+
+#### Exemple :
+
+```dot
+// On a x1, x2, ..., xn, et on veut insérer x à la position i
+digraph G {
+  rankdir=LR;
+  node [shape=record];
+  a [label="{ <data> x1 | <ref>  }", width=1.2]
+  b [label="{ <data> x2 | <ref>  }", width=1.2]
+  c [label="{ <data> ... | <ref>  }", width=1.2]
+  d [label="{ <data> xN | <ref>  }", width=1.2]
+
+  a:ref -> b
+  b:ref -> c
+  c:ref -> d
+
+}
+```
+
+Avec $i = 2$ :
+
+```dot
+digraph G {
+  rankdir=LR;
+  node [shape=record];
+  a [label="{ <data> x1 | <ref>  }", width=1.2]
+  b [label="{ <data> x | <ref>  }", width=1.2, style=filled, fillcolor=green]
+  c [label="{ <data> x2 | <ref>  }", width=1.2]
+  d [label="{ <data> ... | <ref>  }", width=1.2]
+  e [label="{ <data> xN | <ref>  }", width=1.2]
+
+  a:ref -> b
+  b:ref -> c
+  c:ref -> d
+  d:ref -> e
+
+}
+```
+
+Les fonctions pour supprimer des éléments :
+
+- `supprimerTete`: `Liste_T` $\rightarrow$ `Liste_T` : Supprime la tête de la liste
+- `supprimerQueue`: `Liste_T` $\rightarrow$ `Liste_T` : Supprime la queue de la liste
+
+Fonction pour supprimer un élément à une position donnée :
+
+- `supprimerPosition`: `Liste_T`, `int` $\rightarrow$ `Liste_T` : Supprime un élément à une position donnée
+
+#### Exemple :
+
+```dot
+// On a x1, x2, ..., xn, et on veut supprimer l'élément à la position i
+digraph G {
+  rankdir=LR;
+  node [shape=record];
+  a [label="{ <data> x1 | <ref>  }", width=1.2]
+  b [label="{ <data> x2 | <ref>  }", width=1.2, style=filled, fillcolor=red]
+  c [label="{ <data> x3 | <ref>  }", width=1.2]
+  d [label="{ <data> ... | <ref>  }", width=1.2]
+  e [label="{ <data> xN | <ref>  }", width=1.2]
+
+  a:ref -> b
+  b:ref -> c
+  c:ref -> d
+  d:ref -> e
+
+}
+```
+
+Avec $i = 2$ :
+
+```dot
+digraph G {
+  rankdir=LR;
+  node [shape=record];
+  a [label="{ <data> x1 | <ref>  }", width=1.2]
+  b [label="{ <data> x3 | <ref>  }", width=1.2]
+  c [label="{ <data> ... | <ref>  }", width=1.2]
+  d [label="{ <data> xN | <ref>  }", width=1.2]
+
+  a:ref -> b
+  b:ref -> c
+  c:ref -> d
+
+}
+```
+
+- `queue`: `Liste_T` $\rightarrow$ `Liste_T` : Supprime la tête de la liste (renvoie la liste sans la tête)
+
+## Implémentation TDA Liste
+
+On va prendre l'implémentation par listes chaînées : on va représenter une liste par une référence vers la tête de la liste.
+
+```ruby
+Enregistrement liste {
+	cellule l;
+}
+```
+
+- Une première implémentation, une cellule est représentée par un index dans un tableau
+  - Les éléments de la liste sont stockés à ce qui ressemble à un tableau
+
+**Question** : Où se trouve la cellule référencée ?
+
+- De façon implicite : on considère que c'est l'indice suivant
+  - Dans ce cas, les indices sont stockés dans un intervalle fermé $[0, n-1]$
+- De façon explicite : chaque cellule va contenir un pointeur vers la cellule suivante
+  - Une cellule : 2 entiers (un index et un pointeur vers la cellule suivante) et la valeur de l'élément
+
+On stock des éléments de la liste dans un tableau de cellules. Pour cette implémentation, il faut la notion de cellule `NULL`.
+
+Insérer revient à demander l'index d'une cellule libre pour l'utiliser pour stocker le nouvel élément (et en refaisant le chaînage si besoin).
