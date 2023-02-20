@@ -114,6 +114,8 @@ public class Jeu {
 
         Jeu jeu = new Jeu();
 
+        System.exit(1);
+
         jeu.jouerPartie();
 
     }
