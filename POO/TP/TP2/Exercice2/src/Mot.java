@@ -28,7 +28,24 @@ class Mot {
     }
 
     public Boolean estPalindrome() {
-        return this.mot.equals(new StringBuilder(this.mot).reverse().toString());
+        
+        Boolean isPalindrome = true;
+
+        int index = 0;
+        int length = this.mot.length();
+
+        while (isPalindrome && index < length / 2) {
+
+            if (this.mot.charAt(index) != this.mot.charAt(length - index - 1)) {
+                isPalindrome = false;
+            }
+
+            index++;
+
+        }
+        
+        return isPalindrome;
+
     }
 
     public Boolean estContenu(Mot mot) {
@@ -38,29 +55,25 @@ class Mot {
     public String trieMot() {
 
 
-        // Trie par ordre alphabétique le mot
-        char[] motTrie = this.mot.toCharArray();
+        String sortie = "";
 
-        for (int i = 0; i < motTrie.length; i++) {
+        // On trie toute les lettres du mot
+        for (int i = 0; i < this.mot.length(); i++) {
 
-            for (int j = i + 1; j < motTrie.length; j++) {
+            char c = this.mot.charAt(i);
 
-                if (motTrie[i] > motTrie[j]) {
-
-                    char temp = motTrie[i];
-                    motTrie[i] = motTrie[j];
-                    motTrie[j] = temp;
-
-                }
-
+            // On cherche la position de la lettre dans le mot
+            int index = 0;
+            while (index < sortie.length() && c > sortie.charAt(index)) {
+                index++;
             }
-            
+
+            // On insère la lettre à la bonne position
+            sortie = sortie.substring(0, index) + c + sortie.substring(index);
+
         }
 
-        // Convertion du tableau de char en String
-        String motTrieString = new String(motTrie);
-
-        return motTrieString;
+        return sortie;
 
     }    
 

@@ -14,11 +14,11 @@ public class Main {
 
         Mot mot2 = new Mot(entreeUser2);
 
-        System.out.println(mot.estPalindrome());
+        System.out.println(mot2.estPalindrome());
 
         System.out.println(mot.estContenu(mot2));
 
-        System.out.println(mot.trieMot());
+        System.out.println(mot2.trieMot());
 
     }
 

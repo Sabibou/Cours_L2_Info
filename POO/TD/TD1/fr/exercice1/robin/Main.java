@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -12,7 +14,6 @@ class Main {
 
         // ------------------------- Information utiles -----------------
         // [ VOUS POUVEZ DÉCOMMENTER LES LIGNES CI-DESSOUS POUR TESTER VOTRE CODE AVEC `CTRL /` DANS VISUAL STUDIO CODE ]
-
 
         // ------------------------- Question 2 -------------------------
         // // Création d'une instance
@@ -58,31 +59,105 @@ class Main {
 
         // On a bien true pour le premier car on compare terme à terme
         // On a false pour les deux autres car on compare les références
-        
+
         // On peut redéfinir la méthode equals pour qu'elle compare les instants correctement (comme on le voudrait)
         // Equals prend en paramètre un objet, non pas un Instant
         // PS : On peut avoir A == B et B != A si A et B ne sont pas de la même classe
 
-
         // ------------------------- Question 5 -------------------------
 
-        // On créer un tableau d'instants
-        Instant[] instants = new Instant[3];
+        // // On créer un tableau d'instants
+        // Instant[] instants = new Instant[3];
+
+        // Random random = new Random();
+
+        // int randomHour;
+        // int randomMinute;
+        // int randomSecond;
+
+        // // On ajoute des instants
+        // for (int i = 0; i < instants.length; i++) {
+        //     // On ajoute aléatoirement des instants
+        //     randomHour = random.nextInt(24);
+        //     randomMinute = random.nextInt(60);
+        //     randomSecond = random.nextInt(60);
+
+        //     instants[i] = new Instant(randomHour, randomMinute, randomSecond);
+        // }
+
+        // // On affiche les instants
+        // for (Instant instant : instants) {
+
+        //     System.out.printf("Instant : %s \n", instant);
+
+        // }
+
+        // // On fait toutes les combinaisons possibles
+        // for (int i = 0; i < instants.length; i++) {
+        //     for (int j = 0; j < instants.length; j++) {
+        //         // On affiche le résultat de la comparaison
+        //         System.out.printf("Comparaison de %s et %s : %d%n", instants[i], instants[j],
+        //                 instants[i].compareTo(instants[j]));
+        //     }
+        // }
+
+        // ------------------------- Question 6 -------------------------
+
+        // List<Instant> instants = new ArrayList<>();
+
+        // Random random = new Random();
+
+        // int randomHour;
+        // int randomMinute;
+        // int randomSecond;
+
+        // int n = 4;
+
+        // // On ajoute des instants
+        // for (int i = 0; i < n; i++) {
+        //     // On ajoute aléatoirement des instants
+        //     randomHour = random.nextInt(24);
+        //     randomMinute = random.nextInt(60);
+        //     randomSecond = random.nextInt(60);
+
+        //     instants.add(new Instant(randomHour, randomMinute, randomSecond));
+        // }
+
+        // // On affiche les instants
+        // for (Instant instant : instants) {
+
+        //     System.out.printf("Instant : %s \n", instant);
+
+        // }
+
+        // // On retourne le plus petit instant strictement supérieur à un instant t donné en paramètre
+        // Instant t = new Instant(12, 30, 0);
+
+        // Instant result = Instant.getSmallestInstant(t, instants);
+
+        // System.out.printf("Le plus petit instant strictement supérieur à %s est %s", t, result);
+
+        // ------------------------- Question 7 -------------------------
+
+
+        List<Instant> instants = new ArrayList<>();
 
         Random random = new Random();
-    
+
         int randomHour;
         int randomMinute;
         int randomSecond;
 
+        int n = 4;
+
         // On ajoute des instants
-        for (int i = 0; i < instants.length; i++) {
+        for (int i = 0; i < n; i++) {
             // On ajoute aléatoirement des instants
             randomHour = random.nextInt(24);
             randomMinute = random.nextInt(60);
             randomSecond = random.nextInt(60);
 
-            instants[i] = new Instant(randomHour, randomMinute, randomSecond);
+            instants.add(new Instant(randomHour, randomMinute, randomSecond));
         }
 
         // On affiche les instants
@@ -92,15 +167,19 @@ class Main {
 
         }
 
-        // On fait toutes les combinaisons possibles
-        for (int i = 0; i < instants.length; i++) {
-            for (int j = 0; j < instants.length; j++) {
-                // On affiche le résultat de la comparaison
-                System.out.printf("Comparaison de %s et %s : %d\n", instants[i], instants[j],
-                        instants[i].compareTo(instants[j]));
-            }
+
+        System.out.println("--------------");
+
+
+        // On trie les instants
+        Instant.sort(instants);
+
+        // On affiche les instants
+        for (Instant instant : instants) {
+
+            System.out.printf("Instant : %s \n", instant);
+
         }
-        
 
     }
 

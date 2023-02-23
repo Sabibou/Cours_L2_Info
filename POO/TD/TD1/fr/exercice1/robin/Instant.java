@@ -1,3 +1,5 @@
+import java.util.List;
+
 class Instant {
 
     private int heures; // 0 <= heure < 24
@@ -145,5 +147,54 @@ class Instant {
         return Integer.hashCode(this.getHeures() * 3600 + this.getMinutes() * 60 + this.getSecondes());
     }
 
+
+    public static Instant getSmallestInstant(Instant recherche, List<Instant> instants) {
+
+        Instant instant = null;
+
+        if (recherche == null) {
+            recherche = new Instant(0, 0, 0);
+        }
+
+        for (Instant i : instants) {
+
+            if (i.compareTo(recherche) > 0) {
+
+                if (instant == null) {
+                    instant = i;
+                } else {
+                    if (i.compareTo(instant) < 0) {
+                        instant = i;
+                    }
+                }
+
+            } 
+
+        }
+
+        return instant;
+
+    }
+    
+    public static void sort(List<Instant> instants) {
+
+        // On utilise getSmallestInstant pour trouver le plus petit
+        // On le met à la fin de la liste
+        // On recommence jusqu'à ce qu'il n'y ait plus d'éléments
+
+        Instant instant = null;
+
+        for (int i = 0; i < instants.size(); i++) {
+
+            instant = getSmallestInstant(instant, instants);
+
+            if (instant != null) {
+                instants.remove(instant);
+                instants.add(instant);
+            }
+
+        }
+
+    }
 
 }
