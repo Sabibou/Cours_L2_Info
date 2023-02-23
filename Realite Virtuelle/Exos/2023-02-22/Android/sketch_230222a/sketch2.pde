@@ -1,0 +1,69 @@
+// // On va créer un cube en 3D, le positionner et le faire tourner autour de lui-même
+// float zIndex = 0;
+// boolean shader = true;
+
+// void setup() {
+
+//     fullScreen(P3D);
+
+//     noStroke();
+
+// }
+
+// void draw() {
+
+//     // On efface l'écran
+//     background(0);
+
+//     // On positionne le cube au centre de l'écran
+//     translate(width/2, height/2, 0);
+
+//     pushMatrix();
+
+//     // On affiche le zIndex sur l'écran en 2D et pas en 3D
+//     fill(255);
+//     text("zIndex : " + zIndex, -width/2 + 50, -height/2 + 50);
+
+//     // On dessine un cube à l'endroit de la souris
+//     translate(mouseX - width/2, mouseY - height/2, zIndex);
+//     fill(255, 0, 0);
+//     box(10);
+
+//     popMatrix();
+
+//     if (shader) {
+//         // On rajoute l'éclairage de couleur rouge (shader)
+//         lightSpecular(0, 55, 128); // bleu fonce
+//         specular(255, 255, 255); // reflet blanc
+//         // directionalLight(200, 200, 200, 0, 0, -1);
+//         // On place la source de lumière à l'endroit de la souris
+//         pointLight(255, 255, 255, mouseX - width/2, mouseY - height/2, zIndex);
+//     }
+
+//     // On dessine le cube qui tourne autour de lui-même
+//     rotateX(frameCount * 0.01);
+//     rotateY(frameCount * 0.01);
+
+//     fill(255, 255, 255);
+//     box(100);
+
+    
+    
+// }
+
+// // Quand on scroll la molette de la souris, on modifie la valeur de zIndex
+// void mouseWheel(MouseEvent event) {
+
+//     float e = event.getCount();
+//     zIndex += e;
+
+// }
+
+// // Quand on appuye sur espace, on active ou désactive le shader
+// void keyPressed() {
+
+//     if (key == ' ') {
+//         shader = !shader;
+//     }
+
+// }
