@@ -47,13 +47,18 @@ def get_formula_from_file(file):
         Formula is on one line in the file.
     Example of formula: a,-b,cloclo&b,-a,-c&d,-a,-b&-cloclo,-name,-a,-b
     """
+    formula = []
+
     with open(file, "r") as fileIn:
         line = fileIn.readline().strip()
 
-        clauses = line.split(",")
+        clauses = line.split("&")
 
         for clause in clauses:
-            yield clause.split("&")
+            literals = clause.split(",")
+            formula.append(literals)
+
+    return formula
 
 # for clause in get_formula_from_file("formula.txt"):
 #     print(clause)
@@ -75,8 +80,8 @@ def set_of_variables_from_formula(f):
     fSet = set()
 
     for clauses in f:
-        for clause in clauses:
-            fSet.add(variable_of_literal(clause))
+        for litteral in clauses:
+            fSet.add(variable_of_literal(litteral))
     return fSet
 
 # print(set_of_variables_from_formula(get_formula_from_file("formula.txt")))
@@ -110,28 +115,41 @@ def boolean_value_of_literal(assignment, literal):
 def boolean_value_of_clause(assignment, clause):
     """Given an assignment and a clause, returns the Boolean value of the
        clause."""
+    return any([boolean_value_of_literal(assignment[variable_of_literal(literal)], literal) for literal in clause])
 
+
+# assignment = random_assignment(construct_dictionary_from_vars({"a", "b", "c"}))
+# assignment = {"a": False, "b": False, "c": True}
+# print(assignment)
+# print(boolean_value_of_literal(assignment["a"], "a"))
+# print(boolean_value_of_clause(assignment, ["a", "b", "c"]))
+# print(boolean_value_of_clause(True, ["a", "-b", "c"]))
 
 def boolean_value_of_formula(assignment, formula):
     """Given an assignment and a formula, returns the Boolean value of the
        formula."""
-    pass
+    return all([boolean_value_of_clause(assignment, clause) for clause in formula])
 
 
 def number_of_true_clauses(assignment, formula):
     """Given an assignment and a formula, returns the number of clauses having
        a Boolean value True."""
-    pass
+    return sum([boolean_value_of_clause(assignment, clause) for clause in formula])
 
 
 def number_of_clauses(formula):
     """Returns the number of clauses of the formula."""
-    pass
+    return len(formula)
 
 
 def pretty_print_formula(formula):
     """Print a nice/readable view of the formula."""
-    pass
+    for clause in formula:
+        print(" or ".join(clause))
+
+
+# formula = get_formula_from_file("formula.txt")
+# pretty_print_formula(formula)
 
 
 def pretty_print_assigned_formula(assignment, formula):
@@ -140,7 +158,24 @@ def pretty_print_assigned_formula(assignment, formula):
        True       not(False) True        = True
        not(True)  False      not(True)   = False
        True       False      True        = True"""
-    pass
+    for clause in formula:
+        for literal in clause:
+            literalName = variable_of_literal(literal)
+
+            if sign_of_literal(literal) == "+":
+                print(assignment[literalName], end="\t")
+            else:
+                print(not assignment[literalName], end="\t")
+
+        print(" = ", end="\t")
+
+        print(boolean_value_of_clause(assignment, clause))
+
+
+# formula = get_formula_from_file("formula.txt")
+# assignment = random_assignment(construct_dictionary_from_vars(
+#     set_of_variables_from_formula(formula)))
+# pretty_print_assigned_formula(assignment, formula)
 
 
 def random_formula(n=26, c=10, min_len=1, max_len=10, file="FX"):
@@ -148,20 +183,82 @@ def random_formula(n=26, c=10, min_len=1, max_len=10, file="FX"):
        each with at least min_len literals and at most max_len literals.
     Put the final formula in file.
     Each variable must be a non capital letter (a, b, c,...,z). """
-    pass
+
+    # First we create a list of vars (random 3 long strings)
+    vars = []
+
+    for _ in range(n):
+        newVar = ""
+
+        while newVar in vars or len(newVar) != 3:
+            newVar = ""
+
+            for j in range(3):
+                newVar += chr(random.randint(97, 122))
+
+        vars.append(newVar)
+
+    formula = []
+
+    for _ in range(c):
+
+        # We get a number between min_len and max_lend
+        n = random.randint(min_len, max_len)
+
+        formulaVars = random.sample(vars, n)
+
+        signedVars = [random.choice(["", "-"]) + var for var in formulaVars]
+
+        formula.append(signedVars)
+
+    with open("formula2.txt", "w") as file:
+
+        for i in range(len(formula)):
+            clause = formula[i]
+
+            file.write(",".join(clause))
+
+            if i < len(formula) - 1:
+                file.write("&")
+
+
+# random_formula()
 
 
 def iter_all_assignments(d):
     """An iterator to generate all the possible assignments of a dictionary d.
     NB: the call returns an iterator of assignments, not the assignments."""
-    pass
+    keys = list(d.keys())
+    n = len(keys)
+
+    def binIter():
+        for i in range(2**n):
+            l = []
+            for j in range(n):
+                l.append((i >> j) % 2)
+            yield l
+
+    for it in binIter():
+        yield {keys[i]: bool(it[i]) for i in range(n)}
+
+
+# for assign in iter_all_assignments({"a": None, "b": None, "c": None}):
+#     print(assign)
 
 
 def evaluate_all_assignments(formula):
     """Returns, for each possible assignment of the variables of the formula,
     the list of the number of satisfied clauses (with Boolean value True)."""
-    pass
 
+    evaluations = []
+
+    for assignment in iter_all_assignments(construct_dictionary_from_vars(
+            set_of_variables_from_formula(formula))):
+        evaluations.append(number_of_true_clauses(assignment, formula))
+
+    return evaluations
+
+print(evaluate_all_assignments(get_formula_from_file("formula.txt")))
 
 """
 Example of pretty print of formula a,-b,c&-a,b,-d&a,b,c&-b,d,-e&a,-c,e :
