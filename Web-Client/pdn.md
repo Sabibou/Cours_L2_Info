@@ -84,3 +84,39 @@ Controle continu intégral :
   - Les formulaires
     - GET et POST
   - **Arrêt page 153**
+- 20 février 2023
+  - Les attributs 
+    - `autocomplete`
+    - `disabled`
+    - `multiple`
+    - ...
+  - Types de champs
+    - `text`
+    - `password`
+    - `checkbox`
+    - `radio`
+    - ...
+  - Le CSS
+    - Les selecteurs
+    - L'intégration du CSS
+    - Héritage
+    - Imbrication
+    - Intéraction
+  - **Arrêt page 184**
+- 27 février 2023
+  - Les couleurs
+    - HSL
+    - RGB
+    - Canal ALPHA
+  - Gradients
+  - Tailles
+    - Relatives
+    - Absolues
+      - Les unités
+  - Les polices
+  - Border
+  - Background
+  - Border shadow
+  - Marges
+  - Padding
+  - **Arrêt page 222**
