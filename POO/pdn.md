@@ -81,3 +81,11 @@ lang: fr
     - Convetion de nommage
     - UML
     - Exemple d'interface
+  - **Arrêt page 146**
+- 27 février 2023 :
+  - Les interfaces (suite)
+    - UML et UML compact
+    - Implémentation
+  - Types génériques
+    - Concept
+  - **Arrêt page 162**
