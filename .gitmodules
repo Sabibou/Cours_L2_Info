@@ -4,3 +4,6 @@
 [submodule "Related Personal Projects/project-manager"]
 	path = Related Personal Projects/project-manager
 	url = https://gitlab.isima.fr/rovandemer/project-manager
+[submodule "Web-Client/Projet"]
+	path = Web-Client/Projet
+	url = git@gitlab.isima.fr:mamirade/techno-web-client.git

@@ -69,3 +69,15 @@ lang: fr
     - Redéfinition
   - Des exemples de définitions dans plusieurs langages
   - **Arrêt page 125**
+- 20 février 2023 :
+  - Redéfinition et surcharge
+    - Les différences de comportement
+  - Classes abstraites et interfaces
+    - Classe abstraites
+      - Englobement, concept
+      - Exemple de classe abstraite
+  - Interfaces
+    - Concept
+    - Convetion de nommage
+    - UML
+    - Exemple d'interface
