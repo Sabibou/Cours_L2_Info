@@ -67,3 +67,82 @@ digraph {
     Carrosserie -> Porte[label="2..4"];
 }
 ```
+
+
+# Question 3
+
+On implémente la classe `Voiture` en Java.
+
+```java
+public class Carrosserie {
+    
+    private Porte[] portes;
+
+    public Carrosserie(int nbPortes) {
+        
+        if (nbPortes < 2 || nbPortes > 4)
+            throw new IllegalArgumentException("Le nombre de portes doit être compris entre 2 et 4.");
+        }
+
+        this.portes = new Porte[nbPortes];
+
+        for (int i = 0; i < nbPortes; i++) {
+        
+            this.portes[i] = new Porte();
+        
+        }
+
+    }
+
+}
+```
+
+```java
+abstract class Voiture {
+
+    private Carrosserie carrosserie;
+    protected Roue[] roues;
+    abstract int nbRoues();
+
+    public Voiture(int nbPortes) {
+
+        this.carrosserie = new Carrosserie(nbPortes);
+        this.initRoues();
+        
+    }
+
+    private void initRoues() {
+    
+        this.roues = new Roue[nbRoues()];
+        
+        for (int i = 0; i < nbRoues; i++) {
+        
+            this.roues[i] = new Roue();
+        
+        }
+    
+    }
+
+}
+```
+
+```java
+class VoitureA extends Voiture {
+
+    private Moteur moteur;
+
+    public VoitureA(int nbPortes) {
+
+        super(nbPortes);
+
+    }
+
+    @Override
+    int nbRoues() {
+        return 4;
+    }
+
+}
+```
+
+```java
