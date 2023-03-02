@@ -58,6 +58,28 @@ def regle_3(chaine):
     return False, None
 
 
+def regle_1_I(chaine):
+    if chaine.startswith("0X"):
+        return True, chaine[1:]
+
+    return False, None
+
+def regle_2_I(chaine):
+    index = chaine.find("X0")
+
+    if index != -1:
+        return True, chaine.replace("X0", "0XX", 1)
+    
+    return False, None
+
+def regle_3_I(chaine):
+    index = chaine.find("1")
+
+    if index != -1:
+        return True, chaine.replace("1", "0X", 1)
+
+    return False, None
+
 def traduit(chaine):
     """Appliquer les règles de re-écriture 1, 2 et 3 tant que c'est possible.
     Attention : n'appliquer la règle 3 que si les deux premières ne sont plus
@@ -70,7 +92,7 @@ def traduit(chaine):
 
         worked, chaine2 = regle_1(chaine)
 
-        if worked: 
+        if worked:
             chaine = chaine2
             continue
 
@@ -86,4 +108,21 @@ def traduit(chaine):
             chaine = chaine2
 
 
-traduit("X"*12)
+def alpha(w):
+    composanteA = w.replace("X", "")
+    composanteB = 0
+    subList = []
+
+    for i in range(len(w)):
+        if w[i] == "X":
+            subList = w[i:]
+            composanteB += 2 ** (subList.count("1") + subList.count("0"))
+    
+    # Transfrorm composanteA to decimal
+    composanteA = int(composanteA, 2)
+
+    return composanteA + composanteB
+
+
+print(alpha("XXX11X0X110"))
+# traduit("X"*31)

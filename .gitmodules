@@ -7,3 +7,6 @@
 [submodule "Web-Client/Projet"]
 	path = Web-Client/Projet
 	url = git@gitlab.isima.fr:mamirade/techno-web-client.git
+[submodule "Related Personal Projects/homepage-2023"]
+	path = Related Personal Projects/homepage-2023
+	url = git@gitlab.isima.fr:rovandemer/homepage-2023.git
