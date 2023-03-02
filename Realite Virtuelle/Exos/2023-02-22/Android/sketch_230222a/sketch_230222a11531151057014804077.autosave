@@ -1,0 +1,213 @@
+ //On va créer un cube en 3D, le positionner et le faire tourner autour de lui-même
+float zIndex = 0;
+boolean shader = true;
+
+boolean drawable = true;
+
+// On créer un objet qui va contenir un cube, ses coordonnées, sa taille, sa couleur, etc.
+class MonCube {
+    
+    private float x, y, z;
+    private float size;
+    private int r, g, b;
+    
+    MonCube(float x, float y, float z, float size, int r, int g, int b) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.size = size;
+        this.r = r;
+        this.g = g;
+        this.b = b;
+    }
+    
+    void display() {
+        pushMatrix();
+        translate(x, y, z);
+        fill(r, g, b);
+        box(size);
+        popMatrix();
+    }
+    
+    void rotate(float angle) {
+        x = cos(angle) * x - sin(angle) * y;
+        y = sin(angle) * x + cos(angle) * y;
+    }
+    
+    float getX() {
+        return x;
+    }
+    
+    float getY() {
+        return y;
+    }
+    
+    float getZ() {
+        return z;
+    }
+    
+    float getSize() {
+        return size;
+    }
+    
+    void setX(float x) {
+        this.x = x;
+    }
+
+    void setY(float y) {
+        this.y = y;
+    }
+
+    void setZ(float z) {
+        this.z = z;
+    }
+
+    void setRandomPosition() {
+        x = random( - width / 2, width / 2);
+        y = random( - height / 2, height / 2);
+        z = random( - 1000, 1000);
+    }
+    
+}
+
+class ObjetComplexe {
+
+    private ArrayList<MonCube> cubes;
+    
+    ObjetComplexe() {
+        cubes = new ArrayList<MonCube>();
+    }
+    
+    void addCube(MonCube cube) {
+        cubes.add(cube);
+    }
+    
+    void display() {
+        for (MonCube cube : cubes) {
+            cube.display();
+        }
+    }
+
+    // Si on fait une rotation, tout les cubes doivent bouger comme si une seule forme bougeait
+    // On doit calculer la position de chaque cube par rapport à la position du centre de l'objet
+    // Avec la trigonométrie dans l'espace, on peut calculer la position de chaque cube
+    void rotate(float angle) {
+
+        // On récupère la position du centre de l'objet
+        float centerX = 0;
+        float centerY = 0;
+        float centerZ = 0;
+
+        for (MonCube cube : cubes) {
+            centerX += cube.getX();
+            centerY += cube.getY();
+            centerZ += cube.getZ();
+        }
+
+        centerX /= cubes.size();
+        centerY /= cubes.size();
+        centerZ /= cubes.size();
+
+        // On calcule la position de chaque cube par rapport au centre de l'objet
+        for (MonCube cube : cubes) {
+            float x = cube.getX() - centerX;
+            float y = cube.getY() - centerY;
+            float z = cube.getZ() - centerZ;
+
+            // On fait une rotation de l'objet
+            cube.setX(cos(angle) * x - sin(angle) * y + centerX);
+            cube.setY(sin(angle) * x + cos(angle) * y + centerY);
+            cube.setZ(z + centerZ);
+        }
+
+    }
+
+    MonCube getCube(int index) {
+        return cubes.get(index);
+    }
+
+    ArrayList<MonCube> getCubes() {
+        return cubes;
+    }
+
+}
+
+ObjetComplexe objetComplexe = new ObjetComplexe();
+
+void setup() {
+    
+    fullScreen(P3D);
+
+    // On créer un objet complexe
+    
+
+    // On en créer 5 autres
+    for (int i = 0; i < 5; i++) {
+        MonCube cube = new MonCube(0, 0, 0, 100, 255, 255, 255);
+        cube.setRandomPosition();
+        cube.rotate(random(0, TWO_PI));
+        objetComplexe.addCube(cube);
+    }
+
+    
+}
+
+float angle = 0;
+
+void draw() {
+    
+    // On efface l'écran
+    background(0);
+
+
+
+    // On positionne le cube au centre de l'écran
+    translate(width/2, height/2, 0);
+
+        
+
+    if (drawable) {
+        
+        // On dessine tous les cubes
+        for (MonCube cube : objetComplexe.getCubes()) {
+            cube.display();
+        }
+        
+        
+        if (shader) {
+            
+            // On fait une lumière à côté du premier cube
+            pointLight(255, 255, 255, objetComplexe.getCube(0).getX() + 100, objetComplexe.getCube(0).getY(), objetComplexe.getCube(0).getZ());
+            
+        }
+        
+    } else {
+
+        // On fait une rotation de l'objet
+        rotateZ(0.01 * frameCount);
+
+    }
+
+
+    // On rajoute un bouton bleu pour activer/désactiver le dessin
+    pushMatrix();
+    translate(-width / 2, -height / 2, 0);
+    fill(0, 0, 255);
+    rect(0, 0, 100, 50);
+    popMatrix();
+
+}
+
+
+// Si on appuye quelque part sur l'écran, on ajoute un cube à l'endroit de la souris
+void mousePressed() {
+
+    if (mouseX < 100 && mouseY < 50) {
+        drawable = !drawable;
+        return;
+    }
+    
+    MonCube cube = new MonCube(mouseX - width / 2, mouseY - height / 2, 0, 100, 255, 255, 255);
+    objetComplexe.addCube(cube);
+    
+}

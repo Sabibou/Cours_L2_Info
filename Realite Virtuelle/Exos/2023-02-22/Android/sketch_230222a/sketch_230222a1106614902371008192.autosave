@@ -1,0 +1,15 @@
+// On va recréer paint pour android
+
+color c = color(0, 255, 0);
+
+color[] colors;
+
+// On va créer 10 couleurs aléatoires
+
+
+void setup() {
+
+    fullScreen(P2D);
+
+
+}   

@@ -1,87 +1,112 @@
-// On va recréer paint pour android
+// On va faire un jeu (comme le dinosore de chrome)
+class Monstre {
 
-color c = color(0, 255, 0);
+    private float x;
+    private float y;
 
-color[] colors;
+    public Monstre(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
 
-// On va créer 10 couleurs aléatoires
+    public void afficher() {
+        fill(0);
+        ellipse(x, y, 50, 50);
+    }
 
+    float getX() {
+        return x;
+    }
+
+    float getY() {
+        return y;
+    }
+
+}
+
+ArrayList<Monstre> monstres = new ArrayList<Monstre>();
+
+float g = 0.5; // gravité
+float v = 0; // vitesse
+float y = 0; // position
+
+float speed;
+
+float ticks = 0;
+float timeBeforeNextMonstre = 3;
+
+boolean saut = false;
+
+int score = 0;
 
 void setup() {
-    
+
     fullScreen(P2D);
-    
-    
-    // On met comme fond blanc
-    background(255);
-    
-    noStroke();
-    
-    colors = new color[10];
-    
-    for (int i = 0; i < colors.length; i++) {
-        
-        colors[i] = color(random(255), random(255), random(255));
-        
-    }
-    
-}   
 
-// Quand on touche l'écran, on dessine un cercle
+    y = height/2;
+
+}
+
 void draw() {
-    
-    
-    // On ajoute des touches pour changer la couleur
-    // On affiche 10 cercles avec les couleurs aléatoires
-    for (int i = 0; i < colors.length; i++) {
-        
-        fill(colors[i]);
-        
-        ellipse(50 + i * 50, 50, 40, 40);
-        
+
+    background(255);
+
+    if (saut) {
+        v = -10;
+        saut = false;
     }
-    
-    // On rajoute un cercle noir pour effacer
+
+    v += g;
+    y += v;
+
+    if (y > height/2) {
+        y = height/2;
+        v = 0;
+    }
+
     fill(0);
-    
-    ellipse(50 + 10 * 50, 50, 40, 40);
-    
-    
-}
+    ellipse(width/4, y, 50, 50);
 
-// Quand on presse l'écran, on relie le point précédent au point actuel
-void mouseDragged() {
-    
-    if (mouseY > 100) {
-        
-        stroke(c);
-        
-        strokeWeight(10);
-        
-        line(mouseX, mouseY, pmouseX, pmouseY);
-        
+    // On fait apparaître un monstre toutes les 3s
+    ticks += 1/frameRate;
+    if (ticks > timeBeforeNextMonstre) {
+        timeBeforeNextMonstre = random(0.2, 2);
+        monstres.add(new Monstre(width, height/2));
+        ticks = 0;
+
+        score += 1;
     }
-    
-}
 
-// Si on touche un cercle, on change la couleur
-void mousePressed() {
-    
-    for (int i = 0; i < colors.length; i++) {
-        
-        if (dist(mouseX, mouseY, 50 + i * 50, 50) < 20) {
-            
-            c = colors[i];
-            
+    for (int i = 0; i < monstres.size(); i++) {
+        Monstre m = monstres.get(i);
+        m.afficher();
+        m.x -= speed;
+
+        if (score%3==0) {
+            speed += 0.4;
         }
-        
+
+
+        // Check collision  
+        if (dist(m.getX(), m.getY(), width/4, y) < 50) {
+            // On perd
+            println("Perdu");
+            exit();
+        }
+
+        if (m.x == 0) {
+            // On supprime le monstre
+            monstres.remove(i);
+        }
+
     }
-    
-    // Si on touche le cercle noir, on efface
-    if (dist(mouseX, mouseY, 50 + 10 * 50, 50) < 20) {
-        
-        background(255);
-        
-    }
-    
+
+    fill(0);
+    textSize(32);
+    text("Score : " + score, 10, 30);
+
+}
+
+void mousePressed() {
+    saut = true;
 }
