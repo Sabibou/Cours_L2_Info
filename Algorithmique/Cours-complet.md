@@ -534,3 +534,496 @@ Enregistrement liste {
 On stock des éléments de la liste dans un tableau de cellules. Pour cette implémentation, il faut la notion de cellule `NULL`.
 
 Insérer revient à demander l'index d'une cellule libre pour l'utiliser pour stocker le nouvel élément (et en refaisant le chaînage si besoin).
+
+On va stocker un tableau de cellules qui va avoir : 
+
+- la valeur de l'élément
+- un pointeur vers la cellule suivante
+
+```ruby
+Enregistrement cellule {
+  T val;
+  cellule suiv;
+}
+```
+
+Et on a un tableau de cellules :
+
+```ruby
+Enregistrement liste {
+  cellule tab[100];
+  int tete;
+  int taille;
+}
+```
+
+<!-- Ajout du 24 février 2023 -->
+
+
+### Exemple
+
+<!-- Faire un tableau de cellules qui contient des cases vides et des cases pleines (avec une donnée et un pointeur) 
+
+Les cellulles vides sont en rouge
+-->
+```dot
+digraph G {
+  rankdir=LR;
+  node [shape=record];
+  
+  
+  a [label="{ <data> 0 | <ref>  }", width=1.2];
+  b [label="{ <data> 1 | <ref>  }", width=1.2];
+  c [label="{ <data> 2 | <ref>  }", width=1.2, style=filled, fillcolor=red];
+  d [label="{ <data> 3 | <ref>  }", width=1.2, style=filled, fillcolor=red];
+  e [label="{ <data> 4 | <ref>  }", width=1.2];
+  f [label="{ <data> 5 | <ref>  }", width=1.2];
+  g [label="{ <data> 6 | <ref>  }", width=1.2];
+
+  // On relie tout ce qui n'est pas vide
+  a:ref -> b
+  b:ref -> e
+  e:ref -> f
+  f:ref -> g
+    
+
+}
+```
+
+Les cases vides sont en rouge.
+
+
+On essaye de distinguer les cases vides avec des cases pleines avec des valeurs spéciales (ex : -1).
+
+Il a le ==suivant logique== et le ==suivant spacial== (le suivant logique est le suivant dans la liste, le suivant spacial est le suivant dans le tableau).
+
+**Ajout possible** : On peut rajouter une pile qui contient les cases libres du tableau.
+
+## Quand utiliser les listes
+
+On utilise les listes pour représenter les ensembles car on ne connaît pas d'avance la taille de ses ensembles. 
+
+- Insertion début : `a` :
+  - On demande à `p` 1 case : `p` renvoie 0
+  - On stock `a` dans `tab[0].v`
+  - On stock LD dans `tab[0].s`
+  - On stock dans LD : 0
+- Insertion en fin `c` : 
+  - On demande à `p` 1 case : `p` renvoie 1
+  - On stock `c` dans `tab[1].v`
+  - On stock -1 dans `tab[1].s`
+- Supprimer en début : 
+  - On stock LD dans `p`
+  - Dans LD on stock `tab[LD].s`
+- Insérer `b` en fin
+  - `p` renvoie 0
+
+
+# Exemple d'analyse de complexité
+
+Graphe : $G:(V,E), V:$ ensemble de sommets. $E\subset V\times V$ relation binaire.
+
+```ruby
+PP(G: graphe, r: sommet) {
+  	colorie r en gris
+  	Pour chaque voisin blanc : v de r Faire {
+
+		PP(G, v)
+
+  	}
+	colorie r en noir
+}
+```
+
+==Definition== : 
+
+- $w$ est un voicin de $v$ si $(v,w)\in E$
+- Chaque sommet a une couleur : blanc, gris ou noir
+
+Avec l'algo $PP$ on a au moins 4 opérations
+
+- Connaître la couleur d'un sommet
+- Modifier la couleur d'un sommet
+- Créer un graphe
+- Connaître l'ensemble des voisins d'un sommet
+- Accéder à un sommet
+
+On modifie le programme comme suit :
+
+```ruby
+PP(G: graphe, r: sommet, T: graphe) {
+  	colorie r en gris
+  	Pour chaque voisin blanc : v de r Faire {
+
+		ajouter à E(T) la pair (r,v)
+		PP(G, v)
+
+  	}
+	colorie r en noir
+}
+```
+
+
+On doit rajouter les opérations suivantes :
+
+- Ajouter une arête
+
+| Opération | Complexité |
+| --- | --- |
+| 1. Tableau de taille n : les indices représentant les sommets et les valeurs les couleurs | Un tableau de taille $n$ (indices représentant les sommets) et chaque case contient 2 champs : La couleur, une liste contenant la liste des voisins |
+| Matrice booléenne de taille $n\times n $ : case $(i,j)=1 \leftrightarrow  (i,j)$ est une arrête  | |
+| Matrice d'adjacence taille : $n^2 + n$ | taille : $O(n+n)$ |
+
+<!-- Cours du 3 mars -->
+
+- Connaître la liste des voisins de $i$  :
+  - Parcourir la ligne $i$ de la matrice d'adjacence
+  - Si la case est à 1, alors $i$ est un voisin de $j$ (ajouter $j$ dans un ensemble)
+
+```ruby
+Pour j de 0 à n-1 Faire {
+  Si mat[i][j] = 1 Alors {
+    Ajouter j à la liste des voisins de i
+  }
+}
+```
+
+==Complexité== : $O(\text{nombre de voisins de }i \times \text{ complexité d'ajout dans }L) + O(n-\text{ nombre de voisins})$
+
+- Suivant le type de $L$,
+  - $L$ est une pile avec empiler en $O(1)$ et dépiler en $O(1)$
+    - $O(\text{nombre de voisins de }i \times 1) + O(n-\text{ nombre de voisins}) = O(n)$
+  - $L$ est un file avec enfiler en $O(1)$ et défiler en $O(1)$
+    - $O(\text{nombre de voisins de }i \times 1) + O(n-\text{ nombre de voisins}) = O(n)$
+  - Si $M$ est une liste avec insertion début en $O(1)$, pareil que pile / file si on insère au début
+  - Si $L$ est liste et on fait une inseertion en fin, qui a une compleité en temps $O(m)$.
+  - SI $L$ est une liste et on fait une insertion en fin qui a une complexité en temps $O(m)$ :
+
+$$\sum_{j \text{ pas de voisin de }i}O(1) + \sum_{j \leq j \leq \text{nombre de voisins}}O(j) = O(n - \text{nombre de voisins} + \text{nombre de voisins}^2)$$
+
+### Matrice d'incidence
+  
+- Ajouter une arête : $(i,j)$
+  - Ajouter à la ligne $T[i]$ la valeur $j$ :
+    - $O(1)$ si au début
+    - $O(n)$ si à la fin
+    - La complexité dépend de la fonction d'ajout
+- Connaître l'ensemble des voisins de $i$ :
+  - retourner la ligne $T[i]$
+- On estime la complexité de $PP$ 
+
+### Complexité de `PP(G, r, T)`
+
+#### Trace srur un exemple
+
+```dot
+digraph {
+  rankdir=LR;
+  a -> b;
+  b -> c;
+  c -> d;
+  c -> e;
+  d -> e;
+  e -> f;
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+}
+```
+
+Supposons `r = c`.
+
+- $T = (\{c,d\}, \{c\rightarrow d\}), c \text{ colorié gris}$
+
+```dot
+digraph {
+  rankdir=LR;
+  // On colorie l'arrête qu'on explore en rouge, les autres en noir
+  c -> d [color=red];
+  a -> b;
+  b -> c;
+  c -> e;
+  d -> e;
+  e -> f;
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+  c [fillcolor=gray, style=filled];
+}
+```
+
+- $PP(G,d,T)$ : voisins blancs de $d$ : $\{e,f\}$
+  - $T$ vaudra : $(\{c,d,e\}, \{c \rightarrow d, d\rightarrow e\})$
+
+```dot
+digraph {
+  rankdir=LR;
+  c -> d;
+  a -> b;
+  b -> c;
+  c -> e;
+  d -> e [color=red];
+  e -> f;
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+  c [fillcolor=gray, style=filled];
+  d [fillcolor=gray, style=filled];
+}
+```
+
+- $PP(G, e, T)$ : $e$ colorié gris, voisins blancs de $e$ : $\{f\}$
+  - $T$ vaudra : $(\{c,d,e,f\}, \{c \rightarrow d, d\rightarrow e, e\rightarrow f\})$
+
+```dot
+digraph {
+  rankdir=LR;
+  c -> d;
+  a -> b;
+  b -> c;
+  c -> e;
+  d -> e;
+  e -> f [color=red];
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+  c [fillcolor=gray, style=filled];
+  d [fillcolor=gray, style=filled];
+  e [fillcolor=gray, style=filled];
+}
+```
+
+- $PP(G, f, T)$ : $f$ colorié gris, voisins blancs de $f$ : $\{g\}$
+  - $T$ vaudra : $(\{c,d,e,f,g\}, \{c \rightarrow d, d\rightarrow e, e\rightarrow f, f\rightarrow g\})$
+
+```dot
+digraph {
+  rankdir=LR;
+  c -> d;
+  a -> b;
+  b -> c;
+  c -> e;
+  d -> e;
+  e -> f;
+  f -> g [color=red];
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+  c [fillcolor=gray, style=filled];
+  d [fillcolor=gray, style=filled];
+  e [fillcolor=gray, style=filled];
+  f [fillcolor=gray, style=filled];
+}
+```
+
+- $PP(G, g, T)$ : $g$ colorié gris, voisins blancs de $g$ : rien. Donc on colorie $g$ en noir.
+  - On sort de la boucle `Pour`, finit et retourne à l'appelant : `PP(G, f, T)`
+
+```dot
+digraph {
+  // Comme on n'est pas sur une arrête, on entoure le sommet en vert foncé
+  rankdir=LR;
+  c -> d;
+  a -> b;
+  b -> c;
+  c -> e;
+  d -> e;
+  e -> f  [color=red];
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+  c [fillcolor=gray, style=filled];
+  d [fillcolor=gray, style=filled];
+  e [fillcolor=gray, style=filled];
+  f [fillcolor=gray, style=filled, color=darkgreen];
+  g [fillcolor=black, style=filled, fontcolor=white];
+}
+```
+- $PP(G, f, T)$ : $f$ colorié gris, il n'a plus de voisins blancs. On colorie $f$ en noir.
+  - On sort de la boucle `Pour`, finit et retourne à l'appelant : `PP(G, e, T)`
+
+```dot
+digraph {
+  rankdir=LR;
+  c -> d;
+  a -> b;
+  b -> c;
+  c -> e;
+  d -> e [color=red];
+  e -> f;
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+  c [fillcolor=gray, style=filled];
+  d [fillcolor=gray, style=filled];
+  e [fillcolor=gray, style=filled];
+  f [fillcolor=black, style=filled, fontcolor=white];
+  g [fillcolor=black, style=filled, fontcolor=white];
+}
+```
+
+- $PP(G, e, T)$ : $e$ colorié gris, il n'a plus de voisins blancs. On colorie $e$ en noir.
+  - On sort de la boucle `Pour`, finit et retourne à l'appelant : `PP(G, d, T)`
+
+```dot
+digraph {
+  rankdir=LR;
+  a -> b;
+  b -> c;
+  c -> d [color=red];
+  c -> e;
+  d -> e;
+  e -> f;
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+  c [fillcolor=gray, style=filled];
+  d [fillcolor=gray, style=filled];
+  e [fillcolor=black, style=filled, fontcolor=white];
+  f [fillcolor=black, style=filled, fontcolor=white];
+  g [fillcolor=black, style=filled, fontcolor=white];
+}
+```
+
+- $PP(G, d, T)$ : $d$ colorié gris, il n'a plus de voisins blancs. On colorie $d$ en noir.
+  - On sort de la boucle `Pour`, finit et retourne à l'appelant : `PP(G, c, T)`
+
+```dot
+digraph {
+  rankdir=LR;
+  a -> b;
+  b -> c;
+  c -> d;
+  c -> e;
+  d -> e;
+  e -> f;
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+  c [fillcolor=gray, style=filled];
+  d [fillcolor=black, style=filled, fontcolor=white];
+  e [fillcolor=black, style=filled, fontcolor=white];
+  f [fillcolor=black, style=filled, fontcolor=white];
+  g [fillcolor=black, style=filled, fontcolor=white];
+}
+```
+
+- $PP(G, c, T)$ : $c$ colorié gris, on a $h$ en blanc. On colorie $h$ en gris.
+  - $T$ vaudra : $(\{c,d,e,f,g,h\}, \{c \rightarrow d, d\rightarrow e, e\rightarrow f, f\rightarrow g, c\rightarrow h\})$
+
+```dot
+digraph {
+  rankdir=LR;
+  a -> b;
+  b -> c;
+  c -> d;
+  c -> e;
+  d -> e;
+  e -> f;
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h [color=red];
+  d -> f;
+  c [fillcolor=gray, style=filled];
+  d [fillcolor=black, style=filled, fontcolor=white];
+  e [fillcolor=black, style=filled, fontcolor=white];
+  f [fillcolor=black, style=filled, fontcolor=white];
+  g [fillcolor=black, style=filled, fontcolor=white];
+  h [fillcolor=gray, style=filled];
+}
+```
+
+- $PP(G, h, T)$ : $h$ colorié gris, il n'a plus de voisins blancs. On colorie $h$ en noir.
+  - On sort de la boucle `Pour`, finit et retourne à l'appelant : `PP(G, c, T)`
+
+```dot
+digraph {
+  rankdir=LR;
+  a -> b;
+  b -> c;
+  c -> d;
+  c -> e;
+  d -> e;
+  e -> f;
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+  c [fillcolor=gray, style=filled];
+  d [fillcolor=black, style=filled, fontcolor=white];
+  e [fillcolor=black, style=filled, fontcolor=white];
+  f [fillcolor=black, style=filled, fontcolor=white];
+  g [fillcolor=black, style=filled, fontcolor=white];
+  h [fillcolor=black, style=filled, fontcolor=white];
+}
+```
+
+- $PP(G, c, T)$ : $c$ colorié gris, il n'a plus de voisins blancs. On colorie $c$ en noir.
+  - On sort de la boucle `Pour`, finit et retourne à l'appelant : `PP(G, b, T)`
+
+```dot
+digraph {
+  rankdir=LR;
+  a -> b;
+  b -> c;
+  c -> d;
+  c -> e;
+  d -> e;
+  e -> f;
+  f -> g;
+  g -> d;
+  f -> c;
+  c -> h;
+  d -> f;
+  c [fillcolor=black, style=filled, fontcolor=white];
+  d [fillcolor=black, style=filled, fontcolor=white];
+  e [fillcolor=black, style=filled, fontcolor=white];
+  f [fillcolor=black, style=filled, fontcolor=white];
+  g [fillcolor=black, style=filled, fontcolor=white];
+  h [fillcolor=black, style=filled, fontcolor=white];
+}
+```
+
+On est revenu à l'appelant de `PP(G, a, T)`, on a donc fini. On a fini d'explorer le graphe, on a donc fini l'algorithme.
+
+==Borner la complexité de cet algo== : c'est borner le nombre le nombre  d'appels récursifs et ensuite sommer la complexité de chaque appel récursif.
+
+La complexité d'un appel $PP(G, x, T)$ : si on oublie les appels récursifs, on a :
+
+- Calculer au les voisins de $x$
+- Parcourir les voisins de 1 à 1 et si le voisin $y$ est blanc, ajouter 1 arrête à $T$
+- Chaque sommet $x$, on fait au maximum un appel récursif $PP(G, x, T)$ car la première chose que fait $PP(G, x, T)$ est de colorier $x$ en gris
+- Il suffit donc de compter les sommets coloriés gris, qui sont exactement les sommets dans $T$ : c'est exactement les sommets accessibles depuis $x$
+
+$x$ est accessible depuis $r$ si $\exists x_0, x_1, \ldots, x_n$ avec $x_0 = r$ et $\forall 0 \leq i \leq n-1$, il existe une arrête $(x_i, x_{i+1})$.
+
+==Complexité de $PP(G, \land, \phi)$ :
+
+$$\sum_{x \text{ accessible depuis }r}\text{Complexité boucle pour parcourir les voisins de }x$$
+
+$\rightarrow$ Si matrice d'adjacence et pile pour stocker les voisins :
+
+$$\sum_{x \text{ accessible depuis }\land} O(n) = O(n \times Z) \text{, $Z$ le nombre de sommets accessibles}$$
+
+$$\sum_{x \text{ accessible depuis } r}O(nbVoisins(x)) \leq \sum_{x \text{ sommet }}O(nbVoisins(x))$$
+
+$$\leq O(m+n) \text{, $m$ le nombre d'arrêtes, $n$ le nombre de sommets}$$
