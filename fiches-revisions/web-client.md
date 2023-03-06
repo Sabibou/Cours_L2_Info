@@ -3,6 +3,12 @@ title: Web Client
 author: VAN DE MERGHEL Robin
 date: 2023
 geometry: margin=3cm
+lang: fr
+header-includes:
+    - \usepackage{setspace}
+    - \doublespacing
+    - \usepackage{lineno}
+    - \linenumbers
 ---
 
 
@@ -12,7 +18,7 @@ geometry: margin=3cm
 
 ### Le Net
 
-Le **Net** (<=> Internet) est l'ensemble des connections entre les machines qui forme un imense réseau (Internet). Le **Web** c'est l'ensemble des ressources qui sont distribuées sur internet (sites, images, documents, ...). Le **Web** est fait pour être évolutif (on peut améliorer les façons de communiquer par exemple).
+Le **Net** ($\Leftrightarrow$ Internet) est l'ensemble des connections entre les machines qui forme un imense réseau (Internet). Le **Web** c'est l'ensemble des ressources qui sont distribuées sur internet (sites, images, documents, ...). Le **Web** est fait pour être évolutif (on peut améliorer les façons de communiquer par exemple).
 
 ### Client vs Serveur
 
@@ -145,3 +151,194 @@ Un **Agent** c'est ce qui permet à un **Client** d'intéragir avec le serveur :
 ### Clients lourds, légers, riches
 
 ![Clients lourds, légers, riches](./dataWeb/fig2.png)
+
+
+
+# Le CSS
+
+## Présentation générale
+
+Le **CSS** (Cascading Style Sheets) est un langage qui permet de définir le style d'une page web. Il est composé de **règles** qui sont composées de :
+
+- **sélecteurs** : qui permettent de sélectionner les éléments (ex : `h1`, `p`, `#id`, `.class`, ...)
+- **propriétés** : qui permettent de définir le style (ex : `color`, `background-color`, `font-size`, ...)
+- **valeurs** : qui permettent de définir la valeur de la propriété (ex : `red`, `blue`, `12px`, ...)
+
+## Les sélecteurs
+
+Les principaux **sélecteurs** sont :
+
+- Les différentes balises HTML avec juste leur nom (ex : `h1`, `p`, ..., j'en énumère après)
+- Les classes avec un `.` devant (ex : `.salut`, `.hello`, ...)
+- Les id avec un `#` devant (ex : `#salut`, `#hello`, ...)
+- Les attributs avec un `[` devant (ex : `input[type="text"]`, `input[type="password"]`, ...)
+
+## Différences entre `id` et `class`
+
+Les **id** et les **classes** sont des **sélecteurs** qui permettent de sélectionner des éléments. La différence entre les deux c'est que les **id** sont uniques, alors que les **classes** ne le sont pas.
+
+Je peux dire "Il y a des cellules d'un tableau", et "Il y a la 4e cellule en partant du haut". D'un côté je parle de plusieurs cellules, de l'autre je parle d'une cellule en particulier. C'est la même chose pour les **id** et les **classes** : les **id** c'est pour une seule chose, les **classes** c'est pour plusieurs choses.
+
+*Note : Qu'on utilise une `class` ou un `id` c'est une question de goût, mais il faut rester cohérent dans son code.*
+
+## Les différentes balises HTML
+
+Les grandes balises utiles en HTML sont :
+
+- `h1` à `h6` : les titres
+- `p` : les paragraphes
+- `div` : les divisions (pour faire des blocs)
+- `span` : les spans (pour faire des éléments en ligne)
+- `ul` : les listes
+- `li` : les éléments de liste
+- `a` : les liens
+- `img` : les images
+- `form` : les formulaires
+- `input` : les champs de saisie
+  - `input[type="text"]` : les champs de texte
+  - `input[type="password"]` : les champs de mot de passe
+  - `input[type="submit"]` : les boutons de validation
+  - `input[type="button"]` : les boutons radio
+  - ...
+- `button` : les boutons
+- `table` : les tableaux
+- `tr` : les lignes de tableau
+- `td` : les cellules de tableau
+- `thead` : l'entête du tableau
+- `tbody` : le corps du tableau
+- `label` : les labels
+- `svg` : les images vectorielles
+
+## Les propriétés
+
+Les principales **propriétés** sont :
+
+### Les unités
+
+- `px` : pixels
+- `em` : taille de la police
+- `rem` : taille de la police de base
+- `%` : pourcentage
+
+Des fois pour le `body` (le parent de tout les éléments de la page) dire "Je prends `100%` de la page" ne marche pas, il faut dire "Je prends 100% de l'écran".
+
+Pour cela, on utilise `vh` (pourcentage de la hauteur de l'écran) et `vw` (pourcentage de la largeur de l'écran). Le `v` vient de `viewport` (la fenêtre du navigateur).
+
+Donc à l'instar de `100%` on peut dire `100vh` et `100vw`.
+
+### Les couleurs
+
+- `color` : la couleur du texte
+- `background-color` : la couleur de fond
+- `border-color` : la couleur de la bordure
+
+### Les polices
+
+- `font-family` : la police (ex : `Arial`, `Helvetica`, `Times New Roman`, ...)
+- `font-size` : la taille de la police (ex : `12px`, `1em`, `1rem`, ...)
+- `font-weight` : l'épaisseur de la police (ex : `normal`, `bold`, `bolder`, ...)
+- `font-style` : l'italique de la police (ex : `normal`, `italic`, `oblique`, ...)
+- `text-align` : l'alignement du texte (ex : `left`, `right`, `center`, `justify`, ...)
+- `text-decoration` : le soulignement du texte (ex : `none`, `underline`, `overline`, `line-through`, ...)
+- `text-transform` : la transformation du texte (majuscules, minuscules, ...)
+- `line-height` : la hauteur de ligne 
+- `letter-spacing` : l'espacement des lettres
+- `word-spacing` : l'espacement des mots
+
+### Les marges
+
+- `margin` : la marge extérieure (ex : `10px`, `1em`, `1rem`, ...)
+  - `margin-top` : la marge extérieure du haut
+  - `margin-right` : la marge extérieure de droite
+  - ...
+- `padding` : la marge intérieure (ex : `10px`, `1em`, `1rem`, ...)
+  - `padding-top` : la marge intérieure du haut
+  - `padding-right` : la marge intérieure de droite
+  - ...
+
+La différence entre les marges et les paddings c'est que les marges sont extérieures, alors que les paddings sont intérieures.
+
+Je le vois perso comme ça : 
+
+- Les marges, c'est je pousse mes voisins pour avoir plus de place dans un canapé (le canapé c'est le bloc qui contient l'élément)
+- Les paddings c'est je m'installe en prenant de la place dans un canapé
+
+### Les bordures
+
+- `border` : la bordure (ex : `1px solid black`, `1px solid red`, ...)
+  - `border: [largeur] [style] [couleur]`
+  - `border-top` : la bordure du haut
+  - `border-right` : la bordure de droite
+  - ...
+- `border-radius` : le rayon des coins (ex : `10px`, `1em`, `1rem`, ..., `24px` c'est nickel pour des boutons souvent)
+
+### Les dimensions
+
+- `width` : la largeur (ex : `100px`, `10em`, `10rem`, ...)
+- `height` : la hauteur (ex : `100px`, `10em`, `10rem`, ...)
+  - `max-width` : la largeur maximale (ex : `100px`, `10em`, `10rem`, ...)
+  - `min-width` : la largeur minimale (ex : `100px`, `10em`, `10rem`, ...)
+  - ...
+
+### Les positions
+
+- `position` : la position (ex : `static`, `relative`, `absolute`, `fixed`, ...)
+- `top` : la position du haut (ex : `100px`, `10em`, `10rem`, ...)
+- `right` : la position de droite (ex : `100px`, `10em`, `10rem`, ...)
+- ...
+- `z-index` : l'index de profondeur (ex : `1`, `2`, `3`, ...), c'est comme des couches, plus c'est grand plus c'est en avant
+- `float` : le flottage (ex : `left`, `right`, `none`, ...)
+
+Les positions sont très importantes, je conseille de bien les comprendre. 
+
+- `block` : par défaut, les éléments sont en `block`, c'est à dire qu'ils prennent toute la largeur disponible
+- `relative` : l'élément est positionné par rapport à lui-même
+- `absolute` : en gros se positionne par rapport à son parent via des coordonnées, et il ignore ses frères et sœurs
+- `fixed` : se positionne par rapport à la fenêtre du navigateur, et il ignore ses frères et sœurs (comme `absolute` mais par rapport à la fenêtre du navigateur)
+
+### Les affichages (TRÈS IMPORTANT)
+
+Je ne vais parler que de `display` ici, car vraiment c'est à maîtriser absolument.
+
+**C'est aussi ce qui permet de centrer un élément de façon propre, et de faire des mises en page complexes.**
+
+Par défaut, il y a `block`, par défaut, c'est à dire qu'ils prennent toute la largeur disponible
+
+Les affichages modernes sont les suivants :
+
+#### `Grid`
+
+`Grid` est un affichage qui permet de découper une section en grille, et de placer des éléments dans cette grille. 
+
+C'est très pratique pour faire des mises en page complexes, surtout avec le **responsive**, et c'est très simple à utiliser :
+
+```css
+.container { /* On veut faire une grille de 3 colonnes et 3 lignes */
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* 3 colonnes de même taille */
+  grid-template-rows: 1fr 1fr 1fr; /* 3 lignes de même taille */
+}
+```
+
+Un **excellent** cours sur grid est disponible sur [CSS-Tricks](https://css-tricks.com/snippets/css/complete-guide-grid/).
+
+#### `Flex`
+
+`Flex` est un affichage qui permet de placer des éléments les uns à côté des autres, et de les aligner.
+
+Comme sont nom l'indice, c'est très pratique pour faire des mises en page flexibles, surtout avec le **responsive**, et c'est très simple à utiliser :
+
+```css
+.container { /* On veut faire une grille de 3 colonnes et 3 lignes */
+  display: flex;
+  flex-direction: row; /* Par défaut, c'est row, mais on peut mettre column */
+  justify-content: center; /* Alignement horizontal */
+  align-items: center; /* Alignement vertical */
+}
+```
+
+Un **excellent** cours sur flex est disponible sur [CSS-Tricks](https://css-tricks.com/snippets/css/a-guide-to-flexbox/).
+
+### Exemple
+
+Un petit exemple de ce que l'on peut faire avec CSS (`#Autopub`) [ici](https://perso.isima.fr/~rovandemer/) (Code source disponible [ici](https://gitlab.isima.fr/rovandemer/homepage-2023)).
