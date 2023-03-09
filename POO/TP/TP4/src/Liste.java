@@ -1,21 +1,23 @@
 package TP4.src;
 
-class Liste {
-    private int[] liste;
+import java.util.Arrays;
+
+class Liste<T> {
+    private T[] liste;
     private int nbElements;
 
     public Liste() {
-        this.liste = new int[10];
+        this.liste = newArray(10);
         this.nbElements = 0;
     }
 
     public Liste(int taille) {
-        this.liste = new int[taille];
+        this.liste = newArray(taille);
         this.nbElements = 0;
     }
 
-    public Liste(Liste liste) {
-        this.liste = new int[liste.liste.length];
+    public Liste(Liste<T> liste) {
+        this.liste = newArray(liste.liste.length);
         this.nbElements = liste.nbElements;
 
         for (int i = 0; i < liste.nbElements; i++) {
@@ -25,8 +27,8 @@ class Liste {
         }
     }
 
-    public Liste(int[] liste) {
-        this.liste = new int[liste.length];
+    public Liste(T[] liste) {
+        this.liste = newArray(liste.length);
         this.nbElements = liste.length;
 
         for (int i = 0; i < liste.length; i++) {
@@ -36,10 +38,10 @@ class Liste {
         }
     }
 
-    public void ajouter(int element) {
+    public void ajouter(T element) {
         if (this.nbElements == this.liste.length) {
 
-            int[] listeTemp = new int[this.liste.length * 2];
+            T[] listeTemp = newArray(this.liste.length * 2);
 
             for (int i = 0; i < this.liste.length; i++) {
 
@@ -55,7 +57,7 @@ class Liste {
         this.nbElements++;
     }
 
-    public void ajouter(int index, int element) {
+    public void ajouter(int index, T element) {
         if (index < 0 || index > this.nbElements) {
 
             System.out.println("Index invalide");
@@ -65,7 +67,7 @@ class Liste {
         
         if (this.nbElements == this.liste.length) {
 
-            int[] listeTemp = new int[this.liste.length * 2];
+            T[] listeTemp = newArray(this.liste.length * 2);
 
             for (int i = 0; i < this.liste.length; i++) {
 
@@ -103,6 +105,22 @@ class Liste {
         }
         
         this.nbElements--;
+
+        // Comme une ArrayList, on réduit la taille du tableau si il y a trop de place vide
+        if (this.nbElements < this.liste.length / 2) {
+
+            T[] listeTemp = newArray(this.liste.length / 2);
+
+            for (int i = 0; i < this.nbElements; i++) {
+
+                listeTemp[i] = this.liste[i];
+
+            }
+
+            this.liste = listeTemp;
+
+        }
+
     }
 
     public void afficher() {
@@ -116,12 +134,12 @@ class Liste {
         System.out.println();
     }
 
-    public int get(int index) {
+    public T get(int index) {
 
         if (index < 0 || index >= this.nbElements) {
 
             System.out.println("Index invalide");
-            return -1;
+            return null;
 
         }
     
@@ -129,7 +147,7 @@ class Liste {
     }
     
 
-    public void set(int index, int element) {
+    public void set(int index, T element) {
     
         if (index < 0 || index >= this.nbElements) {
 
@@ -145,7 +163,7 @@ class Liste {
         return this.nbElements;
     }
 
-    public boolean contient(int element) {
+    public boolean contient(T element) {
         
         for (int i = 0; i < this.nbElements; i++) {
 
@@ -161,16 +179,21 @@ class Liste {
     }
 
     public void reverse() {
-        
-        int[] listeTemp = new int[this.nbElements];
-        
+
+        T[] listeTemp = newArray(this.nbElements);
+
         for (int i = 0; i < this.nbElements; i++) {
 
             listeTemp[i] = this.liste[this.nbElements - i - 1];
 
         }
-        
+
         this.liste = listeTemp;
+    }
+    
+    @SafeVarargs
+    static <T> T[] newArray(int length, T... array) {
+        return Arrays.copyOf(array, length);
     }
 
 }

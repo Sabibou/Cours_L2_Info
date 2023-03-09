@@ -145,4 +145,3 @@ class VoitureA extends Voiture {
 }
 ```
 
-```java

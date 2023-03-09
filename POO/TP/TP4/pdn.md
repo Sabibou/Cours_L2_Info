@@ -21,3 +21,11 @@ int b = list.get(1);
 int c = list.get(2);
 ```
 
+# Exercice 3
+
+## Question 2
+
+Comme on marche avec des types génériques, on ne peut pas avoir de fonction `put(K key, int value)`. Il faudrait cast de `int` vers `V`.
+
+On pourrait vérifier que c'est un `int` avec `instanceof`.
+
