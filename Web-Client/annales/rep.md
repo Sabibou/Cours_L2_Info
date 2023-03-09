@@ -182,6 +182,14 @@ En français, on peut traduire "Quand on clique sur le bouton, on affiche un mes
 
 > **Quelles sont les trois couches fondamentales dans une application ? Où sont-elles situées dans une application Web ?**
 
+Les trois couches fondamentales sont la couche présentation, la couche métier et la couche persistance.
+
+- La couche présentation est située dans le navigateur. Elle est chargée de l'affichage des données et de la gestion des événements.
+- La couche métier est située sur le serveur. Elle est chargée de la logique métier de l'application.
+- La couche persistance est située sur le serveur. Elle est chargée de la persistance des données.
+
+Elles permettent de séparer les différentes responsabilités de l'application.
+
 
 ### Question 2
 
@@ -195,3 +203,116 @@ De plus, l'utilisateur n'est pas sencé comprendre l'URL. Même des fois, il ne 
 ### Question 3*
 
 > **Quels sont les buts recherchés dans l'architecture du Web ?**
+
+Les buts recherchés dans l'architecture du Web sont :
+
+- La portabilité : le Web doit être accessible depuis n'importe quel appareil (ex : ordinateur, téléphone, tablette, ...)
+- La simplicité : le Web doit être simple à utiliser (ex : pas besoin de télécharger une application pour utiliser un service)
+- La performance : le Web doit être performant (ex : pas de latence, pas de temps de chargement long, ...)
+- La fiabilité : le Web doit être fiable (ex : pas de pannes, pas de défaillance, ...)
+
+
+### Question 4
+
+> **Que signifie l'accessibilité pour un contenu Web ? En quoi est-ce important ?**
+
+L'accessibilité pour un contenu Web c'est que le contenu est accessible à tous les utilisateurs, y compris les personnes handicapées. C'est important car on veut que tout le monde puisse accéder au contenu.
+
+Par exemple, une image de chat ne sera pas accessible pour les malvoyants car ils ne pourront pas la voir. Il faudrait donc ajouter un texte alternatif (`alt`) pour que les malvoyants puissent comprendre ce que représente l'image.
+
+## Exercice 2
+
+### Question 1
+
+> **Donner les différentes manières de spécifier une couleur en CSS.**
+
+On peut spécifier une couleur en CSS de plusieurs manières :
+
+- En utilisant le nom de la couleur (ex : `red`, `blue`, `green`, ...)
+- En utilisant le code hexadécimal de la couleur (ex : `#ff0000`, `#0000ff`, `#00ff00`, ...)
+- En utilisant le code RGB de la couleur (ex : `rgb(255, 0, 0)`, `rgb(0, 0, 255)`, `rgb(0, 255, 0)`, ...)
+- En utilisant le code HSL de la couleur (ex : `hsl(0, 100%, 50%)`, `hsl(240, 100%, 50%)`, `hsl(120, 100%, 50%)`, ...)
+- En utilisant le code CMYK de la couleur (ex : `cmyk(0, 100%, 100%, 0)`, `cmyk(100%, 0, 100%, 0)`, `cmyk(100%, 100%, 0, 0)`, ...)
+- En utilisant une couleur transparente (ex : `transparent`, `rgba(0, 0, 0, 0)`, `hsla(0, 0%, 0%, 0)`, ...), on rajoute un canal alpha
+- En utilisant une couleur dégradée (ex : `linear-gradient(90deg, red, blue)`, `radial-gradient(red, blue)`, ...)
+
+
+### Question 2
+
+> **Donner la syntaxe générale d'une règle CSS.**
+
+La syntaxe générale d'une règle CSS est la suivante :
+
+```css
+selector {
+    property: value;
+}
+```
+
+### Question 3
+
+> **Qu'est-ce qu'un design de page flexible (ou fluide) ? Pourquoi est-ce important ?**
+
+Un design de page flexible (ou fluide) c'est un design de page qui s'adapte à la taille de l'écran. C'est important car les utilisateurs peuvent avoir des écrans de différentes tailles, et on veut que le site soit lisible sur tous les écrans.
+
+En effet, sur un écran de 1920x1080, on peut afficher 1920 pixels de largeur. Mais sur un écran de 1280x720, on ne peut afficher que 1280 pixels de largeur. Si on a un design de page fixe, on ne pourra pas afficher tout le contenu sur un écran de 1280x720.
+
+### Question 4
+
+> **Quelles sont les différentes manières d'appliquer du CSS aux éléments HTML ? Donner les avantages et inconvénients de chacunes, et dans quel cas les utiliser.**
+
+On a 3 manières d'appliquer du CSS aux éléments HTML :
+
+- Modifier `inline` : on modifie l'attribut `style` de l'élément HTML. C'est pratique pour faire des tests, mais c'est pas pratique pour appliquer du CSS à plusieurs éléments. `<p style="color: red;">Hello world</p>`
+- Modifier `internal` : on modifie la balise `<style>` dans le `<head>`. C'est pratique pour appliquer du CSS à plusieurs éléments, mais c'est pas pratique pour faire des tests. `<style> p { color: red; } </style>`
+- Modifier `external` : on modifie le fichier CSS externe. C'est pratique pour appliquer du CSS à plusieurs éléments et pour partager le code CSS à plusieurs pages. `<link rel="stylesheet" href="style.css">`
+
+### Question 5
+
+> **Quel est le principe des web fonts ?**
+
+Le principe des web fonts c'est de pouvoir utiliser des polices de caractères qui ne sont pas installées sur l'ordinateur de l'utilisateur. On peut utiliser des polices de caractères payantes ou gratuites. 
+
+Cela permet de pouvoir vraiment choisir la police de caractères qu'on veut utiliser, et de pouvoir utiliser des polices de caractères qui ne sont pas installées sur l'ordinateur de l'utilisateur.
+
+## Exercice 3
+
+### Question 1
+
+> **Que signifie pour un document d'être bien formé ?**
+
+Un document est bien formé s'il respecte la syntaxe du langage de balisage. C'est-à-dire que les balises sont bien fermées, que les attributs sont bien écrits, que les balises sont bien imbriquées, ...
+
+### Question 2
+
+> **Qu'indique un DOCTYPE d'un fichier HTML ? Pourquoi est-ce important et comment est-ce utilisé ?**
+
+Un DOCTYPE d'un fichier HTML indique le type de document. C'est important car cela permet au navigateur de savoir comment interpréter le document. Cela permet aussi de savoir si le document est bien formé.
+
+On peut ainsi préciser la version du langage de balisage utilisé, et le navigateur va interpréter le document en fonction de la version du langage de balisage utilisé.
+
+On peut l'utiliser en écrivant `<!DOCTYPE html>` en haut du fichier HTML.
+
+### Question 3*
+
+*Note : jsp quoi rep, c'est assez spécial*
+
+> **Comment fonctionnent les formulaires HTML, du points de vue de l'intéraction avec le serveur ?**
+
+Le serveur reçoit les données du formulaire quand l'utilisateur clique sur le bouton `submit`. Le serveur peut ensuite traiter les données du formulaire. Selon la nature de la requête, le serveur peut renvoyer une page HTML, une image, un fichier, ...
+
+### Question 4
+
+> **Donner des exemples d'éléments HTML permettant de structurer le document de manière sémantique (au moins cinq).**
+
+On peut structurer le document de manière sémantique avec les éléments suivants :
+
+- `<header>` : pour le header
+- `<nav>` : pour la navigation
+- `<main>` : pour le contenu principal
+- `<article>` : pour un article
+- `<section>` : pour une section
+- `<aside>` : pour un contenu secondaire
+- `<footer>` : pour le footer
+- `<h1>` à `<h6>` : pour les titres
+- ...
