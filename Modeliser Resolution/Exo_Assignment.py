@@ -83,55 +83,190 @@ def generate_random_instance(n, version_number=1):
 
 
 # ------------------------------------------------------------------------------
+def generate_random_assignment(agencies_choices, candidates_choices):
+    """Returns a random assignment as a 2 tuple of dictionaries."""
+
+    agenciesAssign = {agency: random.choice(
+        agencies_choices[agency]) for agency in agencies_choices}
+
+    candidatesAssign = {candidate: random.choice(
+        candidates_choices[candidate]) for candidate in candidates_choices}
+
+    return agenciesAssign, candidatesAssign
+
+# ------------------------------------------------------------------------------
+
+
+def generate_straight_assignment(agencies_choices, candidates_choices):
+    """Returns a straight assignment as a 2 tuple of dictionaries."""
+    agencies = list(agencies_choices.keys())
+    candidates = list(candidates_choices.keys())
+
+    agenciesAssign = {agency: candidates[i]
+                      for i, agency in enumerate(agencies)}
+    candidatesAssign = {candidate: agencies[i]
+                        for i, candidate in enumerate(candidates)}
+
+    return agenciesAssign, candidatesAssign
+
+
 def number_of_non_stable_couples(agencies_assign, candidates_assign,
                                  agencies_choices, candidates_choices):
     """Returns the number of non stable couples in the assignment."""
-    n = len(agencies_assign)
+    # A non stable couple is as situation where there are two couples : (A,B) and (C,D), and where A prefers C to B and C prefers A to D.
+    number = 0
 
-    nonStable = 0
+    for agencyName in agencies_assign:
 
-    for i in range(1, n+1):
-        
-        # We get both the agency and the candidate
-        agency = f"A{i}"
-        candidate = agencies_assign[agency]
+        agencyAssignement = agencies_assign[agencyName]
+        agencyAssignementIndex = agencies_choices[agencyName].index(
+            agencyAssignement)
 
-        # Check if the agency choice is the first one, if yes, you can continue
-        if agencies_choices[agency][0] == candidate:
-            continue
-    
-        # We get the index of the agency in the candidate choices
-        index = candidates_choices[candidate].index(agency)
-
-        # We check if the agency is in the first index of the candidate choices
-        if index == 0:
+        if agencyAssignementIndex == 0:
             continue
 
-        
+        selectedCandidate = agencies_assign[agencyName]
 
-        
-        
+        for i in range(agencyAssignementIndex):
+            candidate = agencies_choices[agencyName][i]
 
-    return nonStable
+            candidateAgency = candidates_assign[candidate]
+            candidateAgencyIndex = candidates_choices[candidate].index(
+                candidateAgency)
+
+            candidateAgencyRank = candidates_choices[candidate].index(
+                agencyName)
+
+            if candidateAgencyRank < candidateAgencyIndex:
+                print(
+                    f"Agency {agencyName} prefers {candidate} to {selectedCandidate} and {candidate} prefers {agencyName} to {candidateAgency}.")
+                number += 1
+
+    return number
+
 
 n, agencies, candidates = extract_instance_from_file("./couple.txt")
-print(number_of_non_stable_couples(agencies, candidates, agencies, candidates))
+# agenciesAssign, candidatesAssign = generate_random_assignment(
+#     agencies, candidates)
+agenciesAssign, candidatesAssign = generate_straight_assignment(
+    agencies, candidates)
+
+print(number_of_non_stable_couples(agenciesAssign,
+      candidatesAssign, agencies, candidates))
+
 
 # ------------------------------------------------------------------------------
-def generate_random_assignment(agencies_choices, candidates_choices):
-    """Returns a random assignment as a 2 tuple of dictionaries."""
-    pass
-
-
-# ------------------------------------------------------------------------------
-def gale_shapley_algorithm(agencies_choices, candidates_choices):
+def gale_shapley_algorithm(Oagencies_choices, Ocandidates_choices):
     """Run the Gale-Shapley algorithm and returns an assignment."""
-    pass
+    # While not all agencies are assigned
+    agencies_choices = dict(Oagencies_choices)
+    candidates_choices = dict(Ocandidates_choices)
 
+    agenciesAssign = {}
+    candidatesAssign = {}
+    n = len(agencies_choices)
+    while not len(agenciesAssign) == n:
+        for agency in agencies_choices:
+            if agency in agenciesAssign:
+                continue
+
+            candidate = agencies_choices[agency][0]
+
+            if candidate not in candidatesAssign:
+                agenciesAssign[agency] = candidate
+                candidatesAssign[candidate] = agency
+            else:
+                candidateAgency = candidatesAssign[candidate]
+
+                candidateAgencyRank = candidates_choices[candidate].index(
+                    agency)
+                candidateAgencyIndex = candidates_choices[candidate].index(
+                    candidateAgency)
+
+                if candidateAgencyRank < candidateAgencyIndex:
+                    agenciesAssign[agency] = candidate
+                    candidatesAssign[candidate] = agency
+
+                    del agenciesAssign[candidateAgency]
+                else:
+                    agencies_choices[agency].remove(candidate)
+
+    return agenciesAssign, candidatesAssign
+
+
+def gale_shapley_algorithm2(agencies_choices, candidates_choices):
+    """Run the Gale-Shapley algorithm and returns an assignment."""
+    # While not all agencies are assigned
+    agenciesAssign = {}
+    candidatesAssign = {}
+
+    agenciesIndexes = {agency:0 for agency in agencies_choices}
+
+    n = len(agencies_choices)
+    while not len(agenciesAssign) == n:
+        for agency in agencies_choices:
+            if agency in agenciesAssign:
+                continue
+
+            candidate = agencies_choices[agency][agenciesIndexes[agency]]
+
+            if candidate not in candidatesAssign:
+                agenciesAssign[agency] = candidate
+                candidatesAssign[candidate] = agency
+            else:
+                candidateAgency = candidatesAssign[candidate]
+
+                candidateAgencyRank = candidates_choices[candidate].index(
+                    agency)
+                candidateAgencyIndex = candidates_choices[candidate].index(
+                    candidateAgency)
+
+                if candidateAgencyRank < candidateAgencyIndex:
+                    agenciesAssign[agency] = candidate
+                    candidatesAssign[candidate] = agency
+
+                    del agenciesAssign[candidateAgency]
+                else:
+                    agenciesIndexes[agency]+=1
+
+    return agenciesAssign, candidatesAssign
+
+agenciesAssign, candidatesAssign = gale_shapley_algorithm2(agencies, candidates)
+
+for agency in agenciesAssign:
+    print(f"{agency} -> {agenciesAssign[agency]}")
+
+# After the algorithm, we can check if the result is stable or not
+print("\n---------------------\n")
+print(number_of_non_stable_couples(agenciesAssign,
+      candidatesAssign, agencies, candidates))
 
 # ------------------------------------------------------------------------------
+
+
 def all_assignments(agencies_choices, candidates_choices):
     """Returns an iterator on all the possible (stable or not stable)
     assigments. Uses the itertools library. """
     import itertools  # You can use tools from this library
-    pass  # Question plus difficile.
+
+    agencies = list(agencies_choices.keys())
+    candidates = list(candidates_choices.keys())
+
+    def h(i):
+        if i == n:
+            yield resultat
+        else:
+            resultat[agencies[i]] = candidates[0]
+            yield from h(i+1)
+            resultat[agencies[i]] = candidates[1]
+            yield from h(i+1)
+            resultat[agencies[i]] = candidates[2]
+            yield from h(i+1)
+            resultat[agencies[i]] = candidates[3]
+            yield from h(i+1)
+
+    resultat = {agency: 0 for agency in agencies}
+    yield from h(0)
+
+# for assignment in all_assignments(agencies, candidates):
+#     print(assignment)
