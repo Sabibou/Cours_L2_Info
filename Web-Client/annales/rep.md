@@ -316,3 +316,560 @@ On peut structurer le document de manière sémantique avec les éléments suiva
 - `<footer>` : pour le footer
 - `<h1>` à `<h6>` : pour les titres
 - ...
+
+
+### Question 5
+
+> **Quelles sont les différences en le XHTML et le HTML ?**
+
+Le XHTML et le HTML sont deux langages de balisage. Le XHTML est une version plus stricte du HTML mais qui est plus facile à parser. Le HTML est plus permissif, mais plus facile à écrire. 
+
+Le XHTML est plus strict, il faut par exemple fermer toutes les balises, et il faut utiliser des entités pour les caractères spéciaux. Le HTML est plus permissif, on peut par exemple ne pas fermer les balises, et on peut utiliser des caractères spéciaux sans utiliser d'entités.
+
+## Exercice 4
+
+### Question 1
+
+> **À quoi sert le JavaScript dans une page Web ?**
+
+Le JavaScript sert à ajouter de l'interactivité à une page Web. On peut par exemple ajouter des animations, des interactions avec l'utilisateur, ...
+
+Sela rajoute de la dynamique à une page Web ("Quand je clique sur ce bouton, il se passe quelque chose").
+
+### Question 2
+
+> **Comment utiliser le JavaScript dans une page Web ? (inclusion, exécution, etc.)**
+
+On peut utiliser le JavaScript dans une page Web en utilisant la balise `<script>`, puis on a le choix entre écrire le code JavaScript dans la balise `<script>`, ou bien inclure un fichier JavaScript externe (`<script src="script.js"></script>`).
+
+Le code javascript est alors exécuté lorsque le navigateur rencontre la balise `<script>`. On peut alors créer des évènements sur des éléments HTML, et le code JavaScript sera exécuté lorsque l'évènement se produit (`document.getElementById("myBtn").addEventListener("click", function() { ... });`).
+
+### Question 3*
+
+*Note : je ne sais pas quoi rajouter*
+
+> **Expliquer la propagration des évènements dans le navigateur.**
+
+La propagation des évènements dans le navigateur c'est le fait que les évènements se propagent dans le DOM. Par exemple, si on a un bouton dans un formulaire, et qu'on ajoute un évènement sur le bouton, l'évènement se propagera aussi au formulaire. 
+
+### Question 4
+
+> **Quelle est la différence en Javascript entre `==` et `===` ?**
+
+En Javascript, `==` compare deux valeurs, et `===` compare deux valeurs et deux types. Par exemple, `1 == "1"` est vrai, mais `1 === "1"` est faux car le type de `1` est `number` et le type de `"1"` est `string`.
+
+### Question 5
+
+> **Que vaut `this` en Javascript ?**
+
+`this` vaut l'objet qui appelle la fonction. Par exemple, si on a une fonction `myFunction` qui est appelée par un objet `myObject`, alors `this` vaudra `myObject` dans la fonction `myFunction`.
+
+Dans une classe, `this` vaudra l'instance de la classe.
+
+### Question 6
+
+> **Expliquer le système de transtypage en Javascript.**
+
+Le système de transtypage en Javascript c'est le fait que le langage Javascript est un langage faiblement typé. Cela signifie que le langage Javascript est capable de convertir automatiquement les types de données. Par exemple, si on fait `1 + "1"`, le résultat sera `"11"` car le langage Javascript convertit automatiquement le `1` en `string`.
+
+
+
+# Annale 2020-2021 (1ère session)
+
+## Exercice 1
+
+### Question 1
+
+> **Quels sont les différents types de composants ou d'acteurs du web (au niveau infrastructures) ? Expliquez brièvement leurs rôles.**
+
+Les différents types de composants ou d'acteurs du web sont les suivants :
+
+- **Le client** : c'est l'utilisateur qui utilise le web. Il peut utiliser un navigateur web, un client mail, un client de messagerie instantanée, ...
+- **Le serveur** : c'est le serveur qui héberge les sites web. Il peut s'agir d'un serveur web, d'un serveur mail, d'un serveur de messagerie instantanée, ...
+
+Puis dans les serveurs, on peut avoir des serveurs de base de données, des serveurs de fichiers, des serveurs de DNS, ... Chaque serveur a un rôle précis.
+
+### Question 2
+
+> **Quel est le principe du DNS ? Quelle en est l'utilité ?**
+
+Le principe du DNS est de convertir une adresse IP en un nom de domaine. L'utilité du DNS est de pouvoir utiliser des noms de domaine plus facilement que des adresses IP. En effet, on peut se souvenir plus facilement d'un nom de domaine (par exemple `google.com`) que d'une adresse IP (par exemple `172.217.171.196`).
+
+## Exercice 2
+
+### Question 1
+
+> **Donner les différentes manières de spécifier une couleur en CSS.**
+
+
+On peut spécifier une couleur en CSS de plusieurs manières :
+
+- En utilisant le nom de la couleur (ex : `red`, `blue`, `green`, ...)
+- En utilisant le code hexadécimal de la couleur (ex : `#ff0000`, `#0000ff`, `#00ff00`, ...)
+- En utilisant le code RGB de la couleur (ex : `rgb(255, 0, 0)`, `rgb(0, 0, 255)`, `rgb(0, 255, 0)`, ...)
+- En utilisant le code HSL de la couleur (ex : `hsl(0, 100%, 50%)`, `hsl(240, 100%, 50%)`, `hsl(120, 100%, 50%)`, ...)
+- En utilisant le code CMYK de la couleur (ex : `cmyk(0, 100%, 100%, 0)`, `cmyk(100%, 0, 100%, 0)`, `cmyk(100%, 100%, 0, 0)`, ...)
+- En utilisant une couleur transparente (ex : `transparent`, `rgba(0, 0, 0, 0)`, `hsla(0, 0%, 0%, 0)`, ...), on rajoute un canal alpha
+- En utilisant une couleur dégradée (ex : `linear-gradient(90deg, red, blue)`, `radial-gradient(red, blue)`, ...)
+
+
+### Question 2
+
+> **Comment mettre en oeuvre un design de page flexible ?**
+
+Pour mettre en oeuvre un design de page flexible, on peut utiliser les unités relatives suivantes :
+
+- `em` : l'unité relative `em` est relative à la taille de la police de l'élément. Par exemple, si on a un élément avec une taille de police de 16px, et qu'on met une marge de 1em, alors la marge sera de 16px.
+- `rem` : l'unité relative `rem` est relative à la taille de la police de la racine. Par exemple, si on a un élément avec une taille de police de 16px, et qu'on met une marge de 1rem, alors la marge sera de 16px.
+- `%` : l'unité relative `%` est relative à la taille de l'élément parent. Par exemple, si on a un élément avec une taille de 100px, et qu'on met une marge de 50%, alors la marge sera de 50px.
+- `vw` ou `vh` : l'unité relative `vw` ou `vh` est relative à la taille de la fenêtre du navigateur. Par exemple, si on a un élément avec une taille de 100px, et qu'on met une marge de 50vw, alors la marge sera de 50% de la largeur de la fenêtre du navigateur.
+
+### Question 3
+
+> **Quels sont les différents modes de positionnement d'un élément en CSS ?**
+
+Les différents modes de positionnement d'un élément en CSS sont les suivants :
+
+- `static` : c'est le mode de positionnement par défaut. L'élément est positionné selon le flux normal du document.
+- `relative` : l'élément est positionné selon le flux normal du document, mais on peut le déplacer par rapport à sa position normale.
+- `absolute` : l'élément est positionné par rapport à son parent le plus proche qui a un mode de positionnement différent de `static`. Si aucun parent n'a un mode de positionnement différent de `static`, alors l'élément est positionné par rapport à la fenêtre du navigateur.
+- `fixed` : l'élément est positionné par rapport à la fenêtre du navigateur.
+- `sticky` : l'élément est positionné par rapport à la fenêtre du navigateur, mais il reste collé à son parent le plus proche qui a un mode de positionnement différent de `static`.
+- `block` : l'élémént est positionné obligatoirement sur une nouvelle ligne, et il prend toute la largeur disponible.
+- `inline` : l'élément est positionné sur la même ligne que son parent, et il ne peut pas avoir de largeur ni de hauteur.
+
+### Question 4*
+
+*Je ne sais pas pour le 3.*
+
+> **Comment sélectionner en CSS :**
+> **1. Les zones de navigation ayant la classe `skip`;**
+> **2. Les paragraphes fils direct d'une section;**
+> **3. Les éléments mis en évidence dans un encart;**
+> **4. Les images suivant un titre de deuxième niveau ?**
+
+Pour sélectionner en CSS :
+
+1. Les zones de navigation ayant la classe `skip`, on peut utiliser la sélecteur `.skip`. Par composition, on peut utiliser la sélecteur `nav.skip`.
+2. Les paragraphes fils direct d'une section, on peut utiliser la sélecteur `section > p`.
+3. *Je ne sais pas trop quoi dire*
+4. Les images suivant un titre de deuxième niveau, on peut utiliser la sélecteur `h2 + img`.
+
+### Question 5
+
+> **Donner la syntaxe générale d'une règle CSS.**
+
+La syntaxe générale d'une règle CSS est la suivante :
+
+```css
+sélecteur {
+    propriété: valeur;
+}
+```
+
+## Exercice 3
+
+### Question 1
+
+> **Qu'est-ce que le HTML ?**
+
+Le HTML est un langage de balisage. Il permet de décrire la structure d'une page web. Il est composé de balises, qui sont des éléments qui décrivent la structure de la page web. Par exemple, on peut avoir une balise `<p>` pour décrire un paragraphe, une balise `<h1>` pour décrire un titre de niveau 1, une balise `<img>` pour décrire une image, ...
+
+### Question 2
+
+> **Que signifie être valide pour du HTML ? Pourquoi est-ce important ?**
+
+Un document HTML est valide s'il respecte la syntaxe du langage HTML. C'est à dire que toutes les balises sont bien fermées, et que les attributs sont bien écrits, et que les balises existent bien.
+
+C'est important car cela permet de s'assurer que le document HTML est bien structuré, et que les navigateurs peuvent l'afficher correctement.
+
+### Question 3*
+
+*Note : jsp quoi rep, c'est assez spécial*
+
+> **Comment fonctionnent les formulaires HTML, du points de vue de l'intéraction avec le serveur ?**
+
+Le serveur reçoit les données du formulaire quand l'utilisateur clique sur le bouton `submit`. Le serveur peut ensuite traiter les données du formulaire. Selon la nature de la requête, le serveur peut renvoyer une page HTML, une image, un fichier, ...
+
+
+## Question 4
+
+> **Qu'appelle-t-on du HTML sémantique ? Quels en sont les intérêts ?**
+
+Le HTML sémantique permet de pouvoir décrire la structure d'une page web de par son contenu et non sa forme. Par exemple, on peut avoir une balise `<p>` pour décrire un paragraphe, une balise `<h1>` pour décrire un titre de niveau 1, une balise `<img>` pour décrire une image, ... On indique le sens d'une balise, et non sa forme.
+
+De faire cela permet aussi de pouvoir rendre accessible une page web, et de pouvoir la rendre compréhensible par les moteurs de recherche.
+
+### Question 5*
+
+*Note : jsp quoi rep, c'est assez spécial*
+
+> **Quelles sont les avantages et inconvénients du XHTML par rapport au HTML ?**
+
+Les avantages du XHTML par rapport au HTML sont les suivants :
+
+- Le XHTML est plus strict que le HTML. Il est plus facile de vérifier la validité d'un document XHTML.
+
+## Exercice 4
+
+### Question 1
+
+> **Qu'implique le fait pour HTTP d'être un protocole sans état ? En quoi est-ce souhaitable ?**
+
+Le fait pour HTTP d'être un protocole sans état implique que le serveur ne garde pas en mémoire les informations de la requête précédente. Cela permet de pouvoir traiter plusieurs requêtes en même temps, et de pouvoir traiter plusieurs requêtes différentes en même temps.
+
+### Question 2
+
+> **En le design des URL est important ? Qu'est-ce qu'une bonne URL ?**
+
+Une URL est destinée au serveur, et non aux utilisateurs. On peut le voir dans les URL de youtube qui contiennent un Hash (une chaîne de caractères aléatoire). Cela permet de pouvoir identifier de manière unique une ressource, et de pouvoir la retrouver facilement. 
+
+Il faut donc éviter (toujours dans le cas de youtube) d'utiliser le nom dans les URL, car d'avoir deux vidéos avec le même nom, car cela peut poser problème sinon.
+
+### Question 3
+
+> **Donnez les différentes méthodes (ou verbes) du protocole HTTP et leur sémantique.**
+
+Les différentes méthodes (ou verbes) du protocole HTTP sont les suivantes :
+
+- `GET` : permet de récupérer une ressource.
+- `POST` : permet de créer une ressource.
+- `PUT` : permet de modifier une ressource.
+- `DELETE` : permet de supprimer une ressource.
+- `HEAD` : permet de récupérer les métadonnées d'une ressource.
+- `OPTIONS` : permet de récupérer les méthodes HTTP supportées par le serveur.
+- `TRACE` : permet de récupérer les requêtes HTTP envoyées par le client.
+- `CONNECT` : permet de créer un tunnel vers le serveur.
+- ` PATCH` : permet de modifier une ressource.
+
+## Exercice 5
+
+### Question 1
+
+> **Quelle est la particularité du système objet de javascript ? Comment fonctionne-t-il ?)**
+
+> *Note : je n'ai aucune idée pour cette question, j'attends le cours / que je vois par moi-même.*
+
+### Question 2
+
+> **Que valent les expressions suivantes ?**
+
+1.
+
+```js
+new Date(0) + 0
+```
+
+Le code ci-dessus va afficher la date du 1er janvier 1970.
+
+```js
+new Date(0) - 0
+```
+
+Le code ci-dessus va afficher `0`.
+
+### Question 3
+
+> **Donner et expliquer le résultat des expressions suivantes :**
+
+- `{reponse: 42} == {reponse: 42}`
+- `{reponse: 42} === {reponse: 42}`
+
+Les deux expressions ci-dessus vont afficher `false`. C'est parce que les deux objets sont différents, même si ils ont la même valeur.
+
+### Question 4
+
+> **Donner et expliquer le résultat des expressions suivantes :**
+
+- `new String("aa") == "aa"`
+- `new String("aa") === "aa"`
+
+On a `true` pour la première expression, et `false` pour la deuxième expression. C'est parce que la première expression compare les valeurs des deux objets, alors que la deuxième expression compare les objets eux-mêmes.
+
+### Question 5
+
+> **Donnez la valeur de x et expliquez :**
+
+
+```javascript
+let v = (function(x) {
+    let c = x;
+    return function(y) {
+        c *= y;
+        return c;
+    }
+})(7);
+
+v(2);
+let x = v(3);
+```
+
+
+$x = 42$ car la fonction `v` est appelée avec l'argument `3`, donc $c = 7 \times 3 = 21$. Ensuite, la fonction `v` est appelée avec l'argument `2`, donc $c = 21 \times 2 = 42$.
+
+
+### Question 6
+
+> **Créer une fonction javascript `zip` prenant deux listes en paramètre et retournant une liste de couples. Par exemple `zip([1,2,3], ["a", "b", "c"])` doit retourner `[[1, "a"], [2, "b"], [3, "c"]]`.**
+
+```javascript
+function zip(list1, list2) {
+    let result = [];
+    for (let i = 0; i < list1.length; i++) {
+        result.push([list1[i], list2[i]]);
+    }
+    return result;
+}
+```
+
+# Annale 2027-2018 (1ère session)
+
+## Exercice 1
+
+> **Qu'appelle-t-on Ajax ? Quel en est l'intérêt ? Quelles en sont les limitations ?**
+
+Ajax est un acronyme pour Asynchronous JavaScript And XML. C'est un ensemble de technologies permettant de pouvoir faire des requêtes HTTP en arrière-plan, sans avoir à recharger la page. Cela permet de pouvoir faire des requêtes HTTP sans avoir à recharger la page, et de pouvoir mettre à jour la page sans avoir à recharger la page.
+
+Les limitations d'Ajax sont les suivantes :
+
+- Les navigateurs ne supportent pas toutes les technologies d'Ajax.
+- Les requêtes HTTP ne sont pas toujours possibles.
+- Le code est en clair dans le navigateur, donc on ne peut pas faire de requêtes par exemple de connexion ou connection.
+
+## Exercice 2
+
+> **Quels autres format que le HTML peut-il être intéressant de fournir au client comme représentation d'une ressource, et pourquoi ? Comment délivrer ces formats ?**
+
+Il peut être intéressant de fournir au client d'autres formats que le HTML comme représentation d'une ressource. Par exemple, on peut fournir au client un format XML, qui est un format de données, ou encore un format JSON, qui est un format de données. Cela permet de pouvoir fournir au client des données, et non pas seulement du HTML.
+
+On peut délivrer ces formats en utilisant le header `Content-Type` dans la réponse HTTP : `Content-Type: application/json`.
+
+## Exercice 3
+
+> **Quel est le principe du DNS ? Quelle en est l'utilité ?**
+
+
+Le principe du DNS est de convertir une **URI** en **adresse IP**. 
+
+L'utilité est de pouvoir accéder à une ressource sur internet sans avoir à connaître son adresse IP (il est plus facile de retenir le nom d'un site, qu'une suite de 12 chiffres).
+
+## Exercice 4
+
+> **Qu'est-ce que le web ? Quels en sont les principes ?**
+
+
+Le Web c'est l'ensemble des ressources qui sont accessibles et distribuées sur internet (sites, images, documents, ...). 
+
+Ses principes sont les suivants :
+
+- **évolutif** : le web est un système qui évolue constamment, il est donc nécessaire de pouvoir le mettre à jour facilement
+- **universel** : le web est accessible à tous, il n'y a pas de restriction d'accès
+
+## Exercice 5
+
+> **Expliquer le concept d'hypermédia.**
+
+
+L'hypermédia c'est l'ensemble des données qui sont reliées entre elles. Ex : un site web, un document, ...
+
+Ils ont une URI qui permet de les identifier.
+
+## Exercice 6
+
+> **Qu'est-ce que le CSS ? Quel est l'intérêt de son utilisation ?**
+
+
+
+Le CSS ou **Cascading Style Sheets** est un langage de style qui permet de définir l'apparence d'un document HTML. Il utilise des sélecteurs pour cibler les éléments HTML, et leur appliquer des styles (ex : couleur, taille, ...).
+
+L'intérêt de son utilisation est de pouvoir définir l'apparence d'un document HTML sans avoir à modifier le document lui-même. On peut garder la même structure HTML (en définissant des mots importants, des titres, etc...) et changer l'apparence du document en modifiant le CSS.
+
+## Exercice 7
+
+> **Quelles sont les différentes manières d'utiliser du CSS dans une page Web ? Donner les avantages et inconvénients de chacunes, et dans quels cas les utiliser ?**
+
+On a 3 manières d'appliquer du CSS aux éléments HTML :
+
+- Modifier `inline` : on modifie l'attribut `style` de l'élément HTML. C'est pratique pour faire des tests, mais c'est pas pratique pour appliquer du CSS à plusieurs éléments. `<p style="color: red;">Hello world</p>`
+- Modifier `internal` : on modifie la balise `<style>` dans le `<head>`. C'est pratique pour appliquer du CSS à plusieurs éléments, mais c'est pas pratique pour faire des tests. `<style> p { color: red; } </style>`
+- Modifier `external` : on modifie le fichier CSS externe. C'est pratique pour appliquer du CSS à plusieurs éléments et pour partager le code CSS à plusieurs pages. `<link rel="stylesheet" href="style.css">`
+
+## Exercice 8
+
+> **Comment sélectionner en CSS :**
+
+- **un paragraphe ayant la classe `abstract`;**
+- **la section identifiée par `sec1`;**
+- **un lien survolé par la souris;**
+- **un champ de formulaire actif;**
+- **un paragraphe fils direct d'une section;**
+- **un élément mis en évidence dans une note;**
+- **une image suivant un titre de deuxième niveau ?**
+
+- `p.abstract`
+- `section#sec1`
+- `a:hover`
+- `input:focus`
+- `section > p`
+- `p em`
+- `img + h2`
+
+## Exercice 9
+
+> **Quel est le principe des web fonts ?**
+
+Le principe des web fonts c'est de pouvoir utiliser des polices de caractères qui ne sont pas installées sur l'ordinateur de l'utilisateur. On peut utiliser des polices de caractères payantes ou gratuites. 
+
+Cela permet de pouvoir vraiment choisir la police de caractères qu'on veut utiliser, et de pouvoir utiliser des polices de caractères qui ne sont pas installées sur l'ordinateur de l'utilisateur.
+
+## Exercice 10
+
+> **Donner les différentes manières de définir une couleur en CSS.**
+
+
+On peut spécifier une couleur en CSS de plusieurs manières :
+
+- En utilisant le nom de la couleur (ex : `red`, `blue`, `green`, ...)
+- En utilisant le code hexadécimal de la couleur (ex : `#ff0000`, `#0000ff`, `#00ff00`, ...)
+- En utilisant le code RGB de la couleur (ex : `rgb(255, 0, 0)`, `rgb(0, 0, 255)`, `rgb(0, 255, 0)`, ...)
+- En utilisant le code HSL de la couleur (ex : `hsl(0, 100%, 50%)`, `hsl(240, 100%, 50%)`, `hsl(120, 100%, 50%)`, ...)
+- En utilisant le code CMYK de la couleur (ex : `cmyk(0, 100%, 100%, 0)`, `cmyk(100%, 0, 100%, 0)`, `cmyk(100%, 100%, 0, 0)`, ...)
+- En utilisant une couleur transparente (ex : `transparent`, `rgba(0, 0, 0, 0)`, `hsla(0, 0%, 0%, 0)`, ...), on rajoute un canal alpha
+- En utilisant une couleur dégradée (ex : `linear-gradient(90deg, red, blue)`, `radial-gradient(red, blue)`, ...)
+
+## Exercice 11
+
+> **Qu'indique la ligne `DOCTYPE` d'un fichier HTML ? Pourquoi est-ce important et comment est-ce utilisé ?**
+
+Un DOCTYPE d'un fichier HTML indique le type de document. C'est important car cela permet au navigateur de savoir comment interpréter le document. Cela permet aussi de savoir si le document est bien formé.
+
+On peut ainsi préciser la version du langage de balisage utilisé, et le navigateur va interpréter le document en fonction de la version du langage de balisage utilisé.
+
+On peut l'utiliser en écrivant `<!DOCTYPE html>` en haut du fichier HTML.
+
+## Exercice 12
+
+> **Que signifie pour un document d'être bien formé ?**
+
+Un document est bien formé s'il respecte la syntaxe du langage de balisage. C'est-à-dire que les balises sont bien fermées, que les attributs sont bien écrits, que les balises sont bien imbriquées, ...
+
+## Exercice 13
+
+> **Donner des exemples d'élément HTML permettant de structurer un document.**
+
+
+
+On peut structurer le document de manière sémantique avec les éléments suivants :
+
+- `<header>` : pour le header
+- `<nav>` : pour la navigation
+- `<main>` : pour le contenu principal
+- `<article>` : pour un article
+- `<section>` : pour une section
+- `<aside>` : pour un contenu secondaire
+- `<footer>` : pour le footer
+- `<h1>` à `<h6>` : pour les titres
+- ...
+
+
+## Exercice 14*
+
+*Note : jsp quoi rep, c'est assez spécial*
+
+> **Comment fonctionnent les formulaires HTML, du points de vue de l'intéraction avec le serveur ?**
+
+Le serveur reçoit les données du formulaire quand l'utilisateur clique sur le bouton `submit`. Le serveur peut ensuite traiter les données du formulaire. Selon la nature de la requête, le serveur peut renvoyer une page HTML, une image, un fichier, ...
+
+## Exercice 15
+
+> **Donnez les différentes méthodes (ou verbes)  du protocole HTTP et leur sémantique.**
+
+
+Les différentes méthodes (ou verbes) du protocole HTTP sont les suivantes :
+
+- `GET` : permet de récupérer une ressource.
+- `POST` : permet de créer une ressource.
+- `PUT` : permet de modifier une ressource.
+- `DELETE` : permet de supprimer une ressource.
+- `HEAD` : permet de récupérer les métadonnées d'une ressource.
+- `OPTIONS` : permet de récupérer les méthodes HTTP supportées par le serveur.
+- `TRACE` : permet de récupérer les requêtes HTTP envoyées par le client.
+- `CONNECT` : permet de créer un tunnel vers le serveur.
+- ` PATCH` : permet de modifier une ressource.
+
+## Exercice 16
+
+> **Donnez la valeur et expliquez :**
+
+```javascript
+(function (x,z) {
+    return function (y) {return ((x<y) ? y-x : x+y) * z} })(6,10)(11) - 5
+```
+
+La valeur de cette expression est 45 car :
+
+- D'abord on appelle la fonction anonyme avec les paramètres `6` et `10`. On obtient une fonction qui prend en paramètre `y` et qui renvoie `((6<y) ? y-6 : 6+y) * 10`.
+- Puis on appelle cette fonction avec le paramètre `11`. On obtient `((6<11) ? 11-6 : 6+11) * 10` qui vaut `50`.
+- Enfin on soustrait 5 à 50, on obtient 45.
+
+## Exercice 17*
+
+*Note : je ne sais pas quoi rajouter*
+
+> **Expliquer la propagration des évènements dans le navigateur.**
+
+La propagation des évènements dans le navigateur c'est le fait que les évènements se propagent dans le DOM. Par exemple, si on a un bouton dans un formulaire, et qu'on ajoute un évènement sur le bouton, l'évènement se propagera aussi au formulaire. 
+
+## Exercice 18*
+
+> **Quelle est la particularité du système objet de javascript ? Comment fonctionne-t-il ?)**
+
+> *Note : je n'ai aucune idée pour cette question, j'attends le cours / que je vois par moi-même.*
+
+## Exercice 19
+
+> **Que vaut `this` ?**
+
+
+`this` vaut l'objet qui appelle la fonction. Par exemple, si on a une fonction `myFunction` qui est appelée par un objet `myObject`, alors `this` vaudra `myObject` dans la fonction `myFunction`.
+
+Dans une classe, `this` vaudra l'instance de la classe.
+
+## Exercice 20
+
+
+> **Donner et expliquer le résultat des expressions suivantes :**
+
+- `{reponse: 42} == {reponse: 42}`
+- `{reponse: 42} === {reponse: 42}`
+
+Les deux expressions ci-dessus vont afficher `false`. C'est parce que les deux objets sont différents, même si ils ont la même valeur.
+
+## Exercice 21
+
+> **Qu'est-ce qu'une fonction d'ordre supérieur ?**
+
+Une fonction d'ordre supérieur est une fonction qui prend en paramètre une fonction ou qui renvoie une fonction. Par exemple la fonction `map` de javascript est une fonction d'ordre supérieur : elle prend en paramètre une fonction et renvoie une fonction.
+
+```javascript
+const myArray = [1, 2, 3, 4, 5];
+
+const myFunction = (x) => x * 2;
+
+const myNewArray = myArray.map(myFunction);
+```
+
+## Exercice 22
+
+> **Quel est l'intérêt de la méthode `pushState` de l'historique ?**
+
+La méthode `pushState` de l'historique permet de modifier l'URL sans recharger la page. C'est utile pour les applications web qui utilisent le système de routage. Par exemple, si on a une application web qui utilise le système de routage, et qu'on veut afficher une page qui correspond à l'URL `/users/1`, alors on peut utiliser la méthode `pushState` pour modifier l'URL sans recharger la page.
+
+## Exercice 23
+
+> **Que signifie l'accessibilité pour un contenu web ? En quoi est-ce important ?**
+
+
+L'accessibilité pour un contenu Web c'est que le contenu est accessible à tous les utilisateurs, y compris les personnes handicapées. C'est important car on veut que tout le monde puisse accéder au contenu.
+
+Par exemple, une image de chat ne sera pas accessible pour les malvoyants car ils ne pourront pas la voir. Il faudrait donc ajouter un texte alternatif (`alt`) pour que les malvoyants puissent comprendre ce que représente l'image.open
