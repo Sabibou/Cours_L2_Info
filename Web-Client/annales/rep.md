@@ -66,7 +66,7 @@ L'intérêt de son utilisation est de pouvoir définir l'apparence d'un document
 
 > **Expliquer le principe de la cascade des règles CSS.**
 
-Le principe de la cascade, c'est qu'une règle appliquée à un élément du CSS s'appliquera en cascade sur tout les sous-éléments de cet élément. Ex : si on applique une couleur au bloc `article`, cette couleur s'appliquera à tous les éléments qui sont dans le bloc `article`.
+Le principe de la cascade, c'est que si un élément est ciblé par plusieurs règles CSS, la règle qui s'applique est celle qui a le plus de poids. Dans le cas où plusieurs règles ont le même poids, la règle qui s'applique est la dernière définie.
 
 ### Question 3
 
