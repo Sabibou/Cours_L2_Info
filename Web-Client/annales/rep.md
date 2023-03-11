@@ -452,7 +452,7 @@ Pour sélectionner en CSS :
 
 1. Les zones de navigation ayant la classe `skip`, on peut utiliser la sélecteur `.skip`. Par composition, on peut utiliser la sélecteur `nav.skip`.
 2. Les paragraphes fils direct d'une section, on peut utiliser la sélecteur `section > p`.
-3. *Je ne sais pas trop quoi dire*
+3. *Je ne sais pas trop quoi dire, en admettant que ce soit `aside` :* `aside em`.
 4. Les images suivant un titre de deuxième niveau, on peut utiliser la sélecteur `h2 + img`.
 
 ### Question 5
@@ -872,4 +872,634 @@ La méthode `pushState` de l'historique permet de modifier l'URL sans recharger 
 
 L'accessibilité pour un contenu Web c'est que le contenu est accessible à tous les utilisateurs, y compris les personnes handicapées. C'est important car on veut que tout le monde puisse accéder au contenu.
 
-Par exemple, une image de chat ne sera pas accessible pour les malvoyants car ils ne pourront pas la voir. Il faudrait donc ajouter un texte alternatif (`alt`) pour que les malvoyants puissent comprendre ce que représente l'image.open
+Par exemple, une image de chat ne sera pas accessible pour les malvoyants car ils ne pourront pas la voir. Il faudrait donc ajouter un texte alternatif (`alt`) pour que les malvoyants puissent comprendre ce que représente l'image.
+
+# Annale 2017-2018 (2e session)
+
+## Exercice 1
+
+> **Quels sont les différents types de composants ou d'acteurs du web (au niveau infrastructure) ? Expliquez leurs rôles.**
+
+Les différents types de composants ou d'acteurs du web sont les suivants :
+
+- Le client : c'est le navigateur web, les crawlers, les bots, ... qui interagissent avec le serveur.
+- Le serveur : c'est le serveur web qui reçoit les requêtes du client et qui renvoie les réponses au client.
+- Le proxy : c'est un serveur qui permet de faire passer les requêtes du client au serveur. C'est utile pour les entreprises qui veulent filtrer les requêtes des clients.
+
+## Exercice 2
+
+> **Quels sont les buts recherchés dans l'architecture du WEB ?**
+
+Les buts recherchés dans l'architecture du WEB sont les suivants :
+
+- Le WEB doit être ouvert : tout le monde peut créer des pages web et les héberger sur le WEB.
+- Le WEB doit être distribué : les serveurs sont répartis dans le monde entier.
+- Le WEB doit être évolutif : il doit être possible d'ajouter des fonctionnalités au WEB sans casser les anciennes fonctionnalités.
+- Le WEB doit être stable : les pages web doivent rester accessibles même si un serveur tombe en panne.
+
+## Exercice 3
+
+> **Qu'est-ce qu'une ressource ?**
+
+Une ressource c'est un objet qui peut être identifié par une URL (URI). Par exemple, une page web est une ressource. Une image est une ressource, un fichier est une ressource, ...Elles sont stockées sur le serveur.
+
+## Exercice 4
+
+> **En quoi le design des urls est important ? Qu'est-ce qu'une bonne url ?**
+
+
+Une URL doit être comphénsible par le serveur, mais pas forcément par les utilisateurs. On arrive sur une ressource qu'après avoir navigué URL par URL, donc on peut se permettre d'avoir des URL un peu longues et complexes.
+
+De plus, l'utilisateur n'est pas sencé comprendre l'URL. Même des fois, il ne vaut mieux pas comme pour Google Drive sinon on pourrait accéder à des fichiers dont on n'a pas les droits. Avoir une ressource avec le même nom aurait provoqué une erreur car les deux ressources auraient eu la même URL.
+
+## Exercice 5
+
+> **Que sont les media queries en CSS ? Quels en sont les intérêts ?**
+
+
+Les media queries sont des règles CSS qui permettent de définir des styles en fonction du type d'appareil qui affiche le document. Ex : si on affiche le document sur un ordinateur, on peut appliquer un style différent de celui qui s'applique sur un téléphone.
+
+On peut donc définir des règles pour dire "Si l'appareil a une taille d'écran inférieure à 500px, alors applique ce style".
+
+```css
+@media screen and (max-width: 500px) { /* Si l'écran a une taille inférieure à 500px */
+    /* style */
+}
+```
+
+## Exercice 6
+
+> **Qu'est-ce qu'un design de page flexible (ou fluide) ? Pourquoi est-ce important ? Comment le mettre en oeuvre ?**
+
+
+Un design de page flexible (ou fluide) c'est un design de page qui s'adapte à la taille de l'écran. C'est important car les utilisateurs peuvent avoir des écrans de différentes tailles, et on veut que le site soit lisible sur tous les écrans.
+
+En effet, sur un écran de 1920x1080, on peut afficher 1920 pixels de largeur. Mais sur un écran de 1280x720, on ne peut afficher que 1280 pixels de largeur. Si on a un design de page fixe, on ne pourra pas afficher tout le contenu sur un écran de 1280x720.
+
+## Exercice 7
+
+> **Donner les unités de mesures relatives en CSS.**
+
+Les unités de mesures relatives en CSS sont les suivantes :
+
+- `em` : 1em = la taille de la police du parent
+- `rem` : 1rem = la taille de la police de la racine
+- `%` : 1% = 1% de la taille du parent
+- `vw` et `vh` : 1vw = 1% de la largeur de l'écran, 1vh = 1% de la hauteur de l'écran
+- `ch` : 1ch = la largeur d'un caractère
+
+
+## Exercice 8
+
+> **Quels sont les différents modes de positionnement d'élements en CSS ?**
+
+
+Les différents modes de positionnement d'un élément en CSS sont les suivants :
+
+- `static` : c'est le mode de positionnement par défaut. L'élément est positionné selon le flux normal du document.
+- `relative` : l'élément est positionné selon le flux normal du document, mais on peut le déplacer par rapport à sa position normale.
+- `absolute` : l'élément est positionné par rapport à son parent le plus proche qui a un mode de positionnement différent de `static`. Si aucun parent n'a un mode de positionnement différent de `static`, alors l'élément est positionné par rapport à la fenêtre du navigateur.
+- `fixed` : l'élément est positionné par rapport à la fenêtre du navigateur.
+- `sticky` : l'élément est positionné par rapport à la fenêtre du navigateur, mais il reste collé à son parent le plus proche qui a un mode de positionnement différent de `static`.
+- `block` : l'élémént est positionné obligatoirement sur une nouvelle ligne, et il prend toute la largeur disponible.
+- `inline` : l'élément est positionné sur la même ligne que son parent, et il ne peut pas avoir de largeur ni de hauteur.
+
+## Exercice 9
+
+> **Qu'est-ce que le HTML ?**
+
+
+Le HTML ou **HyperText Markup Language** est un langage de balisage qui permet de définir la structure d'un document. Il utilise des balises pour définir les éléments du document (ex : titre, paragraphe, image, ...).
+
+## Exercice 10
+
+> **Qu'appelle-t-on du HTML sémantique ? Quels sont les intérêts ?**
+
+
+La sémantique HTML c'est l'utilisation des balises HTML pour définir le sens des éléments du document. Ex : on utilise la balise `<h1>` pour définir un titre, et la balise `<p>` pour définir un paragraphe.
+
+On ne veut pas définir la forme d'un élément, mais son sens. Ex : on ne veut pas définir un titre avec la balise `<p>`, mais avec la balise `<h1>`.
+
+Ça servira ensuite aux agents utilisateurs (navigateurs, moteurs de recherche, ...) pour comprendre le sens du document.
+
+## Exercice 11
+
+> **Que signifie être valide pour du HTML ? En quoi est-ce important ?**
+
+
+Un document HTML est valide s'il respecte la syntaxe du langage HTML : il n'y a pas de balises mal fermées, les balises sont bien imbriquées, les balises existent, ...
+
+C'est important car les agents utilisateurs (navigateurs, moteurs de recherche, ...) peuvent utiliser ces informations pour comprendre le sens du document (exemple : les malvoyants utilisent des lecteurs d'écran qui lisent le document HTML pour les aider à comprendre le document).
+
+## Exercice 12
+
+> **Qu'implique le fait pour HTTP d'être un protocole sans état ? En quoi est-ce souhaitable ?**
+
+
+Le fait pour HTTP d'être un protocole sans état implique que le serveur ne garde pas en mémoire les informations de la requête précédente. Cela permet de pouvoir traiter plusieurs requêtes en même temps, et de pouvoir traiter plusieurs requêtes différentes en même temps.
+
+## Exercice 13
+
+> **Donnez les cinq catégories de code de status HTTP et leurs significations.**
+
+Les cinq catégories de code de status HTTP sont les suivantes :
+
+- 1xx : Information
+- 2xx : Succès
+- 3xx : Redirection
+- 4xx : Erreur du client
+- 5xx : Erreur du serveur
+
+## Exercice 14
+
+> **Qu'appelle-t-on une closure ? Dans quel cas est-ce utile ?**
+
+Une closure est une fonction qui peut accéder aux variables définies dans la portée de la fonction qui l'a créée. C'est utile pour créer des fonctions qui peuvent accéder à des variables qui ne sont pas définies dans la fonction.
+
+Par exemple, on peut créer une fonction qui incrémente une variable :
+
+```js
+function createIncrementer() {
+    let counter = 0;
+    return function() {
+        counter++;
+        return counter;
+    }
+}
+
+let incrementer = createIncrementer();
+incrementer(); // 1
+incrementer(); // 2
+incrementer(); // 3
+```
+
+## Exercice 15
+
+> **Quelle est la différence en JavaScript entre `==` et `===` ?**
+
+`==` compare deux valeurs, et `===` compare deux valeurs et deux types. Par exemple :
+
+```js
+1 == "1"; // true
+1 === "1"; // false
+```
+
+## Exercice 16
+
+> **Comment faire de l'héritage en JavaScript ?**
+
+En JavaScript, on peut faire de l'héritage avec le mot-clé `extends`. Par exemple :
+
+```js
+class Person {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+class Student extends Person {
+    constructor(name, school) {
+        super(name);
+        this.school = school;
+    }
+}
+```
+
+## Exercice 17
+
+> **Quels sont les paradigmes du JavaScript ?**
+
+Les paradigmes du JavaScript sont les suivants :
+
+- Programmation impérative
+- Programmation fonctionnelle
+- Programmation orientée objet
+- Programmation asynchrone
+- Programmation événementielle
+
+## Exercice 18
+
+> **Expliquer le système de transtypage en JavaScript.**
+
+En JavaScript, les types sont dynamiques. Cela signifie que les variables peuvent changer de type. Par exemple :
+
+```js
+let a = 1; // a est un nombre
+a = "1"; // a est une chaîne de caractères
+```
+
+## Exercice 19
+
+> **Comment utiliser le Javascript dans une page Web ? (inclusion, exécution, ...)**
+
+
+On peut utiliser le JavaScript dans une page Web en utilisant la balise `<script>`, puis on a le choix entre écrire le code JavaScript dans la balise `<script>`, ou bien inclure un fichier JavaScript externe (`<script src="script.js"></script>`).
+
+Le code javascript est alors exécuté lorsque le navigateur rencontre la balise `<script>`. On peut alors créer des évènements sur des éléments HTML, et le code JavaScript sera exécuté lorsque l'évènement se produit (`document.getElementById("myBtn").addEventListener("click", function() { ... });`).
+
+## Exercice 20
+
+
+
+> **Créer une fonction javascript `zip` prenant deux listes en paramètre et retournant une liste de couples. Par exemple `zip([1,2,3], ["a", "b", "c"])` doit retourner `[[1, "a"], [2, "b"], [3, "c"]]`.**
+
+```javascript
+function zip(list1, list2) {
+    let result = [];
+    for (let i = 0; i < list1.length; i++) {
+        result.push([list1[i], list2[i]]);
+    }
+    return result;
+}
+```
+
+## Exercice 21
+
+> **La curryfication consiste à transformer une fonction à plusieurs paramètres en une série de fonction à un seul paramètre. Par exemple, la première fonction n'est pas currifiée, mais la seconde oui :**
+
+```javascript
+var add = function(a, b) { return a + b; };
+var addCurry = function(a) { return function(b) { return a + b; }; };
+```
+
+> **La méthode `bind(this, arg1, arg2...)` de l'objet fonction crée une version partialisée de la fonction. Par exemple :**
+
+```javascript
+var add2 = add.bind(null, 2);
+console.log(add2(40)); // 42
+```
+
+> **En utilisant le paramètre spécial `arguments`, la propriété `length` de l'objet fonction qui donne son nombre de paramètres, et la méthode `bind`, créer une fonction `curry` (miam c bon d'ailleurs) générique, qui accepte en paramètre n'importe quelle fonction et qui retourne une version curryfiée de cette fonction.**
+
+```javascript
+function curry(f) {
+    return function curried(...args) {
+        if (args.length >= f.length) {
+            return f.apply(this, args);
+        } else {
+            return function(...args2) {
+                return curried.apply(this, args.concat(args2));
+            }
+        }
+    };
+}
+```
+
+## Exercice 22
+
+> **Quelle est la valeur de `.2 + .4 == .6` ? Pourquoi ?**
+
+La valeur de `.2 + .4 == .6` est `false`. C'est parce que les nombres flottants ne sont pas représentés de manière exacte en mémoire. Par exemple, `.2` est représenté par `0.19999999999999998` en mémoire. C'est pour cela que `.2 + .4` n'est pas égal à `.6`.
+
+# Annale 2016-2017 (1ère session)
+
+## Exercice 1
+
+> **Quelles sont les trois couches fondamentales dans une application ? Où sont-elles situées dans une application WEB ?**
+
+Les trois couches fondamentales sont la couche présentation, la couche métier et la couche persistance.
+
+- La couche présentation est située dans le navigateur. Elle est chargée de l'affichage des données et de la gestion des événements.
+- La couche métier est située sur le serveur. Elle est chargée de la logique métier de l'application.
+- La couche persistance est située sur le serveur. Elle est chargée de la persistance des données.
+
+Elles permettent de séparer les différentes responsabilités de l'application.
+
+## Exercice 2
+
+> **En quoi le design des URL est important ? Qu'est-ce qu'uene "bonne" URL ?**
+
+Une URL doit être comphénsible par le serveur, mais pas forcément par les utilisateurs. On arrive sur une ressource qu'après avoir navigué URL par URL, donc on peut se permettre d'avoir des URL un peu longues et complexes.
+
+De plus, l'utilisateur n'est pas sencé comprendre l'URL. Même des fois, il ne vaut mieux pas comme pour Google Drive sinon on pourrait accéder à des fichiers dont on n'a pas les droits. Avoir une ressource avec le même nom aurait provoqué une erreur car les deux ressources auraient eu la même URL.
+
+
+## Exercice 3
+
+> **Qu'est-ce que le web? Quels en sont les principes ?**
+
+Le Web c'est l'ensemble des ressources qui sont accessibles et distribuées sur internet (sites, images, documents, ...). 
+
+Ses principes sont les suivants :
+
+
+- **évolutif** : le web est un système qui évolue constamment, il est donc nécessaire de pouvoir le mettre à jour facilement
+- **universel** : le web est accessible à tous, il n'y a pas de restriction d'accès
+
+## Exercice 4*
+
+*Notes : je ne suis pas sûr de la réponse à cette question. MAIS cette question peut-être qu'on ne l'aura pas car plutôt orientée serveur.*
+
+> **Quelles sont les propriétés principales du protocole HTTP ?**
+
+Les propriétés principales du protocole HTTP sont :
+
+- Le protocole HTTP est un protocole sans état. Cela signifie que le serveur ne garde pas en mémoire les requêtes précédentes.
+- Le protocole HTTP est un protocole orienté client. Cela signifie que le client envoie une requête au serveur, et le serveur répond à la requête.
+- Le protocole HTTP est un protocole orienté texte. Cela signifie que les données sont envoyées sous forme de texte (hyper**text**).
+- Le protocole HTTP est un protocole orienté requête/réponse. Cela signifie que le client envoie une requête au serveur, et le serveur répond à la requête.
+
+
+## Exercice 5
+
+> **Qu'implique le fait pour HTTP d'être un protocole sans état ? En quoi est-ce souhaitable ?**
+
+Le fait pour HTTP d'être un protocole sans état implique que le serveur ne garde pas en mémoire les informations de la requête précédente. Cela permet de pouvoir traiter plusieurs requêtes en même temps, et de pouvoir traiter plusieurs requêtes différentes en même temps.
+
+## Exercice 6
+
+> **Qu'indique un DOCTYPE d'un fichier HTML ? Pourquoi est-ce important et comment est-ce utilisé ?**
+
+Un DOCTYPE d'un fichier HTML indique le type de document. C'est important car cela permet au navigateur de savoir comment interpréter le document. Cela permet aussi de savoir si le document est bien formé.
+
+On peut ainsi préciser la version du langage de balisage utilisé, et le navigateur va interpréter le document en fonction de la version du langage de balisage utilisé.
+
+On peut l'utiliser en écrivant `<!DOCTYPE html>` en haut du fichier HTML.
+
+## Exercice 7*
+
+*Notes : je ne suis pas sûr de la réponse à cette question. Mais frérot, frérot..... CHUIS PAS UNE DOC, JE DOIS VRMNT SAVOIR ÇA ?? :(*
+
+*Note 2 : Euh le message en majuscule c'est une IA qui l'a écrit xD*
+
+> **Quels sont les apports du HTML5 ?**
+
+## Exercice 8
+
+On peut structurer le document de manière sémantique avec les éléments suivants :
+
+- `<header>` : pour le header
+- `<nav>` : pour la navigation
+- `<main>` : pour le contenu principal
+- `<article>` : pour un article
+- `<section>` : pour une section
+- `<aside>` : pour un contenu secondaire
+- `<footer>` : pour le footer
+- `<h1>` à `<h6>` : pour les titres
+- ...
+
+## Exercice 9
+
+> **Expliquer le principe de la cascade des règles CSS.**
+
+Le principe de la cascade, c'est que si un élément est ciblé par plusieurs règles CSS, la règle qui s'applique est celle qui a le plus de poids. Dans le cas où plusieurs règles ont le même poids, la règle qui s'applique est la dernière définie.
+
+## Exercice 10
+
+> **Donner la syntaxe générale d'une règle CSS.**
+
+La syntaxe générale d'une règle CSS est la suivante :
+
+```css
+selector {
+    property: value;
+}
+```
+
+## Exercice 11
+
+
+> **Qu'est-ce qu'un design de page flexible (ou fluide) ? Pourquoi est-ce important ?**
+
+Un design de page flexible (ou fluide) c'est un design de page qui s'adapte à la taille de l'écran. C'est important car les utilisateurs peuvent avoir des écrans de différentes tailles, et on veut que le site soit lisible sur tous les écrans.
+
+En effet, sur un écran de 1920x1080, on peut afficher 1920 pixels de largeur. Mais sur un écran de 1280x720, on ne peut afficher que 1280 pixels de largeur. Si on a un design de page fixe, on ne pourra pas afficher tout le contenu sur un écran de 1280x720.
+
+## Exercice 12
+
+> **Quel est le principe des web fonts ?**
+
+
+
+Le principe des web fonts c'est de pouvoir utiliser des polices de caractères qui ne sont pas installées sur l'ordinateur de l'utilisateur. On peut utiliser des polices de caractères payantes ou gratuites. 
+
+Cela permet de pouvoir vraiment choisir la police de caractères qu'on veut utiliser, et de pouvoir utiliser des polices de caractères qui ne sont pas installées sur l'ordinateur de l'utilisateur.
+
+
+## Exercice 13
+
+> **Qu'est-ce qu'une application internet riche ? Quels en sont les avantages et inconvénients ?**
+
+Une application internet riche c'est une application qui est exécutée dans le navigateur de l'utilisateur. Celui-ci n'a pas besoin d'installer l'application sur son ordinateur : pour les mise à jour, il suffit de recharger la page.
+
+Les avantages sont :
+
+- Pas besoin d'installer l'application sur l'ordinateur de l'utilisateur
+- Pas besoin de mettre à jour l'application sur l'ordinateur de l'utilisateur
+
+Les inconvénients sont :
+
+- Le navigateur doit être à jour
+- Le navigateur doit supporter l'application
+- L'ordinateur fait tout les calculs, donc il peut être lent
+- L'ordinateur doit avoir une bonne connexion internet des fois
+
+## Exercice 14
+
+> **Que vaut :**
+
+```js
+(function (x) {
+    return function (y) { return (x % y == 0) ? x / y : x * y; } }
+)(16)(4) * 334 + 1;
+```
+
+La réponse est 1337.
+
+En effet, on a :
+
+- `x = 16`
+- Le code de la fonction est `return (x % y == 0) ? x / y : x * y;`
+- `y = 4`
+- `x % y == 0` est vrai
+- `x / y` est égal à 4
+- `x * y` est égal à 64
+- `x` est égal à 4
+- `x * 334 + 1` est égal à 1337
+
+*On en parle de l'exercice ?*
+
+## Exercice 15*
+
+*Note : je ne sais pas quoi rajouter*
+
+> **Expliquer la propagration des évènements dans le navigateur.**
+
+La propagation des évènements dans le navigateur c'est le fait que les évènements se propagent dans le DOM. Par exemple, si on a un bouton dans un formulaire, et qu'on ajoute un évènement sur le bouton, l'évènement se propagera aussi au formulaire. 
+
+## Exercice 16
+
+
+> **La curryfication consiste à transformer une fonction à plusieurs paramètres en une série de fonction à un seul paramètre. Par exemple, la première fonction n'est pas currifiée, mais la seconde oui :**
+
+```javascript
+var add = function(a, b) { return a + b; };
+var addCurry = function(a) { return function(b) { return a + b; }; };
+```
+
+> **La méthode `bind(this, arg1, arg2...)` de l'objet fonction crée une version partialisée de la fonction. Par exemple :**
+
+```javascript
+var add2 = add.bind(null, 2);
+console.log(add2(40)); // 42
+```
+
+> **En utilisant le paramètre spécial `arguments`, la propriété `length` de l'objet fonction qui donne son nombre de paramètres, et la méthode `bind`, créer une fonction `curry` (miam c bon d'ailleurs) générique, qui accepte en paramètre n'importe quelle fonction et qui retourne une version curryfiée de cette fonction.**
+
+```javascript
+function curry(f) {
+    return function curried(...args) {
+        if (args.length >= f.length) {
+            return f.apply(this, args);
+        } else {
+            return function(...args2) {
+                return curried.apply(this, args.concat(args2));
+            }
+        }
+    };
+}
+```
+
+
+## Exercice 17
+
+
+> **Que valent les expressions suivantes ?**
+
+1.
+
+```js
+new Date(0) + 0
+```
+
+Le code ci-dessus va afficher la date du 1er janvier 1970.
+
+```js
+new Date(0) - 0
+```
+
+Le code ci-dessus va afficher `0`.
+
+## Exercice 18
+
+> **Pourquoi dit-on que JavaScript est un langage dynamique ?**
+
+JavaScript est un langage dynamique car on peut changer le type d'une variable à tout moment. Par exemple, on peut faire :
+
+```js
+var a = 1;
+a = "Hello";
+```
+
+De plus on peut faire :
+
+```js
+var a = 1;
+a = a + "Hello";
+```
+
+## Exercice 19
+
+> **Comment faire de l'héritage en JavaScript ?**
+
+En JavaScript, on peut faire de l'héritage en utilisant le mot clé `extends`. Par exemple, on peut faire :
+
+```js
+class A {
+    constructor() {
+        this.a = 1;
+    }
+}
+
+class B extends A {
+    constructor() {
+        super();
+        this.b = 2;
+    }
+}
+```
+
+## Exercice 20
+
+> **Quelle est la valeur de `.4 + .2 == .6` ? Pourquoi ?**
+
+
+La valeur de `.2 + .4 == .6` est `false`. C'est parce que les nombres flottants ne sont pas représentés de manière exacte en mémoire. Par exemple, `.2` est représenté par `0.19999999999999998` en mémoire. C'est pour cela que `.2 + .4` n'est pas égal à `.6`.
+
+## Exercice 21*
+
+*Note : Euh je sais pas quoi dire de plus à part Captain Obvious, on a eu aucune info*
+
+> **Pourquoi dit-on que Javascript est un langage interprété ?**
+
+JavaScript est un langage interprété car le code JavaScript est interprété par le navigateur. C'est pour cela que le code JavaScript est exécuté ligne par ligne.
+
+## Exercice 22
+
+> **Quel est l'intérêt de la méthode `pushState` de l'historique ?**
+
+La méthode `pushState` de l'historique permet de modifier l'URL sans recharger la page. C'est utile pour les applications web qui utilisent le système de routage. Par exemple, si on a une application web qui utilise le système de routage, et qu'on veut afficher une page qui correspond à l'URL `/users/1`, alors on peut utiliser la méthode `pushState` pour modifier l'URL sans recharger la page.
+
+## Exercice 23*
+
+*Note : Je sais pas quoi dire de plus, pour le coup ça on l'a absolument pas vu*
+
+> **Donner une expression régulière qui valide un numéro de téléphone et acceptant différentes écritures :**
+
+On peut faire :
+
+```js
+var regex = /^(\+33|0)[1-9](\d{2}){4}$/;
+// Description : 
+// On commence par un +33 ou un 0
+// On a un chiffre entre 1 et 9
+// On a 4 groupes de 2 chiffres
+```
+
+## Exercice 24
+
+> **Que vaut `this` en Javascript ?**
+
+`this` vaut l'objet qui appelle la fonction. Par exemple, si on a une fonction `myFunction` qui est appelée par un objet `myObject`, alors `this` vaudra `myObject` dans la fonction `myFunction`.
+
+Dans une classe, `this` vaudra l'instance de la classe.
+
+## Exercice 25
+
+
+> **Créer une fonction javascript `zip` prenant deux listes en paramètre et retournant une liste de couples. Par exemple `zip([1,2,3], ["a", "b", "c"])` doit retourner `[[1, "a"], [2, "b"], [3, "c"]]`.**
+
+```javascript
+function zip(list1, list2) {
+    let result = [];
+    for (let i = 0; i < list1.length; i++) {
+        result.push([list1[i], list2[i]]);
+    }
+    return result;
+}
+```
+
+
+## Exercice 26
+
+
+> **Qu'appelle-t-on une closure ? Dans quel cas est-ce utile ?**
+
+Une closure est une fonction qui peut accéder aux variables définies dans la portée de la fonction qui l'a créée. C'est utile pour créer des fonctions qui peuvent accéder à des variables qui ne sont pas définies dans la fonction.
+
+Par exemple, on peut créer une fonction qui incrémente une variable :
+
+```js
+function createIncrementer() {
+    let counter = 0;
+    return function() {
+        counter++;
+        return counter;
+    }
+}
+
+let incrementer = createIncrementer();
+incrementer(); // 1
+incrementer(); // 2
+incrementer(); // 3
+```

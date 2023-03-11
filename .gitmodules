@@ -10,3 +10,6 @@
 [submodule "Related Personal Projects/homepage-2023"]
 	path = Related Personal Projects/homepage-2023
 	url = git@gitlab.isima.fr:rovandemer/homepage-2023.git
+[submodule "ZITF"]
+	path = ZITF
+	url = git@gitlab.isima.fr:rovandemer/zitf.git
