@@ -285,3 +285,472 @@ class Main {
 }
 
 ```
+
+# Annale 2018-2019 (1ère session)
+
+## Exercice 1
+
+### Question 1
+
+> **En Java, qu'est-ce que le boxing et l'unboxing ? Pourquoi est-ce nécessaire ?**
+
+Le boxing est le fait de transformer un type primitif en un objet : `int` -> `Integer`. L'unboxing est le fait de transformer un objet en un type primitif : `Integer` -> `int`.
+
+Cela est nécessaire car les collections ne peuvent contenir que des objets et non des types primitifs. Par exemple, on ne peut pas mettre un `int` dans une `List<Integer>`, il faut donc le transformer en `Integer`.
+
+### Question 2
+
+> **Pourquoi est-il préférable de ne dépendre que des interfaces ?**
+
+Cela permet de ne pas dépendre d'une implémentation particulière. Par exemple, on peut utiliser une `ArrayList` ou une `LinkedList` sans que cela ne change le code. 
+
+Par exemple s'il y a une fonction `sort` qui prend en paramètre une `List` et qui trie cette liste, on peut utiliser un tri par insertion ou un tri par fusion sans que cela ne change le code de la fonction `sort` (du point de vue de l'utilisateur).
+
+### Question 3
+
+> **Donner les critères permettant de garantir la substituabilité d'un sous-type.**
+
+Liskov nous donne des critères pour garantir la substituabilité d'un sous-type :
+
+- Une méthode de sous type renvoie un sous type
+- Le sous type doit toujours appartenir à la famille du type parent
+- Il donne moins de fonctionnalités que le type parent
+- Garde les propriétés du type parent
+- Conservation de la mutabilité et des états : si le type parent est mutable, le sous type doit l'être aussi. De même pour les états
+
+### Question 4
+
+> **Quels sont les intérêts d'utiliser des accesseurs ?**
+
+Les intérêts d'utiliser des accesseurs sont :
+
+- On peut vérifier les valeurs des attributs
+- On peut appliquer des traitements sur les attributs
+- On n'a pas accès sur la référence de l'attribut, on ne renvoie que la valeur (pour garder l'encapsulation)
+
+### Question 5
+
+> **Quelles sont les caractéristiques principales du langage Java ?**
+
+Les caractéristiques principales du langage Java sont :
+
+- Orienté objet
+- Typé statiquement
+- Garbage collector
+- Multiplateforme (grâce à la VM)
+- Stable
+- Ancien donc il a une grande communauté
+
+### Question 6
+
+> **Qu'est-ce que l'héritage? Quelles alternatives peut-on utiliser?**
+
+L'héritage est une relation entre deux classes où une classe fille hérite des attributs et méthodes de sa classe parente. Cela permet de réutiliser du code et d'organiser le code en classes plus petites.
+
+On peut utiliser la délégation pour remplacer l'héritage. Par exemple, on peut avoir une classe `Etudiant` qui contient un attribut `Personne` et qui redéfinit les méthodes de `Personne` pour qu'elles soient plus spécifiques à un `Etudiant`.
+
+### Question 7
+
+> **Expliquez la notion de sous-typage ? Quel en est l'intérêt ?**
+
+Le sous-typage est une relation entre deux classes où une classe fille est un sous-type de sa classe parente. Cela permet de réutiliser du code et d'organiser le code en classes plus petites.
+
+On peut ainsi faire des plus petites capsules de code qui sont plus facilement réutilisables : un `Véhicule` peut être un `Avion` ou un `Voiture` par exemple.
+
+### Question 8
+
+> **Qu'est-ce que le polymorphisme ? Quels en sont les types supportés par Java ?**
+
+Le polymorphisme est la possibilité de voir un objet de plusieurs façons, comme appartenant à plusieurs types à la fois, ou pour une opération de s’appliquer à plusieurs types. Il existe différentes formes de polymorphisme (voir notamment transtypage, redéfinition, surcharge, type générique, sous-typage).
+
+### Question 9
+
+> **Que signifie le mot clé Java `final` utilisé sur :**
+
+- un attribut : l'attribut ne peut pas être modifié dans la classe même ou dans une classe fille
+- une méthode : la méthode ne peut pas être redéfinie dans une classe fille
+- une classe : la classe ne peut pas être étendue : elle ne peut pas avoir de classe fille
+
+### Question 10
+
+> **Qu'est-ce que le JIT et à quoi sert-il ?**
+
+Le JIT (Just In Time) est un compilateur qui compile le code Java en code machine à l'exécution. Il permet d'optimiser le code et de le rendre plus rapide. 
+
+Si une méthode est appelée plusieurs fois, le JIT va compiler le code de cette méthode pour qu'il soit plus rapide à l'exécution.
+
+## Exercice 2
+
+> **Soient les deux classes Java suivantes :**
+
+```java
+
+```java
+class A {
+    private int a; 
+    
+    A (int v) {
+        a = v;
+    }
+
+    public int foo(A other) {
+        return a + other.a;
+    }
+
+}
+
+class B extends A {
+
+    B (int v) {
+        super(v);
+    }
+
+    @Override
+    public int foo(B other) {
+        return 42;
+    }
+
+}
+```
+
+Le programme ne compile pas.
+
+- La classe `B` hérite de la classe `A` mais la méthode `foo` n'a pas le même type de retour. La méthode `foo` de la classe `A` renvoie un `int` et la méthode `foo` de la classe `B` renvoie un `B`. Cela ne respecte pas la substitution de Liskov.
+- Il en va de même pour la méthode `foo` de la classe `B` qui ne prend pas en paramètre un `A` mais un `B`.
+
+## Exercice 3
+
+**TOUT L'EXERCICE NE SERA PAS À L'EXAM CAR ON DOIT CODER**
+
+
+> **On se propose ici de mettre en oeuvre une classe représentant un point géométrique, dont voici une représentation UML partielle :**
+
+```plantuml
+@startuml
+
+class Point {
+    + name : String {readOnly}
+    + x : Double
+    + y : Double
+    /angle : Double
+    /radius : Double
+    + move(deltaX : Double, deltaY : Double) : void
+    + scale(ratio : Double) : void
+    + rotate(angle : Double) : void
+}
+
+@enduml
+```
+
+> **$x$ et $y$ représentent les coordonnées carthésiennes, et `angle` et `radius` représentent les coordonnées polaires. La méthode `rotate` permet de modifier l'angle, et la méthode `scale` multiplie $x$ et $y$ par le ratio donné. `move` permet de déplacer le point (en relatif).**
+
+### Question 1
+
+> **Donnez le code Java correspondant, en respectant les conventions du langage (attention le diagramme n'est pas au niveau d'abstraction de l'implémentation, il faudra donc ajouter les éléments nécessaires).**
+
+```java
+class Point {
+    private String name;
+    private double x;
+    private double y;
+    private double angle;
+    private double radius;
+
+    public Point(String name, double x, double y) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.angle = Math.atan2(y, x);
+        this.radius = Math.sqrt(x * x + y * y);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void move(double deltaX, double deltaY) {
+        this.x += deltaX;
+        this.y += deltaY;
+        this.angle = Math.atan2(y, x);
+        this.radius = Math.sqrt(x * x + y * y);
+    }
+
+    public void scale(double ratio) {
+        this.x *= ratio;
+        this.y *= ratio;
+        this.angle = Math.atan2(y, x);
+        this.radius = Math.sqrt(x * x + y * y);
+    }
+
+    public void rotate(double angle) {
+        this.angle += angle;
+        this.x = radius * Math.cos(angle);
+        this.y = radius * Math.sin(angle);
+    }
+}
+```
+
+### Question 2
+
+> **On veut pouvoir créer un point en spécifiant soit ses coordonnées cartésiennes, soit ses coordonnées polaires. Il faudra donc ajouter les éléments nécessaires à la classe pour pouvoir faire cela.**
+
+```java
+class Point {
+    private String name;
+    private double x;
+    private double y;
+    private double angle;
+    private double radius;
+
+    public Point(String name, double x, double y) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.angle = Math.atan2(y, x);
+        this.radius = Math.sqrt(x * x + y * y);
+    }
+
+    public Point(String name, double angle, double radius, boolean polar) {
+        this.name = name;
+        this.angle = angle;
+        this.radius = radius;
+        this.x = radius * Math.cos(angle);
+        this.y = radius * Math.sin(angle);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void move(double deltaX, double deltaY) {
+        this.x += deltaX;
+        this.y += deltaY;
+        this.angle = Math.atan2(y, x);
+        this.radius = Math.sqrt(x * x + y * y);
+    }
+
+    public void scale(double ratio) {
+        this.x *= ratio;
+        this.y *= ratio;
+        this.angle = Math.atan2(y, x);
+        this.radius = Math.sqrt(x * x + y * y);
+    }
+
+    public void rotate(double angle) {
+        this.angle += angle;
+        this.x = radius * Math.cos(angle);
+        this.y = radius * Math.sin(angle);
+    }
+}
+```
+
+### Question 3
+
+> **On veut que deux points soient considérés égaux s'ils sont au même endroit. Comment faire ? Donnez le code Java correspondant.**
+
+```java
+class Point {
+    private String name;
+    private double x;
+    private double y;
+    private double angle;
+    private double radius;
+
+    public Point(String name, double x, double y) {
+        this.name = name;
+        this.x = x;
+        this.y = y;
+        this.angle = Math.atan2(y, x);
+        this.radius = Math.sqrt(x * x + y * y);
+    }
+
+    public Point(String name, double angle, double radius, boolean polar) {
+        this.name = name;
+        this.angle = angle;
+        this.radius = radius;
+        this.x = radius * Math.cos(angle);
+        this.y = radius * Math.sin(angle);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void move(double deltaX, double deltaY) {
+        this.x += deltaX;
+        this.y += deltaY;
+        this.angle = Math.atan2(y, x);
+        this.radius = Math.sqrt(x * x + y * y);
+    }
+
+    public void scale(double ratio) {
+        this.x *= ratio;
+        this.y *= ratio;
+        this.angle = Math.atan2(y, x);
+        this.radius = Math.sqrt(x * x + y * y);
+    }
+
+    public void rotate(double angle) {
+        this.angle += angle;
+        this.x = radius * Math.cos(angle);
+        this.y = radius * Math.sin(angle);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Point)) {
+            return false;
+        }
+        Point other = (Point) obj;
+        return this.x == other.x && this.y == other.y;
+    }
+}
+```
+
+On a rajouté `equals` qui compare les coordonnées cartésiennes des deux points.
+
+### Question 4
+
+> **On souhaite étendre cette classe en ajoutant de la couleur. Une couleur est représentée par trois valeurs entières dans $[0, 255]$ (rouge, vert et bleu). Donner le diagramme UML et le code correspondants (la classe `Point` doit rester inchangée).**
+
+```plantuml
+@startuml
+
+class Point {
+}
+
+class ColorPoint {
+    - int red
+    - int green
+    - int blue
+    + ColorPoint(String name, double x, double y, int red, int green, int blue)
+    + ColorPoint(String name, double angle, double radius, boolean polar, int red, int green, int blue)
+    + int getRed()
+    + int getGreen()
+    + int getBlue()
+}
+
+Point <|-- ColorPoint
+
+@enduml
+```
+
+```java
+class ColorPoint extends Point {
+    private int red;
+    private int green;
+    private int blue;
+
+    public ColorPoint(String name, double x, double y, int red, int green, int blue) {
+        super(name, x, y);
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+    }
+
+    public ColorPoint(String name, double angle, double radius, boolean polar, int red, int green, int blue) {
+        super(name, angle, radius, polar);
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+    }
+
+    public int getRed() {
+        return red;
+    }
+
+    public int getGreen() {
+        return green;
+    }
+
+    public int getBlue() {
+        return blue;
+    }
+}
+```
+
+### Question 5
+
+> **Une forme est un ensemble d'au moins deux points. Donnez le diagramme UML correspondant. Expliquez la mise en oeuvre (pas de code nécessaire).**
+
+```plantuml
+@startuml
+
+class Point {
+}
+
+class Forme {
+    - List<Point> points
+    + Forme(List<Point> points)
+    + List<Point> getPoints()
+}
+
+Point <-- Forme
+
+@enduml
+```
+
+On a une classe `Forme` qui contient une liste de points. On peut donc créer une forme avec un seul point, mais c'est un peu bizarre.
+
+
+### Question 6
+
+> **Comment gérer l'égalité des points en prenant en compte les points colorés ?**
+
+`instanceof` avec un point de la classe `ColorPoint` renverra `true` avec un point de la classe `Point` car c'est une sous-classe. On peut donc utiliser `instanceof` pour vérifier si un point est coloré ou non.
+
+

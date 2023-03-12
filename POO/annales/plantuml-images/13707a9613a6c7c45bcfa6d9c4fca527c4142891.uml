@@ -1,0 +1,14 @@
+@startuml
+
+class Point {
+    + name : String {readOnly}
+    + x : Double
+    + y : Double
+    /angle : Double
+    /radius : Double
+    + move(deltaX : Double, deltaY : Double) : void
+    + scale(ratio : Double) : void
+    + rotate(angle : Double) : void
+}
+
+@enduml

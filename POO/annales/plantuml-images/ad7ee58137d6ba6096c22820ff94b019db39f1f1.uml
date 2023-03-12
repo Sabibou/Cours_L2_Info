@@ -1,0 +1,19 @@
+@startuml
+
+class Point {
+}
+
+class ColorPoint {
+    - int red
+    - int green
+    - int blue
+    + ColorPoint(String name, double x, double y, int red, int green, int blue)
+    + ColorPoint(String name, double angle, double radius, boolean polar, int red, int green, int blue)
+    + int getRed()
+    + int getGreen()
+    + int getBlue()
+}
+
+Point <|-- ColorPoint
+
+@enduml

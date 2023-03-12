@@ -1,0 +1,14 @@
+@startuml
+
+class Point {
+}
+
+class Forme {
+    - List<Point> points
+    + Forme(List<Point> points)
+    + List<Point> getPoints()
+}
+
+Point <-- Forme
+
+@enduml
