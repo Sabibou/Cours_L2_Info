@@ -362,9 +362,7 @@ En Javascript, `==` compare deux valeurs, et `===` compare deux valeurs et deux 
 
 > **Que vaut `this` en Javascript ?**
 
-`this` vaut l'objet qui appelle la fonction. Par exemple, si on a une fonction `myFunction` qui est appelée par un objet `myObject`, alors `this` vaudra `myObject` dans la fonction `myFunction`.
-
-Dans une classe, `this` vaudra l'instance de la classe.
+`this` est le contexte d'exécution. Par exemple, si on a une fonction `myFunction()`, et qu'on appelle `myFunction()`, alors `this` vaudra `window`. Si on a une fonction `myFunction()` dans un objet `myObject`, et qu'on appelle `myObject.myFunction()`, alors `this` vaudra `myObject`.
 
 ### Question 6
 
