@@ -603,7 +603,68 @@ let x = v(3);
 ```
 
 
-$x = 42$ car la fonction `v` est appelée avec l'argument `3`, donc $c = 7 \times 3 = 21$. Ensuite, la fonction `v` est appelée avec l'argument `2`, donc $c = 21 \times 2 = 42$.
+Si je décrypte, tu as `v` égale au **résultat** d'une fonction anonyme (qui n'a pas de nom) que l'on appelle avec `x = 7`.
+
+Si on développe et que l'on remplace `x` par `7`, on a :
+
+```javascript
+let v = (function(7) {
+    let c = 7;
+    return function(y) {
+        c *= y;
+        return c;
+    }
+})(7);
+```
+
+Ce qui donne :
+
+```javascript
+let v = (function() {
+    let c = 7;
+    return function(y) {
+        c *= y;
+        return c;
+    }
+})();
+
+// Équivalent à :
+let c = 7;
+
+function v(y) {
+    c *= y;
+    return c;
+}
+```
+
+Ensuite, on appelle `v` avec `2` :
+
+```javascript
+v(2);
+
+// Équivalent à :
+function v(2) {
+    c *= 2; // On se rappelle que c = 7
+    return c;
+}
+```
+
+Donc `c` vaut `14`, on le retourne et grâce à la fonction `v`, sa valeur est conservée. (On peut le vérifier en faisant `console.log(c)`).
+
+Ensuite, on appelle `v` avec `3` :
+
+```javascript
+x = v(3);
+
+// Équivalent à :
+function v(3) {
+    c *= 3; // On se rappelle que c = 14
+    return c;
+}
+```
+
+Donc `c` vaut `14 * 3 = 42`, on le retourne et on le stocke dans `x`.
+
 
 
 ### Question 6
