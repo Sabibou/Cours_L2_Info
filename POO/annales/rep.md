@@ -69,9 +69,13 @@ Cela permet de ne pas dépendre d'une implémentation particulière. Par exemple
 
 > **Donner les critères permettant de garantir la substituabilité d'un sous-type.**
 
-Un sous-type doit pouvoir être utilisé à la place de son type parent. Pour cela, il doit implémenter toutes les méthodes de son type parent et ne pas en ajouter. 
+Liskov nous donne des critères pour garantir la substituabilité d'un sous-type :
 
-De plus, il doit pouvoir être utilisé dans un contexte où le type parent est attendu. Exemple : Un triangle est une forme, si une forme est dessinable, alors un triangle est dessinable.
+- Une méthode de sous type renvoie un sous type
+- Le sous type doit toujours appartenir à la famille du type parent
+- Il donne moins de fonctionnalités que le type parent
+- Garde les propriétés du type parent
+- Conservation de la mutabilité et des états : si le type parent est mutable, le sous type doit l'être aussi. De même pour les états
 
 ### Question 9
 
@@ -97,15 +101,15 @@ Une classe `final` ne peut pas être étendue (héritée). On peut dire que c'es
 
 L'héritage est une relation entre deux classes où une classe fille hérite des attributs et méthodes de sa classe parente. Cela permet de réutiliser du code et d'organiser le code en classes plus petites.
 
-On peut utiliser la composition à la place de l'héritage. Cela consiste à créer une classe qui contient une instance d'une autre classe. Par exemple, on peut avoir une classe `Etudiant` qui contient une instance de la classe `Personne`. 
+On peut utiliser la délégation pour remplacer l'héritage. Par exemple, on peut avoir une classe `Etudiant` qui contient un attribut `Personne` et qui redéfinit les méthodes de `Personne` pour qu'elles soient plus spécifiques à un `Etudiant`.
 
 ### Question 11
 
 > **Expliquez ce que sont les classes génériques.**
 
-Les classes génériques sont des classes qui peuvent prendre en paramètre un type. Par exemple, on peut avoir une classe `Liste` qui peut prendre en paramètre un type `T` et qui contient une liste de `T`.
+Les classes génériques sont des classes qui ne connaisse pas le type de leurs attributs avant l'instantiation. Au moment de l'instantiation et lors des sous-typages, on connaîtra le type des attributs. 
 
-On peut ainsi faire une `Liste` de `String`, de `Integer`, de `Etudiant`, etc. sans avoir à créer une classe pour chaque type.
+Cela permet de créer des classes qui peuvent être utilisées avec n'importe quel type d'attribut. Par exemple, on peut avoir une classe `Liste` qui contient une liste d'objets de type `T` et qui peut être utilisée avec n'importe quel type d'objet.
 
 ### Question 12
 
@@ -147,9 +151,34 @@ class B extends A {
 
 > **Ce programme affiche une erreur à la compilation. Pourquoi?**
 
-La méthode `foo` de la classe `B` écrase la méthode `foo` de la classe `A`. Or les types passé en paramètre sont différents. La méthode `foo` de la classe `A` prend en paramètre un objet de type `A`, alors que la méthode `foo` de la classe `B` prend en paramètre un objet de type `B`.
+- La classe `B` hérite de la classe `A` mais la méthode `foo` n'a pas le même type de retour. La méthode `foo` de la classe `A` renvoie un `int` et la méthode `foo` de la classe `B` renvoie un `B`. Cela ne respecte pas la substitution de Liskov.
+- Il en va de même pour la méthode `foo` de la classe `B` qui ne prend pas en paramètre un `A` mais un `B`.
 
 ## Exercice 3
+
+> **Le programme Java suivant compile et s'exécute sans erreurs. Qu'affiche-t-il et pourquoi?**
+
+```java
+public class Indecision {
+    public static void main(String[] args) {
+        System.out.println(decision());
+    }
+
+    static String decision() {
+        try {
+            return "to be";
+        } finally {
+            return "not to be";
+        }
+    }
+}
+```
+
+Lorsque la méthode `decision` est appelée, elle renvoie la chaîne de caractères `"to be"` car la méthode `decision` renvoie la valeur de retour de la dernière instruction exécutée. Cependant, la méthode `decision` contient un bloc `finally` qui est exécuté avant la fin de la méthode. Ce bloc `finally` contient une instruction `return` qui renvoie la chaîne de caractères `"not to be"`. C'est cette valeur qui est renvoyée par la méthode `decision`.
+
+Donc le programme affiche `"not to be"`.
+
+## Exercice 4
 
 > **Soit le diagramme de classe conceptuel suivant :**
 
