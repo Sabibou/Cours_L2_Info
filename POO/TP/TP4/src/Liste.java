@@ -60,7 +60,6 @@ class Liste<T> {
     public void ajouter(int index, T element) {
         if (index < 0 || index > this.nbElements) {
 
-            System.out.println("Index invalide");
             return;
 
         }
@@ -93,7 +92,6 @@ class Liste<T> {
         
         if (index < 0 || index >= this.nbElements) {
 
-            System.out.println("Index invalide");
             return;
 
         }
@@ -138,7 +136,6 @@ class Liste<T> {
 
         if (index < 0 || index >= this.nbElements) {
 
-            System.out.println("Index invalide");
             return null;
 
         }
@@ -151,7 +148,6 @@ class Liste<T> {
     
         if (index < 0 || index >= this.nbElements) {
 
-            System.out.println("Index invalide");
             return;
 
         }

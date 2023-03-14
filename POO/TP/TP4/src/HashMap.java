@@ -1,107 +1,107 @@
 package TP4.src;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 public class HashMap<K, V> {
     
+    // On stock les éléments dans un tableau de listes
     private int size;
-    private ArrayList<K> keys;
-    private ArrayList<V> values;
+    private ArrayList<Pair>[] table;
 
-    public HashMap() {
+    class Pair {
+        private K key;
+        private V value;
 
-        this.size = 0;
-        this.keys = new ArrayList<K>();
-        this.values = new ArrayList<V>();
-
-    }
-    
-    public void put(K key, V value) {
-
-        if (this.keys.contains(key)) {
-
-            int index = this.keys.indexOf(key);
-            this.values.set(index, value);
-
-        } else {
-
-            this.keys.add(key);
-            this.values.add(value);
-            this.size++;
-
+        public Pair(K key, V value) {
+            this.key = key;
+            this.value = value;
         }
 
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public HashMap(int size) {
+        this.size = size;
+        table = new ArrayList[size];
+
+        for (int i = 0; i < size; i++) {
+            table[i] = new ArrayList<Pair>();
+        }
+    }
+
+    public void put(K key, V value) {
+
+        if (key == null) {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+
+        int hash = key.hashCode() % size;
+
+        if (Objects.isNull(table[hash])) {
+            table[hash] = new ArrayList<Pair>();
+        }
+
+        table[hash].add(new Pair(key, value));
     }
     
     public V get(K key) {
+        // getEntry
+        int hash = key.hashCode() % size;
 
-        if (this.keys.contains(key)) {
-
-            int index = this.keys.indexOf(key);
-            return this.values.get(index);
-
-        } else {
-
+        if (Objects.isNull(table[hash])) {
             return null;
-
         }
 
+        for (Pair pair : table[hash]) {
+            if (pair.getKey().equals(key)) {
+                return pair.getValue();
+            }
+        }
+
+        return null;
     }
 
-    public void remove(K key) {
+    public boolean contains(K key) {
+        int hash = key.hashCode() % size;
 
-        if (this.keys.contains(key)) {
+        return !(Objects.isNull(table[hash]) || Objects.isNull(get(key)));
+    }
 
-            int index = this.keys.indexOf(key);
-            this.keys.remove(index);
-            this.values.remove(index);
-            this.size--;
-
+    public boolean containsValue(V value) {
+        for (ArrayList<Pair> list : table) {
+            for (Pair pair : list) {
+                if (pair.getValue().equals(value)) {
+                    return true;
+                }
+            }
         }
 
+        return false;
+    }
+    
+    public void delete(K key) {
+        int hash = key.hashCode() % size;
+
+        if (Objects.isNull(table[hash])) {
+            throw new IllegalArgumentException("Key not found");
+        }
+
+        table[hash].remove(key.hashCode() % size);
     }
 
     public int size() {
 
-        return this.size;
-
-    }
-
-    public boolean containsKey(K key) {
-
-        return this.keys.contains(key);
-
-    }
-
-    public boolean containsValue(V value) {
-
-        return this.values.contains(value);
-
-    }
-
-    // Si c'est un int, on autorise le get
-    public int getObject(K key) {
-
-        // On vérifie le type
-        if (this.values.get(0) instanceof Integer) {
-
-            // On vérifie si la clé existe
-            if (this.keys.contains(key)) {
-
-                int index = this.keys.indexOf(key);
-                return (int) this.values.get(index);
-
-            } else {
-
-                return -1;
-
-            }
-
-        } else {
-
-            return -1;
-
-        }
+        return this.size();
 
     }
 

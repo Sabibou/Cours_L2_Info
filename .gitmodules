@@ -13,3 +13,6 @@
 [submodule "ZITF"]
 	path = ZITF
 	url = git@gitlab.isima.fr:rovandemer/zitf.git
+[submodule "Related Personal Projects/pandoc-filter"]
+	path = Related Personal Projects/pandoc-filter
+	url = git@gitlab.isima.fr:rovandemer/students-pandoc-filters.git
