@@ -1,3 +1,11 @@
+---
+author: Robin VAN DE MERGHEL
+date: 2023
+title: Bases de données
+lang: fr
+geometry: margin=2cm
+---
+
 # Cours magistral 1
 
 - Histoire des bases de données (du FBI à IBM)
