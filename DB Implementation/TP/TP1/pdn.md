@@ -325,7 +325,7 @@ table(DELEGUE) {
 ETUDIANT "1" -- "0..*" GROUPE : est dans
 GROUPE "1" -- "0..*" INSCRIPTION : a pour étudiant
 INSCRIPTION "1" -- "1" ETUDIANT : est pour
-COURS "1" -- "0..*" INSCRIPTION : a pour étudiant
+COURS "1" - "0..*" INSCRIPTION : a pour étudiant
 DELEGUE "1" -- "1" GROUPE : est pour
 DELEGUE "1" -- "1" ETUDIANT : est pour
 

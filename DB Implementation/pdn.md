@@ -131,3 +131,91 @@ On obtient donc :
 > **Que se passe-t-il avec : `DELETE FROM Conference WHERE idConf = 0` ?**
 
 La suppression est possible car la clé primaire n'est pas violée. Il existe bien une clé primaire avec `idConf` = 0.
+
+
+# Cours Magistral 2
+
+## TD2
+
+### Exercice 1
+
+Implémenter les fonctions suivantes :
+
+- Le client 0 ajoute des carottes à son panier
+- Le prix des pommes augmente de 1€
+- Supprimer les carottes des produits disponibles
+
+On se base des tables suivantes :
+
+Somme :
+
+| Client | Total |
+|--------|-------|
+| 0 | 10 |
+| 1 | 5 |
+
+Panier :
+
+| Client | Produit |
+|--------|---------|
+| 0 | 0 |
+| 0 | 1 |
+| 1 | 0 |
+
+Produit :
+
+| Produit | Nom | Prix |
+|---------|-----|------|
+| 0 | pommes | 5 |
+| 1 | poires | 5 |
+| 2 | carottes | 3 |
+
+#### Question 1
+
+> **Le client 0 ajoute des carottes à son panier**
+
+```sql
+-- On ajoute les carottes au panier
+INSERT INTO Panier VALUES (0, 2);
+
+-- On récupère le prix des carottes
+prixCarottes <- SELECT Prix FROM Produit WHERE Produit = 2;
+
+-- On met à jour le total du client 0
+UPDATE Somme SET Total = Total + prixCarottes WHERE Client = 0;
+```
+
+#### Question 2
+
+> **Le prix des pommes augmente de 1€**
+
+```sql
+-- On met à jour le prix des pommes
+UPDATE Produit SET Prix = Prix + 1 WHERE Produit = 0;
+
+-- On récupère le prix des pommes
+prixPommes <- SELECT Prix FROM Produit WHERE Produit = 0;
+
+-- On met à jour le total de chaque client si il y a des pommes dans son panier
+UPDATE Somme SET Total = Total + prixPommes WHERE Client IN (SELECT Client FROM Panier WHERE Produit = 0);
+```
+
+#### Question 3
+
+> **Supprimer les carottes des produits disponibles**
+
+```sql
+-- On récupère le prix des carottes
+prixCarottes <- SELECT Prix FROM Produit WHERE Produit = 2;
+
+-- On met à jour le total de chaque client si il y a des carottes dans son panier
+UPDATE Somme SET Total = Total - prixCarottes WHERE Client IN (SELECT Client FROM Panier WHERE Produit = 2);
+
+-- On supprime les carottes du panier
+DELETE FROM Panier WHERE Produit = 2;
+-- On supprime les carottes des produits disponibles
+DELETE FROM Produit WHERE Produit = 2;
+```
+
+Note : L'ordre est important dans les requêtes sinon il peut y avoir des erreurs soit d'execution soit de calcul.
+
