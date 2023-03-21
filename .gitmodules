@@ -16,3 +16,6 @@
 [submodule "Related Personal Projects/pandoc-filter"]
 	path = Related Personal Projects/pandoc-filter
 	url = git@gitlab.isima.fr:rovandemer/students-pandoc-filters.git
+[submodule "POO/Projet"]
+	path = POO/Projet
+	url = git@gitlab.isima.fr:rovandemer/demineur.git
