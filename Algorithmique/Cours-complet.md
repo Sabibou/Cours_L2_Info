@@ -1027,3 +1027,245 @@ $$\sum_{x \text{ accessible depuis }\land} O(n) = O(n \times Z) \text{, $Z$ le n
 $$\sum_{x \text{ accessible depuis } r}O(nbVoisins(x)) \leq \sum_{x \text{ sommet }}O(nbVoisins(x))$$
 
 $$\leq O(m+n) \text{, $m$ le nombre d'arrêtes, $n$ le nombre de sommets}$$
+
+
+## Prise de note du 17 mars 2023
+
+
+# Les types de données Inductifs
+
+Définition inductive informelle : ensemble d'objets donnés et des opérérateurs qui permettent de construire des objets de cet ensemble.
+
+## Definition 5.1
+
+Une définition inductive d'un ensemble $E$ consiste en :
+
+- Un sous ensemble fini $B$ de $E$
+- Un ensemble $K$ d'opérations $\phi$ : $E^{ar(\phi)}\rightarrow E$ où $ar(\phi)$ est l'arité de $\phi$ : le nombre de paramètres de $\phi$
+
+## Exemple 5.1
+
+Posons $B = \{\epsilon\}$ : $suc : X\rightarrow X$, $x \rightarrow (x)$
+
+L'ensemble $X$ défini inductivement par $(B, \{suc\})$ est exactement l'ensemble des entiers naturels.
+
+## Exemple 5.2
+
+Posons $A = \{0, 1\}$ appelé alphabet. $A^*$ est l'ensemble des mots sur $A$ est construit inductivement par :
+
+- $B = \{\epsilon\}$ : $\epsilon$ est appelé mot vide
+- $K = \{\phi_0, \phi_1\}$, $ar(\phi_0) = 1$, $ar(\phi_1) = 1$, $\phi_0 : u \rightarrow u_0$, $\phi_1 : u \rightarrow u_1$ où $u = u_0u_1$ et $u_0, u_1 \in A^*$
+
+Ex : $0,1,00 = \phi_0(\phi_0(\epsilon))$, $01 = \phi_1(\phi_0(\epsilon))$
+
+## Exemple 5.3
+
+Une définition inductive des listes :
+
+- $B = \{[]\}$, $[]$ est une liste vide
+- $K = \{::\}$, $ar(::) = 2$
+
+$x :: xs$, $x$ est l'objet à stocker, $xs$ la liste, le résultat est donc une nouvelle liste.
+
+## Exemple 5.4
+
+$A$ un ensemble fini appelé alphabet. $AB\subset (\{(,)\}\cup A)^*$ est défini inductivement par :
+
+- $B = \{\epsilon\}$ : $\epsilon$ étiqueté vide
+- $\forall a\in A$, on a une opération $\phi_a$ d'arité 2, $\phi_a : g,c \rightarrow (a,g,d)$
+
+
+## Exemple 5.5
+
+Posons $A = \{0,1\}, quelques exemples d'objets dans $AB$.
+
+- $\phi_0(\epsilon, \epsilon) = (0, \epsilon, \epsilon)$
+
+```dot
+digraph {
+  rankdir=LR;
+  // Point
+  0 [label="0"];
+}
+```
+
+- $\phi_0(\phi_0(\epsilon, \epsilon), \epsilon) = (0, (1, \epsilon, \epsilon), \epsilon)$
+
+```dot
+digraph {
+  rankdir=LR;
+  // Point
+  0 [label="0"];
+  1 [label="1"];
+  0 -> 1;
+}
+```
+
+## 5.1 Arborences
+
+Une arborescence c'est un ensemble $V$ muni d'un sommet distingué $r\in V$, appelé racine, et d'une relation binaire $E\subset V\times V$ telle que pour tout $x\in V / \{r\}$, il existe un unique $y\neq x$ tel que $(y,x)\in E$. L'unique $y$ tel que $(y,x)\in E$ est appelé le père de $x$ et est noté $pere(x)$.
+
+On écrira $(V,E, r)$ pour une arborescence.
+
+
+Une définition inductive des arborescences :
+
+- $(A,B)$ tout singleton est une arborescence
+- $(A,I)$ Si $T_1, T_2, \ldots, T_n$ sont des arborescences, avec $T_i = (V_i, E_i, r_i)$, alors on peut construire une nouvelle arborescence $(V,E,r)$ avec :
+
+$$V = \bigcup_{1 \leq i \leq p}^n V_i \cup \{r\}, r\notin \bigcup_{1\leq i \leq p} V_i$$
+
+$$E = \bigcup_{1 \leq i \leq p}^n E_i \cup \{(r, r_i) : 1 \leq i \leq n\}$$
+
+```dot
+// r a des files T_1, T_2 ... T_p
+// Afficher les "..."
+digraph {
+  rankdir=LR;
+  // Point
+  0 [label="r"];
+  1 [label="T_1"];
+  2 [label="T_2"];
+  3 [label="..."];
+  4 [label="T_p"];
+  0 -> 1;
+  0 -> 2;
+  0 -> 3;
+  0 -> 4;
+}
+```
+
+## Quelques terminologies
+
+Soit $T = (V,E,r)$ une arborescence :
+
+- les éléments de $V$ sont appelés ==noeuds==
+- les éléments de $E$ sont appelés ==arcs==
+- Tout noeud $y$ tel que $(y,x)\in E$ est appelé ==fils de $x$==
+- Tout noeud sans fils est appelé ==feuille==
+- Un chemin de taille $k$ est une séquence $(x_0, x_1, \ldots, x_k)$ de noeuds telle que $(x_i, x_{i+1})\in E$ pour tout $1\leq i\leq k$
+- Si $x$ est un noeud, on notera $T_x$ l'arborecence $(V_x, E_x, x)$ où $E_x = E \cap (V_x \times V_x)$, $V_x$ l'ensemble des noeuds accessibles depuis $x$ par un chemin
+- La hauteur de $T$ notée $h(T)$ est la longueur du plus long chemin de $r$ à une feuille
+
+### Exemple 5.6
+
+```dot
+/*
+
+1 -> {2, 3, 5}
+
+3 -> 7
+
+5 -> {8,4,6,9}
+
+8 -> 10
+
+*/
+digraph {
+  rankdir=TB;
+  // Point
+  1 [label="1"];
+  2 [label="2"];
+  3 [label="3"];
+  4 [label="4"];
+  5 [label="5"];
+  6 [label="6"];
+  7 [label="7"];
+  8 [label="8"];
+  9 [label="9"];
+  10 [label="10"];
+  1 -> 2;
+  1 -> 3;
+  1 -> 5;
+  3 -> 7;
+  5 -> 8;
+  5 -> 4;
+  5 -> 6;
+  5 -> 9;
+  8 -> 10;
+}
+```
+
+
+- noeuds : $V = \{1,2,3,4,5,6,7,8,9,10\}$
+- arcs : $E = \{(1,2), (1,3), (1,5), (3,7), (5,8), (5,4), (5,6), (5,9), (8,10)\}$
+- feuilles : $F = \{2,4,6,7,9,10\}$
+- hauteur : $h(T) = 4$
+- fils de 5 : $F(5) = \{8,4,6,9\}$
+- sous-arborescence de 5 : $T_5 = (V_5, E_5, 5)$ où $V_5 = \{5,8,4,6,9,10\}$ et $E_5 = \{(5,8), (5,4), (5,6), (5,9), (8,10)\}$ :
+
+```dot
+/*
+5 -> {4,6,8,9}
+8 -> 10
+*/
+
+digraph {
+  rankdir=TB;
+  // Point
+  5 [label="5"];
+  4 [label="4"];
+  6 [label="6"];
+  8 [label="8"];
+  9 [label="9"];
+  10 [label="10"];
+  5 -> 4;
+  5 -> 6;
+  5 -> 8;
+  5 -> 9;
+  8 -> 10;
+}
+```
+
+
+## Proposition 5.1
+
+Soit $T = (V,E,r)$ une arborescence. Alors :
+
+- $\forall$ neoud $x$, il existe un unique chemin de $r$ à $x$
+- $T$ contient au moins une feuille
+- $h(T) = 1 + \max_{x\in V} \{h(T_x)\}$
+- $|E| = |V| - 1$ : nombre d'arc = nombre de noeud - 1
+
+
+### Exemple de démonstration par induction
+
+$\forall T=(V,E,\land)$, $|E| = |V| - 1$, preuve par induction sur $|V|$.
+
+- $|V| = 1$, $T = (V, \emptyset, r)$,  et $V = \{r\}$ (par définition de l'arborescence). Donc $|E| = |V| - 1 = 0$.
+
+- Si $|V| > 1$, alors $\exists$ $T_1, T_2, ..., T_p$, pour un certain entier $p$, où $T_i=(V_i,E_i,r_i)$ est une arborescence et $r_1, r_2, ..., r_p$ sont les fils de $r$ et $T_i$ la sous arborescence de $T$ issue de $r_i$.
+
+Visuellement :
+
+```dot
+// r a des files T_1, T_2 ... T_p
+// Afficher les "..."
+digraph {
+  rankdir=TB;
+  // Point
+  0 [label="r"];
+  1 [label="T_1"];
+  2 [label="T_2"];
+  3 [label="..."];
+  4 [label="T_p"];
+  0 -> 1;
+  0 -> 2;
+  0 -> 3;
+  0 -> 4;
+}
+```
+
+En particulier, $|V_i| < |V|$. Si on suppose par hypothèse d'induction $(P)$ vraie pour les arborescences avec $n$ noeuds, si $T$ est une arborescence avec $n+1$ noeuds, alors $\forall 1\leq u\leq p$, $T_i$ est une arborescence avec $n_i \leq n$ noeuds. Par hypothèse d'induction, $|E_i| = |V_i| - 1$.
+
+$$V = \bigcup V_i \cup \{r\}, W = 1 + \sum_{1 \leq i \leq p} n_i$$
+
+$$E = \bigcup_{1\leq i \leq p} E_i \cup \{(r, r_i)\ : \ 1\leq i\leq p\}, |E| = p + \sum_{1\leq i\leq p} |E_i|$$
+
+$$|E| = p + \sum_{1\leq i\leq p} (n_i -1)$$
+
+$$|E| = p + \sum_{1\leq i\leq p} n_i - p$$
+
+$$|E| = \sum_{1\leq i\leq p} n_i$$
+
+$$|E| = |V| - 1$$
