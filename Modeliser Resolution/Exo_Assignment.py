@@ -251,19 +251,16 @@ def all_assignments(agencies_choices, candidates_choices):
 
     agencies = list(agencies_choices.keys())
     candidates = list(candidates_choices.keys())
+    n = len(agencies)
 
     def h(i):
         if i == n:
             yield resultat
         else:
-            resultat[agencies[i]] = candidates[0]
-            yield from h(i+1)
-            resultat[agencies[i]] = candidates[1]
-            yield from h(i+1)
-            resultat[agencies[i]] = candidates[2]
-            yield from h(i+1)
-            resultat[agencies[i]] = candidates[3]
-            yield from h(i+1)
+            for j in range(n):
+                if j not in resultat.values():
+                    resultat[agencies[i]] = candidates[j]
+                    yield from h(i+1)
 
     resultat = {agency: 0 for agency in agencies}
     yield from h(0)
