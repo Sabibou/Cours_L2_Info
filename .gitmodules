@@ -19,3 +19,12 @@
 [submodule "POO/Projet"]
 	path = POO/Projet
 	url = git@gitlab.isima.fr:rovandemer/demineur.git
+[submodule "POO/ProjetV2"]
+	path = POO/ProjetV2
+	url = git@gitlab.isima.fr:rovandemer/minesweeper.git
+[submodule "Web-Serveur/Projet"]
+	path = Web-Serveur/Projet
+	url = git@gitlab.isima.fr:rovandemer/le-konbah.git
+[submodule "Related Personal Projects/productivity"]
+	path = Related Personal Projects/productivity
+	url = git@gitlab.isima.fr:rovandemer/productivity.git
