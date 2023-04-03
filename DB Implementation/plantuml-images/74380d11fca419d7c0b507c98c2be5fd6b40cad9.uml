@@ -1,0 +1,10 @@
+@startuml
+
+entity "Gestion des transactions" as gestion
+entity "Ordonnanceur" as ordonnanceur
+entity "Gestion des accès" as acces
+
+gestion --> ordonnanceur : demande de lecture ou d'écriture
+ordonnanceur --> acces : envoi de lecture ou d'écriture
+
+@enduml
