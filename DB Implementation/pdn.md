@@ -54,7 +54,7 @@ specialite <- conference
 @enduml
 ```
 
-#### Question 1
+#### Question 1 et 2
 
 > **Donner les super-clés des tables `Spécialité`, et `AnneeConf`.**
 
@@ -70,7 +70,7 @@ Les super-clés de `AnneeConf` sont :
 - `idConf`, `annee`, `ville` et `pays`
 
 
-#### Question 2
+#### Question 3
 
 > **On va considérer que la base de donnée est remplie comme suit :**
 
@@ -88,13 +88,28 @@ Les super-clés de `AnneeConf` sont :
 > |--------|-------|-------|------|
 > | 0 | 2022 | Clermont-Ferrand | France |
 
-##### Question 2.1
+
+> **Donner les clés étrangères de ces 3 tables (`Specialite`, `Conference` et `AnneeConf`).**
+
+- `idConf` est une clé étrangère de `AnneeConf`, elle référence `idConf` de `Conference`
+- `idSpé` est une clé étrangère de `Conference`, elle référence `idSpé` de `Specialite`
+- `Specialite` n'a pas de clé étrangère, car elle n'en référence pas d'autres
+
+En effet on le voit sur le schéma suivant :
+
+```mermaid
+graph LR
+    AnneeConf --> Conference
+    Conference --> Specialite
+```
+
+##### Question 4.1
 
 > **Que se passe-t-il avec : `INSERT INTO Specialite VALUES (0, 'maths')` ?**
 
 Il y a une erreur car la contrainte de clé primaire est violée par cette insertion.
 
-##### Question 2.2
+##### Question 4.2
 
 > **Que se passe-t-il avec : `INSERT INTO AnneConf VALUES (0, 2021, `Paris`, `France`)` ?**
 
@@ -107,13 +122,13 @@ On obtient donc :
 > | 0 | 2022 | Clermont-Ferrand | France |
 > | 0 | 2021 | Paris | France |
 
-##### Question 2.3
+##### Question 4.3
 
 > **Que se passe-t-il avec : `INSERT INTO AnneConf VALUES (1, 2022, `Sydney`, `Australie`)` ?**
 
 L'insertion viole la clé étrangère de la table `AnneeConf` car il n'y a pas de `idConf` = 1 dans la table `Conference`.
 
-##### Question 2.4
+##### Question 4.4
 
 > **Que se passe-t-il avec : `INSERT INTO Conference VALUES (1, `VLDB`, `VLDB`, `mondiale`, 0)` ?**
 
@@ -126,7 +141,7 @@ On obtient donc :
 > | 0 | BDA | BD annuelle | France | 0 |
 > | 1 | VLDB | VLDB | mondiale | 0 |
 
-##### Question 2.5
+##### Question 4.5
 
 > **Que se passe-t-il avec : `DELETE FROM Conference WHERE idConf = 0` ?**
 
