@@ -87,7 +87,3 @@ Globalement, la matière est très intéressante, et permet de bien comprendre l
 Le TP fait encore partie de l'ancienne matière qui regroupait Web Client et Web Serveur, une transition serait donc à faire.
 
 Enfin, il serait bien de guider un peu plus les étudiants, car ils ne savent pas trop comment s'y prendre, et ils n'ont pas forcément le temps de tout faire. Peut-être par rapport aux TP, au lieu d'en faire que 2, plutôt faire des mini-TPs, afin de pouvoir vraiment découvrir les technologies du web. Le CSS ne s'apprend pas en 6h, et le JavaScript non plus.
-
-# Sommaire
-
-- [Web-Client](web-client.pdf)
