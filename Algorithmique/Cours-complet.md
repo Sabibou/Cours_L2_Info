@@ -1,3 +1,11 @@
+---
+title: Cours algorithmique
+author: VAN DE MERGHEL Robin
+date: 2023
+geometry: margin=1in
+---
+
+
 **Cours 1.**
 
 **Les '==' dans le PDF sont à ignorer pour l'instant, ils permettent du surlignage en markdown.**
@@ -1269,3 +1277,540 @@ $$|E| = p + \sum_{1\leq i\leq p} n_i - p$$
 $$|E| = \sum_{1\leq i\leq p} n_i$$
 
 $$|E| = |V| - 1$$
+
+## Prise de note de 7 avril 2023
+
+### Arbre Rouge Noir
+
+Une ARN c'est un ABR où chaque noeud a une couleur (rouge) ou noir) avec les propriétés suivatnes :
+
+- La racine est noire
+- Une noeud R a ses fils N
+- Pour tout noeud $x$ de l'arbre, le nombre de noeud noirs sur le chemin de $x$ à une feuille est le même
+
+On notera $h_b(x)$ le nombre de noeud noirs sur le chemin de $x$ à une feuille.
+
+Ce qui nous intéresse c'est de montrer que l'on peut maintenir la propriété d'un ARN après insertion et suppression en temps $O(\log n)$.
+
+#### Exemple
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point
+  10
+}
+```
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point
+  10 [color=black];
+  5 [color=red];
+  10 -> 5;
+}
+```
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point
+  10 [color=black];
+  5 [color=red];
+  20 [color=red];
+  10 -> 5;
+  10 -> 20;
+}
+```
+
+
+La figure suivante n'est pas un ARN car le chemin de 10 à 6 a plus de noeuds que le chemin de 10 à 20.
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point
+  10 [color=black];
+  5 [color=red];
+  20 [color=red];
+  6 [color=black];
+  10 -> 5;
+  10 -> 20;
+  5 -> 6;
+}
+```
+
+
+### Lemme 5.1
+
+Un ARN $T$ ayant $n$ noeuds internes a une hauteur $O(\log n)$.
+
+### Preuve
+
+Il faut montrer par récurrence que $|T_x| \geq  2^{Ab(x)} -1$ pour tout noeud $x$ de $T$.
+
+Si $h$ est la hauteur de $T$, d'après le 3, un chemin depuis la racine vers une feuill doit contenir au moins $\frac{1}{2}h$ noeuds noirs. En combinant ceci avec A., on a $n\geq 2^{h-1} -1$.
+
+
+Dans les opérations d'insertion et suppression, on va utiliser les deux opérations suivantes qui permettent de réorganiser une ARN.
+
+
+#### Rotation à gauche
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point
+  x -> {alpha, y}
+  y -> {beta, delta}
+}
+```
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point
+  y -> {delta, x}
+  x -> {alpha, beta}  
+}
+```
+
+#### Rotation à droite
+
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point
+  x -> {alpha, y}
+  y -> {beta, delta}
+}
+```
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point
+  y -> {delta, x}
+  x -> {alpha, beta}
+
+}
+```
+
+### Propriété
+
+Les deux opérations rotation gauche et rotation droite maintiennent les propriétés d'un ARN.
+
+On va maintenant s'intéresser à l'insertion et la suppression. Avant, on ajoute ces deux hypothèses de simplification :
+
+- Tout noeud a 2 fils : qui à ajouter un fils
+- Tout noeud $\epsilon$ a un père : qui à supprimer un fils
+
+### Insertion
+
+Elle se fait en 2 étapes
+
+- Insérer comme dans un abr et marquer le nouveau noeud R : fonction insertion dans un abr
+- Réorganiser en ARN : condition à respecter
+
+En ajoutant ce noeud, on a violé peut-être la propriété 3, le père du nouveau noeud est aussi R. On va maintenant réorganiser pour satisfaire cette propriété (la seule non respectée).
+
+#### Notations :
+
+- $z = $ le nouveau noeud
+- $gp = \text{père(} z \text{)} = \text{père(} \text{père(} z \text{)} \text{)}$
+
+#### Exemple
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point noirs
+  11 [color=black];
+  1 [color=black];
+  7 [color=black];
+  14 [color=black];
+  13 [color=black];
+  16 [color=black];
+
+  // Point rouges
+  2 [color=red];
+  5 [color=red];
+  8 [color=red];
+  15 [color=red];
+
+  // Lien
+  11 -> {2, 14};
+  2 -> {1, 7};
+  7 -> {5, 8};
+  14 -> 15;
+  15 -> {13, 16};
+}
+```
+
+```ruby
+insererARN(T, 4)
+  - insererABR(T, 4)
+  - colorier nouveau noeud en rouge
+  - réorganiser si pas ARN
+```
+
+On a deux cas :
+
+- $pere(z) = filsG(gp)$
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point noirs
+  gp [color=black];
+  pere [color=red label="prere(z)"];
+  y [color=black];
+
+  gp -> {pere, y};
+}
+```
+
+- $pere(z) = filsD(gp)$
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point noirs
+  gp [color=black];
+  yz [color=red label="prere(z)"];
+  y [color=black];
+
+  gp -> {y, yz};
+}
+```
+
+```ruby
+CorrectionInsertion(A,z) {
+
+  while (pere(z) et z) {
+
+    Si (y est R) {
+      colorier pere(z) et y en N
+      colorier gp en R
+      z = gp
+    }
+
+    Si (y est N et z est filsD(pere(z))) {
+      rotationGauche(A, pere(z))
+      z = pere(z)
+    }
+
+    Si (y est N et z est filsG(pere(z))) {
+      colorier pere(z) en N
+      colorier gp en R
+      rotationDroite(A, gp)
+    }
+
+  }
+
+  colorier racine en N
+
+}
+```
+
+
+#### Cas 1.3
+
+On effectue `rotationGauche(pere(z))` et on passe au cas 1.3.
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point noirs
+  11 [color=black];
+  14 [color=black];
+  8 [color=black];
+  5 [color=black];
+  1 [color=black];
+
+  // Point rouges
+  7 [color=red];
+  2 [color=red];
+  4 [color=red];
+  15 [color=red];
+
+  11 -> {14,7};
+  7 -> {8,2};
+  2 -> {5,1};
+  5 -> 4;
+  14 -> 15;
+}
+```
+
+#### Cas 1.4
+
+```dot
+digraph {
+  rankdir=TB;
+  // Point noirs
+  7 [color=black];
+  5 [color=black];
+  1 [color=black];
+  8 [color=black];
+  14 [color=black];
+
+  // Point rouges
+  2 [color=red];
+  11 [color=red];
+  4 [color=red];
+  15 [color=red];
+
+  7 -> {2,11};
+  2 -> {5,1};
+  5 -> 4;
+  11 -> {8,14};
+  14 -> 15;
+}
+```
+
+
+### Complexité en temps de `CorrectionInsertion`
+
+- Le nombre d'itérations de la boucle est le nombre de fois où le cas 1.1 est appliqué
+- + ($\leq 1$ fois pour le cas 1.2)
+- + ($\leq 1$ fois pour le cas 1.3)
+
+Comme à chaque fois que cas 1.1 est appliqué, à la prochaine itération, $z=pere(pere(z))$, le nombre d'itérations est barré par la hauteur de l'arbre $0 \leq h \log n$.
+
+### Suppression
+
+Elle se fait également en 2 étapes :
+
+- Supprimer comme dans un abr et marquer le noeud R : fonction suppression dans un abr
+- Réorganiser en ARN : condition à respecter
+
+Pour supprimer dans un ABR un noeud $z$ :
+
+- Si $z$ est une feuille, on le supprime
+- Si $z$ a un seul fils, on le supprime et :
+  - $z = filsD(pere(z)) \implies y=filsD(pere(z))$
+  - $z = filsG(pere(z)) \implies y=filsG(pere(z))$
+- Si $z$ a deux fils, on le remplace par son successeur $y$ et on supprime $y$ (qui est une feuille ou a un seul fils)
+
+```dot
+digraph {
+  rankdir=TB;
+  pere [label="pere(z)"];
+  z [label="z"];
+  y [label="y"];
+
+  pere -> z
+}
+```
+
+
+### Notation
+
+Notons $y$ le noeud réellement supprimé.
+
+- Si $y$ est R, il est facile de vérifier que l'arbre est toujours un ARN
+- À partir de maintenant, $y$ est $N$, $x$ est un fils de $y$ : 
+  - Si $y$ $feuille,x=\epsilon$
+  - $y$ a un seul fils, $x$ est ce fils
+
+Notons $w$ le frère de $x$ après avoir supprimé $y$.
+
+
+```dot
+digraph {
+  rankdir=TB;
+  pere [label="pere(y)"];
+  y [label="y"];
+  x [label="x"];
+  w;
+}
+```
+
+# Gagner des pts
+
+EXEMPLE ARBRE ROUGE NOIR
+
+-> Insertion, 2 fois cas 1.1
+-> On arrive 1.2
+-> On arrive 1.3
+
+-> On explique, toutes les conditions sont respectées
+
+
+
+# Cours du 28 avril 2023
+
+
+Correction suppression `(A,x)` :
+
+![Correction suppression](./images/correction-suppression.jpg)
+
+## Remarque
+
+- Dans le cas 2.1, on se ramène aux [...]
+
+
+## Exemple
+
+![Exemple](./images/exemple.jpg)
+
+- Sur le schémas ci-dessus, on a une rotation gauche sur $B$
+
+## Exemple 2
+
+![Exemple 2](./images/exemple2.jpg)
+
+
+## Exemple 3
+
+![Exemple 3](./images/exemple3.jpg)
+
+
+## Exemple 4
+
+![Exemple 4](./images/exemple4.jpg)
+
+## Complexité de correction suppression
+
+Le nombre d'itérations est borné par le nombre de fois où on a appliqué (2.2 + 2.1) + ($\leq1$ fois le Cas 2.3) + ($\leq1$ fois le Cas 2.4)
+
+Comme à chaque fois que l'on applique 2.1, on se réduit aux cas 2.2 à 2.4 et ç chaque application du cas 2.2 on remonte dans l'arbre, le nombre d'itérations est bornée par $2\times h$. Comme chaque itération c'est en etemps $O(1)$ et hauteur : $O(log n)$, la complexité est en $O(log n)$.
+
+# Application des arbres
+
+- On utilise les arbres pour représenter tout objet avec une hiérarchie (arbre génélogique, arbre de décision, ...)
+- Pour représenter des données sous forme hiérarchique pour une recherche plus rapide dans les données. Ex : texte, dictionnaire...
+
+## TDA Dictionnaire
+
+On y stocke des éléments et on est intéressé par les opérations suivantes : insérer, supprimer, et rechercher.
+
+## TDA Gestion des partitions, ensemble disjoint
+
+Si $E$ est un ensemble, alors $\{E_1, E_2, ..., E_k\}$ est une partition de $E$ si :
+
+- $\bigcup_{1\leq i \leq j}^k E_i = E$
+- $\forall l\neq k$, $E_l \cap E_k = \emptyset$
+
+Le TDA ensemble disjoint nous permet de manipuler les partitions d'un ensemble. On a 3 opérations : 
+
+- `creeEnsDisjoint` : crée un ensemble disjoint à partir d'un ensemble donné où chaque partie est un singleton.
+
+### Exemple
+
+`creerEnsenbmeDisjoint({1,2,3,4,5})` doit créer la partition $\{\{1\},\{2\},\{3\},\{4\},\{5\}\}$
+
+- `union(x,y)`:
+  - On recherche les parties de $x$ et de $y$ et on les fusionne.
+
+### Exemple
+
+`union({1,2,3,4,5},{1,2,3,4,5})` doit créer la partition $\{\{1,2,3,4,5\}\}$
+
+On peut uiliser des listes pour implémenter le TDA ensemble disjoint (TD), mais la complexité en temps des opérations pas terrible.
+
+## Théorème
+
+Avec la représentation par la liste chaînée en supposant qu'à chaque appel à l'union, le représentant de la liste la plus longue est le nouveau représentant, une séquence de $m$ opérations nécessite un temps $O(m + n\log n)$.
+
+## Tables de hachage
+
+- Avec les tableaux, on a un accès direct aux valeurs. Mais, grossir un tableau est coûteux
+  - Toutes les valeurs sont contiguës en mémoire et on n'est même pas sûr d'avoir une telle possibilité en mémoire. Même s'il existe, il faut recopier les valeurs de l'ancien tableau
+- Avec les listes, pas d'accès direct mais modification facile
+
+Les tables de hachage c'est une solution de compromis entre les deux.
+
+### Principe
+
+- prendre une tableau ni trop petit ni trop grand. Comment choisir la taille du tableau ?
+- Pour chaque valeur, choisir une case du tableau pour y stocker. Comment choisir la case ?
+
+Comme la taille du tableau est plus petite que le nombre de données, il y aura forcément deux valeurs renvoyées à la même case. On appelle ça une collision.
+
+#### Réponse à la question 3
+
+Pour résoudre les collisions, comme on ne veut pas perdre de données, on stocke toutes les valeurs en collision dans une list, et l'index du tableau où toutes ces valeurs étaient renvoyées pointera sur cette liste.
+
+Comme on veut réduire les temps d'accè il faut que ces listes ne soient pas trop grand : une bonne réponse aux Q1 et Q2.
+
+#### Réponse à la question 1 et 2
+
+La fonction qui a toute valeur associe un index dans le tableau est appelé fonction de hachage.
+
+Supposons que le tableau est de taille $m$ : $h: U \rightarrow \{0,1,...,m-1\}$ est la fonction de hachahge. On dira que $h$ est simplement uniforme si pour tout $x\in U$, $x$ a la même probabilité d'être ahché dans chacune des cases 0 à $m-1$.
+
+Avec cette hypothèse d'équi-probabilité, on peut avoir des borne  sur les tailles des lites de collisions.
+
+Notons $n_i$ la taille de la litste $T_i$.
+
+##### Propriété
+
+- $\sum n_i = |U|$
+- Comme il y a équi-probabilité, l'espérance de la taille d'une liste est $\frac{|U|}{m}$
+
+##### Théorème
+
+Si $h$ est une fonction de hachage simplement uniforme et que $h(x)$ se calcule en temps $O(1) \forall x$, alors une recherche infructueuse nécessite en moyenne $O(1+\alpha)$ et une recherche réussie aussi en temps moyen $O(1+\alpha)$ où $\alpha = \frac{|U|}{m}$.
+
+### Fonctions de hachage
+
+Bonne fonction c'est une fonction simplement uniforme, mais difficile car :
+
+- On ne sait pas comment les éléments sont distribués
+- La distribution n'est pas forcéemnt uniforme : aucune raison que la probabilité de $h(x)=i$ est celle que $h(x)=j$ soit les mêmes
+
+Il faut trouver des heuristiques pour s'en rapprocher.
+
+#### Extraction 
+
+On prend la représentation binaire et ensuite $p$ bits dans cette représentation binaire. Si le choix des $p$ bits est uniforme, on a une fonction de hachage simplement uniforme.
+
+#### Compression
+
+On divise en blocs de $p$ bits et on fait une somme de ces blocs. Ensuite on applique un opérateur binaires (ou exclusif, ou, ...) pour avoir un nombre de $p$ bits. (ex : SHA)
+
+#### Division
+
+$h(x) = x\ mod\ m$
+
+Comment choisir $m$ :
+
+- $m\neq 2^k$ sinon on a choisi les $k$ bits de poids faible
+- $m\neq 2^k-1$ car une permutation ne changerait rien sur le résultat (si $x$ est interprété en base $2^k$)
+
+##### Donald knuth
+
+Il a donné trois propriétés à satisfaire :
+
+- $m$ premier
+- $m sans diviseur premier$
+- $m$ ne divise pas $r^k \pm a$ pour des petites valeurs de $a$ et $k$
+
+(un ou l'autre)
+
+##### Multiplication
+
+$h(x) = \lfloor m\times (x\times A\ mod\ 1) \rfloor$ avec $0 < A < 1$, $xmod 1$ calcule la partie décimale
+
+Multiplier par un petit nombre, récupérer la partie décimale et multiplier par $m$. On peut prendre $m=2^k$.
+
+$A = \frac{S}{2^w}$, $w$ la taille d'un mot de l'oordinateur et $S$ un entier de $w$ bits.
+
+### Ensemble universel de fonction de hachage
+
+Il ne faut pas que la fonction de hachage dépende des données.
+
+$H$ est une famille de fonctions universelle si $\forall x,y|\{h: h(x=h(y)\}| \leq \frac{|H|}{m}$ le nombre d'indices possibles.
+
+Il existe des ensembles universels. Tout ensemble universel est un "vivier" de bonnes fonctions de hachage.
+
+#### Exemple
+
+$p>m$ premer très grand, $a,b\in\mathbb{Z}_p$ ($a\neq 0$), $h_{a,b}(x) = ((ax+b)\ mod\ p)\ mod\ m$
+
+$$H_{p,m} = \{h_{a,b}: a,b\in\mathbb{Z}_p, a\neq 0\}$$
+
+est un ensemble universel.
