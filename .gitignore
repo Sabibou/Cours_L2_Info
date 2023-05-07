@@ -9,5 +9,6 @@
 # Processing libs
 Realite\ Virtuelle/**/code/
 
+**/*.err
 
 **/IGNORE/
