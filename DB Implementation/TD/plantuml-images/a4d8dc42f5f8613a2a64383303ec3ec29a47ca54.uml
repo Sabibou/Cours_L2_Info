@@ -1,0 +1,30 @@
+@startuml
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+table( conference ) {
+    primary_key( idConf ) : int
+    column( sigle ) : varchar
+    column( nomConf ) : varchar
+    column( porteeConf ) : varchar
+    foreign_key( idSpé ) : int
+}
+
+table( specialite ) {
+    primary_key( idSpé ) : int
+    column( libelle ) : varchar
+}
+
+table( anneeConf ) {
+    primary_key( annee ) : int
+    foreign_key( idConf ) : int
+    column( ville ) : varchar
+    column( pays ) : varchar
+}
+
+conference <-  anneeConf
+specialite <- conference
+
+@enduml

@@ -1,0 +1,104 @@
+@startuml
+
+
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+table(Personne) {
+
+    primary_key( idPers ) : int
+    column( nom ) : varchar
+    column( prenom ) : varchar
+
+}
+
+table( Auteur ) {
+
+    primary_key( idPers ) : int
+    column( labo ) : varchar
+    foreign_key( idSpe ) : int
+
+}
+
+table( Specialite ) {
+
+    primary_key( idSpe ) : int
+    column( libelle ) : varchar
+
+}
+
+table( Lecteur ) {
+
+    foreign_key( primary_key( idPers ) ) : int    
+    column( email ) : varchar
+    column( adresse ) : varchar
+    column( ville ) : varchar
+    column( code ) : int
+    column( pays ) : varchar
+
+}
+
+table( Ecrit ) {
+
+    foreign_key( primary_key( idPers ) ) : int
+    foreign_key( primary_key( idConf ) ) : int
+    column( ordre ) : int
+
+}
+
+table( Conference ) {
+
+    primary_key( idConf ) : int
+    column( sigle ) : varchar
+    column( nomConf ) : varchar
+    column( porteeConf ) : varchar
+    foreign_key( idSpe ) : int
+
+}
+
+table( AnneeConf ) {
+
+    foreign_key( primary_key( idConf ) ) : int
+    primary_key( annee ) : int
+    column( ville ) : varchar
+    column( pays ) : varchar
+
+}
+
+table( Article ) {
+
+    primary_key( idArt ) : int
+    column( titre ) : varchar
+    column( typeArt ) : varchar
+    column( format ) : varchar
+    column( emplacement ) : int
+    column( taille ) : int
+    foreign_key( annee ) : int
+    foreign_key( idConf ) : int
+
+}
+
+table( Telechargement ) {
+
+    primary_key( idTelechargement ) : int
+    column( dateTelechargement ) : date
+    column( vitesse ) : int
+    foreign_key( idArt ) : int
+    foreign_key( idPers ) : int
+
+}
+
+Lecteur --> Personne
+Ecrit --> Auteur
+Auteur -> Personne
+Auteur --> Specialite
+Conference -> Specialite
+AnneeConf -> Conference
+Article -> AnneeConf
+Ecrit -> Article
+Telechargement -> Article
+Telechargement -> Lecteur
+
+@enduml
