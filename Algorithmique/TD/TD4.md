@@ -1,3 +1,11 @@
+---
+title: TD4 Listes
+author: VAN DE MERGHEL Robin
+date: 2023
+lang: fr
+geometry: margin=2cm
+---
+
 # Exercice 4.1
 
 > **On a les codes suivants :**
@@ -84,20 +92,20 @@ On a donc $c_k \leq 1$ quand $n \geq \log_5(n)$. Donc la complexité est au pire
 
 On a :
 
-$$\begin{align} 
+$$\begin{aligned} 
     (n+a)^b &= \sum_{k=0}^b \binom{b}{k} a^{b-k} n^k \\
     &= n^k + \alpha_1 n^{k-1} + \alpha_2 n^{k-2} + \dots + \alpha_{k-1} n + \alpha_k \\
-\end{align}$$
+\end{aligned}$$
 
 Avec $\alpha_i = \binom{b}{i}$.
 
 On a donc :
 
-$$\begin{align}
+$$\begin{aligned}
     O((n+a)^b) &= O(n^b + \alpha_1 n^{b-1} + \alpha_2 n^{b-2} + \dots + \alpha_{b-1} n + \alpha_b) \\
     &= O(n^b) + O(\alpha_1 n^{b-1}) + O(\alpha_2 n^{b-2}) + \dots + O(\alpha_{b-1} n) + O(\alpha_b) \\
     &= O(n^b) + O(n^{b-1}) + O(n^{b-2}) + \dots + O(n) + O(1) \\
-\end{align}$$
+\end{aligned}$$
 
 On a $O(1)$ négligeable par rapport à $O(n)$, puis $O(n)$ négligeable par rapport à $O(n^2)$, etc. Jusqu'à $O(n^{b-1})$ qui est négligeable par rapport à $O(n^b)$. Donc $O((n+a)^b) = O(n^b)$.
 

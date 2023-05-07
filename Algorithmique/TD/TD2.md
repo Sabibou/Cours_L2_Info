@@ -390,3 +390,170 @@ Liste concatener(Liste l1, Liste l2) {
 ```
 
 Le temps est bien en $O(1)$ car on ne fait que modifier les pointeurs.
+
+
+
+## Question 2
+
+> **Expliquez comment utiliser les listes pour implémenter le TDA ensemble disjoint. Vous pourrez utiliser la réponse à la question précédente.**
+
+**Rappel du cours :**
+
+- `creerPartition(int n)` crée une partition où chaque partie est un singleton de $[n]$
+- `trouver(partie p, int x)` doit donner le représentant de la partie contenant $x$
+- `union(partie p, int x, int y)` doit faire l'union de sparties contenant $x$ et $y$
+
+### Ma version
+
+```ruby
+enregistrement Liste {
+    Element[] tab
+    int taille
+}
+
+enregistrement Element {
+    int val
+    Partie p
+}
+
+enregistrement Partie {
+    int id
+    Element debutPartie
+    Element finPartie
+}
+```
+
+```ruby
+Partie vide = -1
+Element vide = -1
+
+# O(1)
+# Car on a juste une allocation
+Element creerElement(int x) { # x est un entier
+    Element e = allocation()
+    e.val = x
+    e.p = vide
+    return e
+}
+
+# O(n)
+# Car on doit allouer n éléments
+# Chaque allocation est en O(1)
+Liste creerPartition(int n) {
+    Liste l = allocation()
+    l.tab = allocation(n)
+    l.taille = n
+    for (int i = 0; i < n; i++) {
+        l.tab[i] = creerElement(i)
+    }
+    return l
+}
+
+# O(1)
+# Car on a un tableau, et on peut accéder à l'élément en O(1)
+Partie trouver(Partie p, int x) {
+    return p.tab[x].p
+}
+
+# O(n)
+# Car pour chaque élément de la liste, on doit changer le pointeur
+# Changer le pointeur est en O(1)
+void union(Partie p, int x, int y) {
+    
+    Partie px = trouver(p, x)
+    Partie py = trouver(p, y)
+
+    Partie plusGrand
+    Partie plusPetit
+
+    Si taille(px) > taille(py) {
+        plusGrand = px
+        plusPetit = py
+    } Sinon {
+        plusGrand = py
+        plusPetit = px
+    }
+
+    Element e = plusPetit.debutPartie
+    Tant que e != vide, Faire {
+        e.p = plusGrand
+        e = e.suiv
+        plusPetit.finPartie.suiv = e
+        plusPetit.finPartie = e
+    }
+
+    plusGrand.finPartie.suiv = plusPetit.debutPartie
+    plusGrand.finPartie = plusPetit.finPartie
+
+    return p
+
+}
+```
+
+
+### Correction
+
+```ruby
+enregistrement Partition {
+    Liste<Liste<int>> parties
+}
+
+Partition creerPartition(int n) {
+    Partition p;
+    p.l = creerLise();
+
+    Pour i <- 1 à n, Faire {
+        s = creerListe();
+        insererDebut(s, i);
+        insererDebut(p.l, s);
+    }
+
+    Retourner p;
+}
+
+int trouver(Partition p, int x) {
+    Cellule c = debutliste(p.l)
+    Tant que finListe(c) == Faux, Faire {
+        Cellule c2 = debutListe(val(c))
+
+        Tant que finListe(c2) == Faux {
+            Si x == valeur(c2) {
+                Retourner valeur(c)
+            }
+            c2 = suivant(c2)
+        }
+
+        c = suivant(c)
+    }
+
+    Retourner -1
+}
+```
+
+Pour `trouver` : On suppose toujours que valeur suivant et debutListe sont en $O(1)$.
+
+La boucle `Tant Que` est extérieure fait au plus $k$ itérations, $k$ le nombre de parties.
+
+Pour chaque itération $i$, le nombre maximum d'itérations de la boucle est le nombre d'éléments de la partie parcourure à l'itération $i$, nommons cette taille $n_i$.
+
+Complexité en temps :
+
+$$\sum_{i=1}^k n_i$$
+
+Comme les parties sont disjointes, et que l'union des parties c'est l'ensemble à partitionner, $\sum_{i=1}^k = n_i = n$, où $n$ est la taille de l'ensemble à partitionner.
+
+Donc, la complexité est $\sum_{i=1}^k n_i = n$.
+
+```ruby
+Partition union(Partition p, int x, int y) {
+    l1 = trouver2(p,x) # O(n)
+    l2 = trouver2(p,y) # O(n)
+    concaténer(l1,l2) # O(n) ou O(1) selon l'implémentation
+    supprimer(p.l,l2) # O(nombre de parties) <= O(n)
+    retourner p
+}
+
+# On définit trouver 2 : 
+# Même chose que trouver, sauf que l'on retourne la liste contenant x
+# n = la taille de l'ensemble partitionné par p
+```
